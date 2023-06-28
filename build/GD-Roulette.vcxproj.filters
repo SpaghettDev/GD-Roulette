@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\dllmain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\layers\CreatorLayer.cpp">
+      <Filter>src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\layers\LevelInfoLayer.cpp">
+      <Filter>src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\layers\PlayLayer.cpp">
+      <Filter>src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\listfetcher\ListFetcher.cpp">
+      <Filter>src\listfetcher</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\pch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\roulette\layer\RouletteLayer.cpp">
+      <Filter>src\roulette\layer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\layers\CreatorLayer.hpp">
+      <Filter>src\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\layers\LevelInfoLayer.hpp">
+      <Filter>src\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\layers\PlayLayer.hpp">
+      <Filter>src\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\listfetcher\ListFetcher.hpp">
+      <Filter>src\listfetcher</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\pch.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\roulette\layer\RouletteLayer.hpp">
+      <Filter>src\roulette\layer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\roulette\manager\RouletteManager.hpp">
+      <Filter>src\roulette\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Projects\GD-Roulette\src\utils.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{93423F02-0F3A-353E-ACD5-3A9C65FE5C5F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\layers">
+      <UniqueIdentifier>{38EA5B5E-A7FA-3915-89DE-83028A47350E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\listfetcher">
+      <UniqueIdentifier>{48B4145C-3E8F-36C7-89C4-3A836B6E13C3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\roulette">
+      <UniqueIdentifier>{BC5DDD4A-F214-3C98-9553-31A96B6A42BF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\roulette\layer">
+      <UniqueIdentifier>{04DD884E-E1DD-3065-A659-3666261D67A8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\roulette\manager">
+      <UniqueIdentifier>{9CD4A8C6-DEB3-3BF8-A36B-3544E428A664}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

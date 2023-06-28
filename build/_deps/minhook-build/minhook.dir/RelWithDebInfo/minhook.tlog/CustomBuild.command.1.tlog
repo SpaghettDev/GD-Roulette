@@ -1,0 +1,10 @@
+^D:\PROJECTS\GD-ROULETTE\BUILD\_DEPS\MINHOOK-SRC\CMAKELISTS.TXT
+setlocal
+D:\CMake\bin\cmake.exe -SD:/Projects/GD-Roulette -BD:/Projects/GD-Roulette/build --check-stamp-file D:/Projects/GD-Roulette/build/_deps/minhook-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|win32">
+      <Configuration>Debug</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2981AED3-8F0E-3E88-A92E-C7690A0F3B79}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>win32</Platform>
+    <ProjectName>cocos-headers-populate</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-mkdir.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Creating directories for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+D:\CMake\bin\cmake.exe -Dcfgdir=/Debug -P D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/tmp/cocos-headers-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-download.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Performing download step (git clone) for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+cd D:\Projects\GD-Roulette\build\_deps
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -P D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/tmp/cocos-headers-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\cocos-headers-populate-gitinfo.txt;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-update.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Performing update step for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+cd D:\Projects\GD-Roulette\build\_deps\cocos-headers-src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -P D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/tmp/cocos-headers-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-patch.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">No patch step for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+D:\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-configure.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">No configure step for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+cd D:\Projects\GD-Roulette\build\_deps\cocos-headers-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\tmp\cocos-headers-populate-cfgcmd.txt;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-build.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">No build step for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+cd D:\Projects\GD-Roulette\build\_deps\cocos-headers-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-install.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">No install step for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+cd D:\Projects\GD-Roulette\build\_deps\cocos-headers-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-test.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">No test step for 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+cd D:\Projects\GD-Roulette\build\_deps\cocos-headers-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-test</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\eba49fbe593330cbe1501b9262f2a3de\cocos-headers-populate-complete.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Completed 'cocos-headers-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+D:\CMake\bin\cmake.exe -E make_directory D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/Debug/cocos-headers-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+D:\CMake\bin\cmake.exe -E touch D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/cocos-headers-populate-prefix/src/cocos-headers-populate-stamp/Debug/cocos-headers-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-install;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-mkdir;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-download;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-update;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-patch;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-configure;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-build;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\src\cocos-headers-populate-stamp\Debug\cocos-headers-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\Debug\cocos-headers-populate-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\9e50b499be2b56df36718cdaee34d704\cocos-headers-populate.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\Debug\cocos-headers-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\cocos-headers-populate</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Building Custom Rule D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+D:\CMake\bin\cmake.exe -SD:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild -BD:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild --check-stamp-file D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;D:\CMake\share\cmake-3.25\Modules\ExternalProject.cmake;D:\CMake\share\cmake-3.25\Modules\ExternalProject\RepositoryInfo.txt.in;D:\CMake\share\cmake-3.25\Modules\ExternalProject\cfgcmd.txt.in;D:\CMake\share\cmake-3.25\Modules\ExternalProject\gitclone.cmake.in;D:\CMake\share\cmake-3.25\Modules\ExternalProject\gitupdate.cmake.in;D:\CMake\share\cmake-3.25\Modules\ExternalProject\mkdirs.cmake.in;D:\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\3.25.0-rc4\CMakeSystem.cmake;D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\cocos-headers-populate-prefix\tmp\cocos-headers-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\cocos-headers-populate">
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\ZERO_CHECK.vcxproj">
+      <Project>{3A4015AE-FCE6-354C-A8A5-7D1572DA2777}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

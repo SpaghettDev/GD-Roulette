@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|win32">
+      <Configuration>Debug</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|win32">
+      <Configuration>Release</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{012631E3-C047-320B-AB07-6C4349685C5A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>win32</Platform>
+    <ProjectName>GD-Roulette</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">GD-Roulette.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">GD-Roulette</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|win32'">D:\Projects\GD-Roulette\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|win32'">GD-Roulette.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|win32'">GD-Roulette</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|win32'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">D:\Projects\GD-Roulette\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">GD-Roulette.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">GD-Roulette</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">D:\Projects\GD-Roulette\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">GD-Roulette.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">GD-Roulette</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>_deps\minhook-build\Debug\minhook.x32d.lib;_deps\cocos-headers-src\cocos2dx\libcocos2d.lib;_deps\cocos-headers-src\extensions\libExtensions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86;D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86/$(Configuration);D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib;D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Projects/GD-Roulette/build/Debug/GD-Roulette.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Projects/GD-Roulette/build/Debug/GD-Roulette.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>_deps\minhook-build\Release\minhook.x32.lib;_deps\cocos-headers-src\cocos2dx\libcocos2d.lib;_deps\cocos-headers-src\extensions\libExtensions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86;D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86/$(Configuration);D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib;D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Projects/GD-Roulette/build/Release/GD-Roulette.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Projects/GD-Roulette/build/Release/GD-Roulette.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="MinSizeRel";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"MinSizeRel\";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>_deps\minhook-build\MinSizeRel\minhook.x32.lib;_deps\cocos-headers-src\cocos2dx\libcocos2d.lib;_deps\cocos-headers-src\extensions\libExtensions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86;D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86/$(Configuration);D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib;D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Projects/GD-Roulette/build/MinSizeRel/GD-Roulette.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Projects/GD-Roulette/build/MinSizeRel/GD-Roulette.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="RelWithDebInfo";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"RelWithDebInfo\";GD_Roulette_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\GD-Roulette\build\_deps\json-src\single_include;D:\Projects\GD-Roulette\build\_deps\gd.h-src\include;D:\Projects\GD-Roulette\build\_deps\gd.h-src;D:\Projects\GD-Roulette\build\_deps\fmod-src\inc;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\kazmath\include;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\win32;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\cocos2dx\platform\third_party\win32\OGLES;D:\Projects\GD-Roulette\build\_deps\cocos-headers-src\extensions;D:\Projects\GD-Roulette\build\_deps\libcurl-src\include;D:\Projects\GD-Roulette\build\_deps\minhook-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>_deps\minhook-build\RelWithDebInfo\minhook.x32.lib;_deps\cocos-headers-src\cocos2dx\libcocos2d.lib;_deps\cocos-headers-src\extensions\libExtensions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86;D:/Projects/GD-Roulette/build/_deps/fmod-src/lib/x86/$(Configuration);D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib;D:/Projects/GD-Roulette/build/_deps/libcurl-src/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Projects/GD-Roulette/build/RelWithDebInfo/GD-Roulette.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Projects/GD-Roulette/build/RelWithDebInfo/GD-Roulette.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Building Custom Rule D:/Projects/GD-Roulette/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+D:\CMake\bin\cmake.exe -SD:/Projects/GD-Roulette -BD:/Projects/GD-Roulette/build --check-stamp-file D:/Projects/GD-Roulette/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent\CMakeLists.cmake.in;D:\CMake\share\cmake-3.25\Modules\FindGit.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeCXXCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeRCCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeSystem.cmake;D:\Projects\GD-Roulette\scripts\cocos-headers.cmake;D:\Projects\GD-Roulette\scripts\fmod.cmake;D:\Projects\GD-Roulette\scripts\gd.h.cmake;D:\Projects\GD-Roulette\scripts\git.cmake;D:\Projects\GD-Roulette\scripts\json.cmake;D:\Projects\GD-Roulette\scripts\libcurl.cmake;D:\Projects\GD-Roulette\scripts\minhook.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Projects\GD-Roulette\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|win32'">Building Custom Rule D:/Projects/GD-Roulette/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|win32'">setlocal
+D:\CMake\bin\cmake.exe -SD:/Projects/GD-Roulette -BD:/Projects/GD-Roulette/build --check-stamp-file D:/Projects/GD-Roulette/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|win32'">D:\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent\CMakeLists.cmake.in;D:\CMake\share\cmake-3.25\Modules\FindGit.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeCXXCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeRCCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeSystem.cmake;D:\Projects\GD-Roulette\scripts\cocos-headers.cmake;D:\Projects\GD-Roulette\scripts\fmod.cmake;D:\Projects\GD-Roulette\scripts\gd.h.cmake;D:\Projects\GD-Roulette\scripts\git.cmake;D:\Projects\GD-Roulette\scripts\json.cmake;D:\Projects\GD-Roulette\scripts\libcurl.cmake;D:\Projects\GD-Roulette\scripts\minhook.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|win32'">D:\Projects\GD-Roulette\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">Building Custom Rule D:/Projects/GD-Roulette/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">setlocal
+D:\CMake\bin\cmake.exe -SD:/Projects/GD-Roulette -BD:/Projects/GD-Roulette/build --check-stamp-file D:/Projects/GD-Roulette/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">D:\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent\CMakeLists.cmake.in;D:\CMake\share\cmake-3.25\Modules\FindGit.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeCXXCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeRCCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeSystem.cmake;D:\Projects\GD-Roulette\scripts\cocos-headers.cmake;D:\Projects\GD-Roulette\scripts\fmod.cmake;D:\Projects\GD-Roulette\scripts\gd.h.cmake;D:\Projects\GD-Roulette\scripts\git.cmake;D:\Projects\GD-Roulette\scripts\json.cmake;D:\Projects\GD-Roulette\scripts\libcurl.cmake;D:\Projects\GD-Roulette\scripts\minhook.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">D:\Projects\GD-Roulette\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">Building Custom Rule D:/Projects/GD-Roulette/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">setlocal
+D:\CMake\bin\cmake.exe -SD:/Projects/GD-Roulette -BD:/Projects/GD-Roulette/build --check-stamp-file D:/Projects/GD-Roulette/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">D:\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;D:\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent.cmake;D:\CMake\share\cmake-3.25\Modules\FetchContent\CMakeLists.cmake.in;D:\CMake\share\cmake-3.25\Modules\FindGit.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;D:\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;D:\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeCXXCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeRCCompiler.cmake;D:\Projects\GD-Roulette\build\CMakeFiles\3.25.0-rc4\CMakeSystem.cmake;D:\Projects\GD-Roulette\scripts\cocos-headers.cmake;D:\Projects\GD-Roulette\scripts\fmod.cmake;D:\Projects\GD-Roulette\scripts\gd.h.cmake;D:\Projects\GD-Roulette\scripts\git.cmake;D:\Projects\GD-Roulette\scripts\json.cmake;D:\Projects\GD-Roulette\scripts\libcurl.cmake;D:\Projects\GD-Roulette\scripts\minhook.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">D:\Projects\GD-Roulette\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Projects\GD-Roulette\src\dllmain.cpp" />
+    <ClCompile Include="D:\Projects\GD-Roulette\src\layers\CreatorLayer.cpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\layers\CreatorLayer.hpp" />
+    <ClCompile Include="D:\Projects\GD-Roulette\src\layers\LevelInfoLayer.cpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\layers\LevelInfoLayer.hpp" />
+    <ClCompile Include="D:\Projects\GD-Roulette\src\layers\PlayLayer.cpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\layers\PlayLayer.hpp" />
+    <ClCompile Include="D:\Projects\GD-Roulette\src\listfetcher\ListFetcher.cpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\listfetcher\ListFetcher.hpp" />
+    <ClCompile Include="D:\Projects\GD-Roulette\src\pch.cpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\pch.hpp" />
+    <ClCompile Include="D:\Projects\GD-Roulette\src\roulette\layer\RouletteLayer.cpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\roulette\layer\RouletteLayer.hpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\roulette\manager\RouletteManager.hpp" />
+    <ClInclude Include="D:\Projects\GD-Roulette\src\utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Projects\GD-Roulette\build\ZERO_CHECK.vcxproj">
+      <Project>{83C4E7E5-0C64-3344-94AC-4F4DC4225979}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\GD-Roulette\build\_deps\minhook-build\minhook.vcxproj">
+      <Project>{9B23DC35-B26F-3325-8F28-F7349687323F}</Project>
+      <Name>minhook</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

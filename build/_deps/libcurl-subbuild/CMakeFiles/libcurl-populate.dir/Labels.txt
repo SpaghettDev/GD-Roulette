@@ -1,0 +1,14 @@
+# Target labels
+ libcurl-populate
+# Source files and their labels
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/libcurl-populate
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/4de7606bb8c8f3346e8d6adf73389b1c/libcurl-populate.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/818d5744fe272c26f6064815a3f2657b/libcurl-populate-complete.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-build.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-configure.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-download.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-install.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-mkdir.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-patch.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-test.rule
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/f2c45fffbe83d03d297c96fb3df312cf/libcurl-populate-update.rule

@@ -1,0 +1,3 @@
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/libcurl-populate.dir
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/ALL_BUILD.dir
+D:/Projects/GD-Roulette/build/_deps/libcurl-subbuild/CMakeFiles/ZERO_CHECK.dir

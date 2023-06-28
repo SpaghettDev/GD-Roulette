@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{D40F95B6-551E-334A-8189-58CB8ED6823C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F921819-30AC-3FD1-A717-A986AC903A27} = {3F921819-30AC-3FD1-A717-A986AC903A27}
+		{1939E6B4-4459-3E4C-BC29-0329EB401524} = {1939E6B4-4459-3E4C-BC29-0329EB401524}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "ZERO_CHECK.vcxproj", "{3F921819-30AC-3FD1-A717-A986AC903A27}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-populate", "json-populate.vcxproj", "{1939E6B4-4459-3E4C-BC29-0329EB401524}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F921819-30AC-3FD1-A717-A986AC903A27} = {3F921819-30AC-3FD1-A717-A986AC903A27}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|win32 = Debug|win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D40F95B6-551E-334A-8189-58CB8ED6823C}.Debug|win32.ActiveCfg = Debug|win32
+		{3F921819-30AC-3FD1-A717-A986AC903A27}.Debug|win32.ActiveCfg = Debug|win32
+		{3F921819-30AC-3FD1-A717-A986AC903A27}.Debug|win32.Build.0 = Debug|win32
+		{1939E6B4-4459-3E4C-BC29-0329EB401524}.Debug|win32.ActiveCfg = Debug|win32
+		{1939E6B4-4459-3E4C-BC29-0329EB401524}.Debug|win32.Build.0 = Debug|win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F86AA992-4BB7-30F4-ADDE-566E14750C22}
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

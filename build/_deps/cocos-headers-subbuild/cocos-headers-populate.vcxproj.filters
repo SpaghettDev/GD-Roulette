@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\ad529e4667ae49e26fe938fdbc4cbbc7\cocos-headers-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\eba49fbe593330cbe1501b9262f2a3de\cocos-headers-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\9e50b499be2b56df36718cdaee34d704\cocos-headers-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projects\GD-Roulette\build\_deps\cocos-headers-subbuild\CMakeFiles\cocos-headers-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4694D28B-59AF-3859-A4E9-9395C77E166A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

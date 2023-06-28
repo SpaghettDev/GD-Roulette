@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/cocos-headers-populate"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/9e50b499be2b56df36718cdaee34d704/cocos-headers-populate.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/eba49fbe593330cbe1501b9262f2a3de/cocos-headers-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-build.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-download.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-install.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-test.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/cocos-headers-subbuild/CMakeFiles/ad529e4667ae49e26fe938fdbc4cbbc7/cocos-headers-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"cocos-headers-populate"
+		],
+		"name" : "cocos-headers-populate"
+	}
+}

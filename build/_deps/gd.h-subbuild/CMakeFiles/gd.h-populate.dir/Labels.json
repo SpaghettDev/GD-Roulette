@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/gd.h-populate"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/63fcf6f01ef9ce1e00c47ce4b7c72a16/gd.h-populate.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/899525d81501f6e2924628e012d29858/gd.h-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-build.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-download.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-install.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-test.rule"
+		},
+		{
+			"file" : "D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/82fe9c3e772c266fa0dfb9f1eb30eb86/gd.h-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"gd.h-populate"
+		],
+		"name" : "gd.h-populate"
+	}
+}
