@@ -897,6 +897,16 @@ void RouletteLayer::onResetButton(CCObject* sender)
 	RouletteManager.levelPercentageGoal = 1;
 	RouletteManager.skipsCount = 0;
 
+	if (levelEpicSprite && levelEpicSprite->getParent())
+	{
+		levelEpicSprite->removeFromParentAndCleanup(true);
+	}
+
+	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
+	{
+		levelFeaturedSprite->removeFromParentAndCleanup(true);
+	}
+
 	level = {};
 
 	for (int i = 0; i < 6; i++)
