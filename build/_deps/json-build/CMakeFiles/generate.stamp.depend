@@ -1,9 +1,0 @@
-# CMake generation dependency list for this directory.
-D:/CMake/share/cmake-3.25/Modules/CMakePackageConfigHelpers.cmake
-D:/CMake/share/cmake-3.25/Modules/ExternalProject.cmake
-D:/CMake/share/cmake-3.25/Modules/GNUInstallDirs.cmake
-D:/CMake/share/cmake-3.25/Modules/WriteBasicConfigVersionFile.cmake
-D:/Projects/GD-Roulette/build/_deps/json-src/CMakeLists.txt
-D:/Projects/GD-Roulette/build/_deps/json-src/cmake/config.cmake.in
-D:/Projects/GD-Roulette/build/_deps/json-src/cmake/nlohmann_jsonConfigVersion.cmake.in
-D:/Projects/GD-Roulette/build/_deps/json-src/cmake/pkg-config.pc.in
