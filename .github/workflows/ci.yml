@@ -1,1 +1,44 @@
+name: CI
 
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Check CMake version
+      run: cmake --version
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Cache build/
+      id: cache-build
+      uses: actions/cache@v3
+      with:
+        path: build
+        key: ${{ runner.os }}-build
+
+    - name: Generate CMake project
+      run: cmake -S. -Bbuild -G "Visual Studio 17 2022" -DCMAKE_CONFIGURATION_TYPES=Release 
+
+    - name: Build 64bit release DLL
+      run: cmake --build build --config Release --target ALL_BUILD
+
+    - name: Check if DLL got built
+      run: if (-Not (Test-Path -path "build/Release/GD-Roulette.dll")) {throw 1}
+
+    - name: Rename DLL to GD-Roulette-release-{GITHUB_SHA}.dll
+      run: |
+        del GD-Roulette-release-*.dll
+        ren GD-Roulette.dll GD-Roulette-release-${{github.sha}}.dll
+      working-directory: build/Release/
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: binary
+        path: build/Release/GD-Roulette-release-*.dll
