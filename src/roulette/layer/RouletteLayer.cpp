@@ -614,7 +614,7 @@ bool RouletteLayer::init()
 	m_pButtonMenu->addChild(ggText);
 
 	auto ggSkipsUsedText = CCLabelBMFont::create("Skips Used: ", "bigFont.fnt");
-	ggSkipsUsedText->setPosition({ .0f, 30.f });
+	ggSkipsUsedText->setPosition({ .0f, .0f });
 	ggSkipsUsedText->setVisible(false);
 	ggSkipsUsedText->setTag(123);
 	m_pButtonMenu->addChild(ggSkipsUsedText);
@@ -921,6 +921,12 @@ void RouletteLayer::onSkipButton(CCObject* sender)
 {
 	if (!ListFetcher::finishedFetching)
 		return;
+
+	if (RouletteManager.levelPercentageGoal == 101)
+	{
+		onNextButton(nullptr);
+		return;
+	}
 
 	if (RouletteManager.skipsCount < RouletteManager.skipsMax)
 	{

@@ -44,7 +44,7 @@ void __fastcall PlayLayer::destroyPlayerHook(gd::PlayLayer* self, void*, gd::Pla
 			RouletteManager.hasFinishedPreviousLevel = true;
 			RouletteManager.lastLevelPercentage = percentage;
 			RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1;
-			self->pauseGame();
+			self->pauseGame(false);
 		}
 	}
 
