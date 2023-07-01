@@ -1,6 +1,7 @@
 #include "PlayLayer.hpp"
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
+#include <fstream>
 
 float previousPosition = .0f, delta = -1.f;
 
@@ -35,14 +36,14 @@ void __fastcall PlayLayer::destroyPlayerHook(gd::PlayLayer* self, void*, gd::Pla
 	if (
 		int percentage = static_cast<int>((player->getPositionX() / self->m_levelLength) * 100.f);
 		RouletteManager.isPlayingRoulette &&
-		!self->m_isPracticeMode &&
 		self->m_level->levelID == RouletteManager.lastLevelID &&
+		!self->m_isPracticeMode &&
 		percentage >= RouletteManager.levelPercentageGoal
 		) {
 		if (delta > 0.2f && !self->m_isDead)
 		{
 			RouletteManager.hasFinishedPreviousLevel = true;
-			RouletteManager.lastLevelPercentage = static_cast<int>((player->getPositionX() / self->m_levelLength) * 100.f);
+			RouletteManager.lastLevelPercentage = percentage;
 			RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1;
 			self->pauseGame();
 		}
@@ -55,8 +56,8 @@ gd::GameSoundManager* __fastcall PlayLayer::levelCompleteHook(gd::PlayLayer* sel
 {
 	if (
 		RouletteManager.isPlayingRoulette &&
-		!self->m_isPracticeMode &&
-		self->m_level->levelID == RouletteManager.lastLevelID
+		self->m_level->levelID == RouletteManager.lastLevelID &&
+		!self->m_isPracticeMode
 		) {
 		if (delta > 0.2f && !self->m_isDead)
 		{
