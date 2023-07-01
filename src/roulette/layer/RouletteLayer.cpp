@@ -516,6 +516,7 @@ bool RouletteLayer::init()
 		levelDifficultySprite->setScale(1.5f);
 		levelDifficultySprite->setTag(102 + i);
 		levelDifficultySprite->setVisible(false);
+
 		m_pButtonMenu->addChild(levelDifficultySprite);
 	}
 
@@ -801,8 +802,9 @@ void RouletteLayer::onPlayButton(CCObject* sender)
 	level->levelID = std::stoi(levelJson["id"].get<std::string>());
 	level->levelName = levelJson["name"].get<std::string>();
 	level->userName = levelJson["author"].get<std::string>();
+	level->accountID_rand = std::stoi(levelJson["accountID"].get<std::string>());
+	level->accountID_seed = 0;
 	level->accountID = std::stoi(levelJson["accountID"].get<std::string>());
-	level->userID = std::stoi(levelJson["playerID"].get<std::string>());
 	try
 	{
 		level->songID = levelJson["songID"].get<int>();
@@ -827,6 +829,16 @@ void RouletteLayer::onNextButton(CCObject* sender)
 	if (!ListFetcher::finishedFetching)
 		return;
 
+	if (levelEpicSprite && levelEpicSprite->getParent())
+	{
+		levelEpicSprite->removeFromParentAndCleanup(true);
+	}
+
+	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
+	{
+		levelFeaturedSprite->removeFromParentAndCleanup(true);
+	}
+
 	if (RouletteManager.levelPercentageGoal == 101)
 	{
 		for (int i = 0; i < 13; i++)
@@ -841,10 +853,8 @@ void RouletteLayer::onNextButton(CCObject* sender)
 			CCString::createWithFormat("Skips Used: %d", RouletteManager.skipsCount)->getCString()
 		);
 		m_pButtonMenu->getChildByTag(123)->setVisible(true);
-		return;
 	}
-
-	if (RouletteManager.lastLevelPercentage != 0 && RouletteManager.hasFinishedPreviousLevel)
+	else if (RouletteManager.lastLevelPercentage != 0 && RouletteManager.hasFinishedPreviousLevel)
 	{
 		RouletteManager.hasFinishedPreviousLevel = false;
 
@@ -887,6 +897,16 @@ void RouletteLayer::onResetButton(CCObject* sender)
 	RouletteManager.levelPercentageGoal = 1;
 	RouletteManager.skipsCount = 0;
 
+	if (levelEpicSprite && levelEpicSprite->getParent())
+	{
+		levelEpicSprite->removeFromParentAndCleanup(true);
+	}
+
+	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
+	{
+		levelFeaturedSprite->removeFromParentAndCleanup(true);
+	}
+
 	level = {};
 
 	for (int i = 0; i < 6; i++)
@@ -926,6 +946,16 @@ void RouletteLayer::onSkipButton(CCObject* sender)
 	{
 		onNextButton(nullptr);
 		return;
+	}
+
+	if (levelEpicSprite && levelEpicSprite->getParent())
+	{
+		levelEpicSprite->removeFromParentAndCleanup(true);
+	}
+
+	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
+	{
+		levelFeaturedSprite->removeFromParentAndCleanup(true);
 	}
 
 	if (RouletteManager.skipsCount < RouletteManager.skipsMax)
@@ -1045,6 +1075,33 @@ void RouletteLayer::finishLevelRoulette()
 		m_pButtonMenu->getChildByTag(difficultyTag)->setPositionY(40.f);
 
 	m_pButtonMenu->getChildByTag(difficultyTag)->setVisible(true);
+
+	bool epic = level["epic"].get<bool>();
+
+	if (epic == true)
+	{
+		auto difficultySprite = m_pButtonMenu->getChildByTag(difficultyTag);
+		CCPoint difficultySpritePosition = difficultySprite->getPosition();
+		levelEpicSprite = CCSprite::createWithSpriteFrameName("GJ_epicCoin_001.png");
+		levelEpicSprite->setScale(1.4f);
+		levelEpicSprite->setPosition({ difficultySpritePosition });
+		levelEpicSprite->setZOrder(-1);
+		m_pButtonMenu->addChild(levelEpicSprite);
+	}
+
+	bool featured = level["featured"].get<bool>();
+
+	if (featured == true)
+	{
+		auto difficultySprite = m_pButtonMenu->getChildByTag(difficultyTag);
+		CCPoint difficultySpritePosition = difficultySprite->getPosition();
+		levelFeaturedSprite = CCSprite::createWithSpriteFrameName("GJ_featuredCoin_001.png");
+		levelFeaturedSprite->setScale(1.5f);
+		levelFeaturedSprite->setPosition({ difficultySpritePosition });
+		levelFeaturedSprite->setZOrder(-1);
+		m_pButtonMenu->addChild(levelFeaturedSprite);
+	}
+
 }
 
 
