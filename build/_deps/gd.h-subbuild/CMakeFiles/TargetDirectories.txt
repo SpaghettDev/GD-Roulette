@@ -1,3 +1,0 @@
-D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/gd.h-populate.dir
-D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/ALL_BUILD.dir
-D:/Projects/GD-Roulette/build/_deps/gd.h-subbuild/CMakeFiles/ZERO_CHECK.dir
