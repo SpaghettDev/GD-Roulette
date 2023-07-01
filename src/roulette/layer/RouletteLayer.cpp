@@ -801,8 +801,9 @@ void RouletteLayer::onPlayButton(CCObject* sender)
 	level->levelID = std::stoi(levelJson["id"].get<std::string>());
 	level->levelName = levelJson["name"].get<std::string>();
 	level->userName = levelJson["author"].get<std::string>();
+	level->accountID_rand = std::stoi(levelJson["accountID"].get<std::string>());
+	level->accountID_seed = 0;
 	level->accountID = std::stoi(levelJson["accountID"].get<std::string>());
-	level->userID = std::stoi(levelJson["playerID"].get<std::string>());
 	try
 	{
 		level->songID = levelJson["songID"].get<int>();
