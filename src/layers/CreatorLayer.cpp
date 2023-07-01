@@ -1,5 +1,14 @@
 #include "CreatorLayer.hpp"
 
+class ButtonsClass final : public gd::FLAlertLayer, public CCTextFieldDelegate, public gd::FLAlertLayerProtocol
+{
+public:
+	void onRouletteButton(CCObject* sender)
+	{
+		RouletteLayer::create()->show();
+	}
+};
+
 bool __fastcall CreatorLayer::initHook(gd::CreatorLayer* self)
 {
 	if (!CreatorLayer::init(self)) return false;

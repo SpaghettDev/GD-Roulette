@@ -5,7 +5,6 @@
 #define INITIALIZEROULETTEMANAGER
 #include "../manager/RouletteManager.hpp"
 #include "../../utils.hpp"
-#include <fstream>
 
 std::map<std::string, int> difficultyToTag{
 	{ "Easy", 103 },

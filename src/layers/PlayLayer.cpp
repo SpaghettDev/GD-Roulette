@@ -1,7 +1,6 @@
 #include "PlayLayer.hpp"
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
-#include <fstream>
 
 float previousPosition = .0f, delta = -1.f;
 

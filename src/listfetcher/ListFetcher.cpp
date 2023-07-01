@@ -1,15 +1,6 @@
 #include <random>
-#include <fstream>
 #include "ListFetcher.hpp"
-
-int randomInt(int min, int max)
-{
-	std::random_device device;
-	std::mt19937 generator(device());
-	std::uniform_int_distribution<int> distribution(min, max);
-
-	return distribution(generator);
-}
+#include "../utils.hpp"
 
 std::size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, std::string* s)
 {
@@ -94,7 +85,7 @@ void ListFetcher::getRandomNormalListLevel(int stars, nlohmann::json& json)
 		<< "https://gdbrowser.com/api/search/*"
 		<< "?diff=" << stars
 		<< "&starred"
-		<< "&page=" << randomInt(1, m_normalListMaxPage[stars - 1]);
+		<< "&page=" << utils::randomInt(1, m_normalListMaxPage[stars - 1]);
 
 	curlFetchResponse response = fetchLink(link.str());
 
@@ -111,7 +102,7 @@ void ListFetcher::getRandomNormalListLevel(int stars, nlohmann::json& json)
 		}
 	}
 
-	json = responseJson[randomInt(0, responseJson.size() - 1)];
+	json = responseJson[utils::randomInt(0, responseJson.size() - 1)];
 
 	finishedFetching = true;
 }
@@ -123,14 +114,14 @@ void ListFetcher::getRandomDemonListLevel(nlohmann::json& json)
 	link
 		<< "https://pointercrate.com/api/v2/demons/listed"
 		<< "?limit=" << 100
-		<< "&after=" << randomInt(0, m_demonListMaxPage);
+		<< "&after=" << utils::randomInt(0, m_demonListMaxPage);
 
 	curlFetchResponse response = fetchLink(link.str());
-	int index = randomInt(0, response.jsonResponse.size() - 1);
+	int index = utils::randomInt(0, response.jsonResponse.size() - 1);
 
 	// like wtf pointercrate
 	while (response.jsonResponse[index]["level_id"].is_null())
-		index = randomInt(0, response.jsonResponse.size() - 1);
+		index = utils::randomInt(0, response.jsonResponse.size() - 1);
 
 	getLevelInfo(response.jsonResponse[index]["level_id"].get<int>(), std::ref(json));
 
@@ -144,10 +135,10 @@ void ListFetcher::getRandomChallengeListLevel(nlohmann::json& json)
 	std::string link = "https://challengelist.gd/api/v1/demons/";
 
 	curlFetchResponse response = fetchLink(link);
-	int index = randomInt(0, response.jsonResponse.size() - 1);
+	int index = utils::randomInt(0, response.jsonResponse.size() - 1);
 
 	while (response.jsonResponse[index]["level_id"].is_null())
-		index = randomInt(0, response.jsonResponse.size() - 1);
+		index = utils::randomInt(0, response.jsonResponse.size() - 1);
 
 	getLevelInfo(response.jsonResponse[index]["level_id"].get<int>(), std::ref(json));
 

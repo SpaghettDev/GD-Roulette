@@ -41,7 +41,6 @@ public:
 	void finishLevelRoulette();
 
 private:
-	// helper functions
 	gd::CCMenuItemSpriteExtra* createDifficultyButton(int tag, CCNode* sprite, CCPoint point, float scale, bool isDemon = false, bool visible = true);
 };
 

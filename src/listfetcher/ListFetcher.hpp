@@ -31,9 +31,9 @@ public:
 
 	static void init();
 
-	static void getRandomNormalListLevel(int stars, nlohmann::json& json);
-	static void getRandomDemonListLevel(nlohmann::json& json);
-	static void getRandomChallengeListLevel(nlohmann::json& json);
+	static void getRandomNormalListLevel(int, nlohmann::json&);
+	static void getRandomDemonListLevel(nlohmann::json&);
+	static void getRandomChallengeListLevel(nlohmann::json&);
 
-	static void getLevelInfo(int levelID, nlohmann::json& json);
+	static void getLevelInfo(int, nlohmann::json&);
 };
