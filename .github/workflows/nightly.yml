@@ -81,13 +81,11 @@ jobs:
           cat sha256.checksum
 
       - name: Remove previous Nightly
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        uses: dev-drprasad/delete-tag-and-release@v1.0.1
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           delete_release: true
           tag_name: nightly
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Nightly Release
         uses: softprops/action-gh-release@v1
