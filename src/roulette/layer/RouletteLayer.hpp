@@ -19,9 +19,9 @@ class RouletteLayer : public CustomLayer
 {
 private:
 	inline static bool isPlusButtonToggled = false;
-	gd::LoadingCircle* levelLoadingCircle;
-	CCSprite* levelEpicSprite;
-	CCSprite* levelFeaturedSprite;
+	gd::LoadingCircle* levelLoadingCircle{};
+	CCSprite* levelEpicSprite{};
+	CCSprite* levelFeaturedSprite{};
 
 public:
 	static RouletteLayer* create();

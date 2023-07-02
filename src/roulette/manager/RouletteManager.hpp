@@ -23,6 +23,8 @@ public:
 	inline static int skipsCount = 0;
 	inline static int skipsMax = 3;
 
+	inline static int numLevels = 0;
+
 	RouletteManagerStruct()
 	{
 		if (!hasInitManager)

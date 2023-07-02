@@ -60,6 +60,8 @@ void getlistLevel(RouletteLayer* self, int difficulty, nlohmann::json& list)
 		break;
 	}
 
+	ListFetcher::finishedFetching = false;
+
 	self->scheduleUpdate();
 	getListThread.detach();
 }
@@ -67,8 +69,7 @@ void getlistLevel(RouletteLayer* self, int difficulty, nlohmann::json& list)
 
 bool CustomLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, float closeBtnScale, const ccColor4B& color)
 {
-	bool init = CCLayerColor::initWithColor(color);
-	if (!init) return false;
+	if (!CCLayerColor::initWithColor(color)) return false;
 
 	alertSize = contentSize;
 
@@ -616,19 +617,28 @@ bool RouletteLayer::init()
 	m_pButtonMenu->addChild(ggText);
 
 	auto ggSkipsUsedText = CCLabelBMFont::create("Skips Used: ", "bigFont.fnt");
-	ggSkipsUsedText->setPosition({ .0f, .0f });
+	ggSkipsUsedText->setPosition({ .0f, 20.f });
 	ggSkipsUsedText->setVisible(false);
 	ggSkipsUsedText->setTag(123);
 	m_pButtonMenu->addChild(ggSkipsUsedText);
+
+	auto ggNumLevelsText = CCLabelBMFont::create("Levels Done: ", "bigFont.fnt");
+	ggNumLevelsText->setPosition({ .0f, -10.f });
+	ggNumLevelsText->setVisible(false);
+	ggNumLevelsText->setTag(124);
+	m_pButtonMenu->addChild(ggNumLevelsText);
 
 
 	auto errorText = CCLabelBMFont::create("An error has occured", "bigFont.fnt");
 	errorText->setPosition({ 10.f, 10.f });
 	errorText->setVisible(false);
 	errorText->setColor({ 255, 0, 0 });
-	errorText->setTag(124);
+	errorText->setTag(125);
 	m_pButtonMenu->addChild(errorText);
 
+
+	if (RouletteManager.lastLevelID != 0)
+		RouletteManager.isPlayingRoulette = true;
 
 	if (RouletteManager.isPlayingRoulette)
 		onStartButton(nullptr);
@@ -649,6 +659,8 @@ void RouletteLayer::update(float dt)
 
 void RouletteLayer::onClose(CCObject* sender)
 {
+	RouletteManager.isPlayingRoulette = false;
+
 	setKeypadEnabled(false);
 	removeFromParentAndCleanup(true);
 }
@@ -830,7 +842,7 @@ void RouletteLayer::onNextButton(CCObject* sender)
 	if (!ListFetcher::finishedFetching)
 		return;
 
-	if (RouletteManager.levelPercentageGoal == 101)
+	if (RouletteManager.lastLevelPercentage == 100)
 	{
 		for (int i = 0; i < 13; i++)
 			m_pButtonMenu->getChildByTag(100 + i)->setVisible(false);
@@ -844,6 +856,10 @@ void RouletteLayer::onNextButton(CCObject* sender)
 			CCString::createWithFormat("Skips Used: %d", RouletteManager.skipsCount)->getCString()
 		);
 		m_pButtonMenu->getChildByTag(123)->setVisible(true);
+		reinterpret_cast<CCLabelBMFont*>(m_pButtonMenu->getChildByTag(124))->setString(
+			CCString::createWithFormat("Levels Done: %d", RouletteManager.numLevels)->getCString()
+		);
+		m_pButtonMenu->getChildByTag(124)->setVisible(true);
 	}
 	else if (RouletteManager.lastLevelPercentage != 0 && RouletteManager.hasFinishedPreviousLevel)
 	{
@@ -913,7 +929,7 @@ void RouletteLayer::onResetButton(CCObject* sender)
 	for (int i = 0; i < 6; i++)
 		m_pButtonMenu->getChildByTag(6 + i)->setVisible(false);
 
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 26; i++)
 		m_pButtonMenu->getChildByTag(100 + i)->setVisible(false);
 
 	reinterpret_cast<CCLabelBMFont*>(m_pButtonMenu->getChildByTag(117))->setString("0%");
@@ -991,7 +1007,7 @@ void RouletteLayer::finishLevelRoulette()
 			m_pButtonMenu->getChildByTag(113 + i)->setVisible(false);
 
 		m_pButtonMenu->getChildByTag(121)->setVisible(true);
-		m_pButtonMenu->getChildByTag(124)->setVisible(true);
+		m_pButtonMenu->getChildByTag(125)->setVisible(true);
 		return;
 	}
 

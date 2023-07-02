@@ -147,7 +147,6 @@ void ListFetcher::getRandomChallengeListLevel(nlohmann::json& json)
 
 void ListFetcher::getLevelInfo(int levelID, nlohmann::json& json)
 {
-	finishedFetching = false;
 	std::stringstream link;
 
 	link
@@ -157,6 +156,4 @@ void ListFetcher::getLevelInfo(int levelID, nlohmann::json& json)
 	curlFetchResponse response = fetchLink(link.str());
 
 	json = response.jsonResponse[0];
-
-	finishedFetching = true;
 }
