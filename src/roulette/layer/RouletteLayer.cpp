@@ -340,6 +340,7 @@ void IntegerInputLayer::onLeftButton(CCObject* sender)
 		previousValue = 0;
 	}
 
+	// manually sanitizing input because of mod menus
 	if (previousValue > 0)
 		inputNode->setString(std::to_string(previousValue - 1).c_str());
 	else
@@ -360,7 +361,6 @@ void IntegerInputLayer::onRightButton(CCObject* sender)
 		previousValue = 0;
 	}
 
-	// prevent numbers above 5 digits of appearing
 	if (previousValue < 99999)
 		inputNode->setString(std::to_string(previousValue + 1).c_str());
 	else
@@ -368,7 +368,6 @@ void IntegerInputLayer::onRightButton(CCObject* sender)
 }
 
 
-gd::LoadingCircle* RouletteLayer::levelLoadingCircle;
 nlohmann::json level;
 
 RouletteLayer* RouletteLayer::create()
@@ -554,6 +553,8 @@ bool RouletteLayer::init()
 		levelCoinSprite->setScale(1.5f);
 		levelCoinSprite->setVisible(false);
 		levelCoinSprite->setTag(113 + i);
+		if (i == 1)
+			levelCoinSprite->setZOrder(-1);
 		m_pButtonMenu->addChild(levelCoinSprite);
 	}
 
@@ -829,16 +830,6 @@ void RouletteLayer::onNextButton(CCObject* sender)
 	if (!ListFetcher::finishedFetching)
 		return;
 
-	if (levelEpicSprite && levelEpicSprite->getParent())
-	{
-		levelEpicSprite->removeFromParentAndCleanup(true);
-	}
-
-	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
-	{
-		levelFeaturedSprite->removeFromParentAndCleanup(true);
-	}
-
 	if (RouletteManager.levelPercentageGoal == 101)
 	{
 		for (int i = 0; i < 13; i++)
@@ -870,7 +861,7 @@ void RouletteLayer::onNextButton(CCObject* sender)
 
 		reinterpret_cast<CCLabelBMFont*>(
 			m_pButtonMenu->getChildByTag(117)
-			)->setString(CCString::createWithFormat("%d%%", RouletteManager.lastLevelPercentage)->getCString());
+		)->setString(CCString::createWithFormat("%d%%", RouletteManager.lastLevelPercentage)->getCString());
 
 		int diffInd = getIndexOf(RouletteManager.difficultyArr, true);
 		int demonInd = getIndexOf(RouletteManager.demonDifficultyArr, true);
@@ -885,7 +876,15 @@ void RouletteLayer::onNextButton(CCObject* sender)
 				"You need to get at least %d%%", RouletteManager.levelPercentageGoal
 			)->getCString(), 1.2f, .8f
 		));
+
+		return;
 	}
+
+	if (levelEpicSprite && levelEpicSprite->getParent())
+		levelEpicSprite->removeFromParentAndCleanup(true);
+
+	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
+		levelFeaturedSprite->removeFromParentAndCleanup(true);
 }
 
 void RouletteLayer::onResetButton(CCObject* sender)
@@ -898,14 +897,10 @@ void RouletteLayer::onResetButton(CCObject* sender)
 	RouletteManager.skipsCount = 0;
 
 	if (levelEpicSprite && levelEpicSprite->getParent())
-	{
 		levelEpicSprite->removeFromParentAndCleanup(true);
-	}
 
 	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
-	{
 		levelFeaturedSprite->removeFromParentAndCleanup(true);
-	}
 
 	level = {};
 
@@ -949,14 +944,10 @@ void RouletteLayer::onSkipButton(CCObject* sender)
 	}
 
 	if (levelEpicSprite && levelEpicSprite->getParent())
-	{
 		levelEpicSprite->removeFromParentAndCleanup(true);
-	}
 
 	if (levelFeaturedSprite && levelFeaturedSprite->getParent())
-	{
 		levelFeaturedSprite->removeFromParentAndCleanup(true);
-	}
 
 	if (RouletteManager.skipsCount < RouletteManager.skipsMax)
 	{
@@ -1076,30 +1067,22 @@ void RouletteLayer::finishLevelRoulette()
 
 	m_pButtonMenu->getChildByTag(difficultyTag)->setVisible(true);
 
-	bool epic = level["epic"].get<bool>();
-
-	if (epic == true)
+	if (level["epic"].get<bool>())
 	{
 		auto difficultySprite = m_pButtonMenu->getChildByTag(difficultyTag);
-		CCPoint difficultySpritePosition = difficultySprite->getPosition();
 		levelEpicSprite = CCSprite::createWithSpriteFrameName("GJ_epicCoin_001.png");
 		levelEpicSprite->setScale(1.4f);
-		levelEpicSprite->setPosition({ difficultySpritePosition });
-		levelEpicSprite->setZOrder(-1);
-		m_pButtonMenu->addChild(levelEpicSprite);
+		levelEpicSprite->setPosition(difficultySprite->getPosition());
+		m_pButtonMenu->addChild(levelEpicSprite, -1);
 	}
 
-	bool featured = level["featured"].get<bool>();
-
-	if (featured == true)
+	if (level["featured"].get<bool>())
 	{
 		auto difficultySprite = m_pButtonMenu->getChildByTag(difficultyTag);
-		CCPoint difficultySpritePosition = difficultySprite->getPosition();
 		levelFeaturedSprite = CCSprite::createWithSpriteFrameName("GJ_featuredCoin_001.png");
 		levelFeaturedSprite->setScale(1.5f);
-		levelFeaturedSprite->setPosition({ difficultySpritePosition });
-		levelFeaturedSprite->setZOrder(-1);
-		m_pButtonMenu->addChild(levelFeaturedSprite);
+		levelFeaturedSprite->setPosition(difficultySprite->getPosition());
+		m_pButtonMenu->addChild(levelFeaturedSprite, -1);
 	}
 
 }

@@ -15,7 +15,7 @@ include(scripts/cocos-headers.cmake)
 include(scripts/fmod.cmake)
 include(scripts/gd.h.cmake)
 include(scripts/json.cmake)
-include(scripts/libcurl.cmake)
+include(scripts/curl.cmake)
 include(scripts/minhook.cmake)
 
 file(GLOB_RECURSE SRC_MAIN
@@ -40,14 +40,20 @@ target_include_directories(GD-Roulette PRIVATE
     "${cocos-headers_SOURCE_DIR}/cocos2dx/platform/win32"
     "${cocos-headers_SOURCE_DIR}/cocos2dx/platform/third_party/win32/OGLES"
     "${cocos-headers_SOURCE_DIR}/extensions"
-    "${libcurl_SOURCE_DIR}/include"
 )
 
-target_link_libraries(GD-Roulette PRIVATE minhook ${cocos-headers_SOURCE_DIR}/cocos2dx/libcocos2d.lib ${cocos-headers_SOURCE_DIR}/extensions/libExtensions.lib)
-# fmod and libcurl don't need to be built
-target_link_directories(GD-Roulette PRIVATE
-    "${fmod_SOURCE_DIR}/lib/x86"
-    "${libcurl_SOURCE_DIR}/lib"
+# curl stuff
+add_library(curl_int INTERFACE)
+target_link_libraries(curl_int INTERFACE libcurl)
+target_include_directories(curl_int INTERFACE ${curl_SOURCE_DIR}/include ${curl_BINARY_DIR}/include/curl)
+add_library(CURL::libcurl ALIAS curl_int)
+
+target_link_libraries(GD-Roulette PRIVATE
+    minhook
+    libcurl
+    ${cocos-headers_SOURCE_DIR}/cocos2dx/libcocos2d.lib
+    ${cocos-headers_SOURCE_DIR}/extensions/libExtensions.lib
+    ${fmod_SOURCE_DIR}/lib/x86/fmod_vc.lib
 )
 
 # Warnings as errors
