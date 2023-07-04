@@ -182,6 +182,7 @@ bool RouletteInfoLayer::init()
 	createToggler(1, "Demon List", { 20.f, 20.f });
 	createToggler(2, "Challenge List", { -120.f, -20.f });
 
+
 	auto skipsButtonText = CCLabelBMFont::create("Number of Skips", "bigFont.fnt");
 	skipsButtonText->setPosition({ 85.f, 16.f });
 	skipsButtonText->setScale(.525f);
@@ -194,6 +195,12 @@ bool RouletteInfoLayer::init()
 	skipsButton->addChild(skipsButtonText);
 	skipsButton->setTag(3);
 	m_pButtonMenu->addChild(skipsButton);
+
+
+	auto versionText = CCLabelBMFont::create((std::string("Version ") + common::version.data()).c_str(), "bigFont.fnt");
+	versionText->setPosition({ .0f, -94.f });
+	versionText->setScale(.5f);
+	m_pButtonMenu->addChild(versionText);
 
 
 	return true;

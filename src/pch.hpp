@@ -13,6 +13,8 @@
 #include <WinSock2.h>
 #include <curl/curl.h>
 
+#include "common.hpp"
+
 using namespace cocos2d;
 
 #endif //PCH_H

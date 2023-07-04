@@ -6,12 +6,6 @@
 
 #include "utils.hpp"
 
-namespace common
-{
-	HMODULE hmodule;
-	HANDLE mainThread;
-	DWORD threadID;
-}
 
 BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 {
