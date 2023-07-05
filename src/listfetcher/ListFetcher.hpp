@@ -27,7 +27,7 @@ private:
 	static curlFetchResponse fetchLink(std::string link);
 
 public:
-	static std::atomic_bool finishedFetching;
+	static std::atomic_bool isFetching;
 
 	static void init();
 

@@ -60,8 +60,6 @@ void getlistLevel(RouletteLayer* self, int difficulty, nlohmann::json& list)
 		break;
 	}
 
-	ListFetcher::finishedFetching = false;
-
 	self->scheduleUpdate();
 	getListThread.detach();
 }
@@ -657,7 +655,7 @@ bool RouletteLayer::init()
 // called every frame after the ListFetcher thread has been detatched
 void RouletteLayer::update(float dt)
 {
-	if (ListFetcher::finishedFetching)
+	if (!ListFetcher::isFetching)
 	{
 		finishLevelRoulette();
 		this->unscheduleUpdate();
@@ -811,7 +809,7 @@ void RouletteLayer::onLevelInfo(CCObject* sender)
 
 void RouletteLayer::onPlayButton(CCObject* sender)
 {
-	if (!ListFetcher::finishedFetching)
+	if (ListFetcher::isFetching)
 		return;
 
 	nlohmann::json levelJson = level;
@@ -846,7 +844,7 @@ void RouletteLayer::onPlayButton(CCObject* sender)
 
 void RouletteLayer::onNextButton(CCObject* sender)
 {
-	if (!ListFetcher::finishedFetching)
+	if (ListFetcher::isFetching)
 		return;
 
 	if (RouletteManager.lastLevelPercentage == 100)
@@ -957,7 +955,7 @@ void RouletteLayer::onResetButton(CCObject* sender)
 
 void RouletteLayer::onSkipButton(CCObject* sender)
 {
-	if (!ListFetcher::finishedFetching)
+	if (ListFetcher::isFetching)
 		return;
 
 	if (RouletteManager.levelPercentageGoal == 101)
