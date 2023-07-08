@@ -3,16 +3,7 @@
 #include <nlohmann/json.hpp>
 #define CURL_STATICLIB
 #include <curl/curl.h>
-
-struct curlFetchResponse
-{
-	CURLcode responseCode;
-	std::string info;
-	nlohmann::json jsonResponse;
-
-	curlFetchResponse(CURLcode responseCode, std::string info, nlohmann::json jsonResponse)
-		: responseCode(responseCode), info(info), jsonResponse(jsonResponse) {}
-};
+#include "CurlResponse.hpp"
 
 class ListFetcher
 {
@@ -24,16 +15,16 @@ private:
 	inline static int m_demonListMaxPage = 490;
 
 
-	static curlFetchResponse fetchLink(std::string link);
+	static curlResponse fetchLink(std::string link);
 
 public:
-	static std::atomic_bool isFetching;
+	std::atomic_bool isFetching;
 
-	static void init();
+	void init();
 
-	static void getRandomNormalListLevel(int, nlohmann::json&);
-	static void getRandomDemonListLevel(nlohmann::json&);
-	static void getRandomChallengeListLevel(nlohmann::json&);
+	void getRandomNormalListLevel(int, nlohmann::json&, curlResponse&);
+	void getRandomDemonListLevel(nlohmann::json&, curlResponse&);
+	void getRandomChallengeListLevel(nlohmann::json&, curlResponse&);
 
-	static void getLevelInfo(int, nlohmann::json&);
+	void getLevelInfo(int, nlohmann::json&, curlResponse&);
 };

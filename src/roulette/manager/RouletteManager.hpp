@@ -12,6 +12,9 @@ public:
 	inline static std::atomic_bool isPlayingRoulette = false;
 	inline static std::atomic_bool hasFinishedPreviousLevel = false;
 
+	inline static bool showOptionsSprite = true;
+	inline static bool rouletteResourcesFound = false;
+
 	inline static std::array<bool, 6> difficultyArr;
 	inline static std::array<bool, 5> demonDifficultyArr;
 	inline static std::array<bool, 3> togglesStatesArr;
