@@ -69,8 +69,8 @@ jobs:
         with:
           name: binary
           
-      - name: Download resources.zip
-        uses: Minionguyjpro/Download-File-Action@v1
+      - name: Download a file
+        uses: valitydev/action-download-file@v1.0.6
         with:
           url: https://github.com/SpaghettDev/GD-Roulette/blob/master/assets/resources.zip
           
