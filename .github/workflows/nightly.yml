@@ -100,4 +100,5 @@ jobs:
             ${{ needs.build_nightly.outputs.full_sha }}
             ```
           files: |
+            ${{ runner.home }}/resources
             GD-Roulette.dll
