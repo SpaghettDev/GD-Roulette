@@ -30,11 +30,22 @@ jobs:
       - name: Build 32bit release DLL
         run: cmake --build build --config Release --target ALL_BUILD
 
-      - name: Upload Artifact
+      - name: Upload binary Artifact
         uses: actions/upload-artifact@v3
         with:
           name: binary
           path: build/Release/GD-Roulette.dll
+          
+      - name: Download resources.zip
+        uses: Minionguyjpro/Download-File-Action@v1
+        with:
+          url: https://github.com/SpaghettDev/GD-Roulette/blob/master/assets/resources.zip
+          
+      - name: Upload resources Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: resources
+          path: resources.zip
 
       - name: Generate Build Info
         id: var
@@ -64,10 +75,16 @@ jobs:
     if: ${{ needs.check_date.outputs.should_run != 'false' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Download Artifact
+      - name: Download binary Artifact
         uses: actions/download-artifact@v3
         with:
           name: binary
+          
+      - uses: actions/checkout@v3
+      - name: Download resources Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: resources
 
       - name: Echo build sha256
         id: build_sha
@@ -100,5 +117,5 @@ jobs:
             ${{ needs.build_nightly.outputs.full_sha }}
             ```
           files: |
-            "/assets/resources.zip"
+            resources.zip
             GD-Roulette.dll
