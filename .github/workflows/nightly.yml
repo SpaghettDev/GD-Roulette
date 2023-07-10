@@ -35,17 +35,6 @@ jobs:
         with:
           name: binary
           path: build/Release/GD-Roulette.dll
-          
-      - name: Download resources.zip
-        uses: Minionguyjpro/Download-File-Action@v1
-        with:
-          url: https://github.com/SpaghettDev/GD-Roulette/blob/master/assets/resources.zip
-          
-      - name: Upload resources Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: resources
-          path: resources.zip
 
       - name: Generate Build Info
         id: var
@@ -79,6 +68,17 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: binary
+          
+      - name: Download resources.zip
+        uses: Minionguyjpro/Download-File-Action@v1
+        with:
+          url: https://github.com/SpaghettDev/GD-Roulette/blob/master/assets/resources.zip
+          
+      - name: Upload resources Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: resources
+          path: resources.zip
           
       - uses: actions/checkout@v3
       - name: Download resources Artifact
