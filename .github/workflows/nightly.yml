@@ -57,19 +57,12 @@ jobs:
         if: ${{ github.event_name == 'schedule' }}
         run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "should_run=false" >> $GITHUB_OUTPUT
 
-  create_release:
+  upload_resources:
     runs-on: ubuntu-latest
-    name: Create Release
-    needs: [ check_date, build_nightly ]
-    if: ${{ needs.check_date.outputs.should_run != 'false' }}
+    name: Upload resources.zip
+    needs: check_date
     steps:
-      - uses: actions/checkout@v3
-      - name: Download binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: binary
-          
-      - name: Download a file
+      - name: Download resources file
         uses: valitydev/action-download-file@v1.0.6
         with:
           url: https://github.com/SpaghettDev/GD-Roulette/blob/master/assets/resources.zip
@@ -79,6 +72,18 @@ jobs:
         with:
           name: resources
           path: resources.zip
+
+  create_release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    needs: [ upload_resources, check_date, build_nightly ]
+    if: ${{ needs.check_date.outputs.should_run != 'false' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: binary
           
       - uses: actions/checkout@v3
       - name: Download resources Artifact
