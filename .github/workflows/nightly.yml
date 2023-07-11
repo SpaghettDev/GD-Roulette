@@ -45,7 +45,6 @@ jobs:
   upload_resources:
     runs-on: ubuntu-latest
     name: Upload resources.zip
-    needs: check_date
     steps:
       - name: Download resources file
         uses: valitydev/action-download-file@v1.0.6
