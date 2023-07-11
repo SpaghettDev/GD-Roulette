@@ -42,21 +42,6 @@ jobs:
           echo "full_sha=$(git rev-parse HEAD)" >> $env:GITHUB_OUTPUT
           echo "short_sha=$(git rev-parse --short HEAD)" >> $env:GITHUB_OUTPUT
 
-  check_date:
-    runs-on: ubuntu-latest
-    name: Check latest commit
-    needs: build_nightly
-    outputs:
-      should_run: ${{ steps.should_run.outputs.should_run }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - id: should_run
-        continue-on-error: true
-        name: Check if latest commit date is within the previous 24 hours
-        if: ${{ github.event_name == 'schedule' }}
-        run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "should_run=false" >> $GITHUB_OUTPUT
-
   upload_resources:
     runs-on: ubuntu-latest
     name: Upload resources.zip
@@ -73,19 +58,32 @@ jobs:
           name: resources
           path: resources.zip
 
+  check_date:
+    runs-on: ubuntu-latest
+    name: Check latest commit
+    needs: [ build_nightly, upload_resources ]
+    outputs:
+      should_run: ${{ steps.should_run.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: should_run
+        continue-on-error: true
+        name: Check if latest commit date is within the previous 24 hours
+        if: ${{ github.event_name == 'schedule' }}
+        run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "should_run=false" >> $GITHUB_OUTPUT
+
   create_release:
     runs-on: ubuntu-latest
     name: Create Release
-    needs: [ upload_resources, check_date, build_nightly ]
+    needs: [ check_date, upload_resources, build_nightly ]
     if: ${{ needs.check_date.outputs.should_run != 'false' }}
     steps:
-      - uses: actions/checkout@v3
       - name: Download binary Artifact
         uses: actions/download-artifact@v3
         with:
           name: binary
-          
-      - uses: actions/checkout@v3
+
       - name: Download resources Artifact
         uses: actions/download-artifact@v3
         with:
