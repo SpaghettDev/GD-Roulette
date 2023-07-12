@@ -8,8 +8,20 @@ A Geometry Dash Roulette.
 </details>
 
 ## How to install
-Copy the contents of the resources directory from this repository into the "Resources" folder of your Geometry Dash installation.
-Then grab GD-Roulette.dll from the [Releases tab](https://github.com/SpaghettDev/GD-Roulette/releases) and use you preferred injector to inject it into GeometryDash.exe
+1. Download the latest release from the the [Releases tab](https://github.com/SpaghettDev/GD-Roulette/releases)
+1. Copy the contents of the resources.zip from the downloaded release into the "Resources" folder of your Geometry Dash installation.
+2. Then grab GD-Roulette.dll from the downloaded release and use you preferred injector to inject it into GeometryDash.exe
+
+## Errors
+<details open>
+<summary>Error Image</summary>
+<br>
+<img src="./assets/Resources-Error.png" width="480"/>
+</details>
+
+If you're getting the error above then you haven't installed the roulette correctly...
+<br/>
+Please follow the instructions in the [How to install](#how-to-install) part.
 
 ## How to build
 Run the following commands in your preferred terminal:

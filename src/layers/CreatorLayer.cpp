@@ -43,6 +43,8 @@ bool __fastcall CreatorLayer::initHook(gd::CreatorLayer* self)
 	for (auto& spriteName : rouletteSprites)
 		if (fs::exists(resourcesPath / spriteName))
 			spritesFound++;
+		else
+			break;
 
 	RouletteManager.rouletteResourcesFound = spritesFound == rouletteSprites.size();
 
