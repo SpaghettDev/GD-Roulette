@@ -138,7 +138,7 @@ void ListFetcher::getRandomDemonListLevel(nlohmann::json& json, curlResponse& cf
 	int randomIndex;
 	do {
 		randomIndex = utils::randomInt(0, response.jsonResponse.size() - 1);
-	} while (response.jsonResponse[randomIndex]["level_id"].is_null());
+	} while (randomIndex <= response.jsonResponse.size() - 1 && response.jsonResponse[randomIndex]["level_id"].is_null());
 
 	int levelId = response.jsonResponse[randomIndex]["level_id"].get<int>();
 	getLevelInfo(levelId, json, cfr);
@@ -164,7 +164,7 @@ void ListFetcher::getRandomChallengeListLevel(nlohmann::json& json, curlResponse
 	int randomIndex;
 	do {
 		randomIndex = utils::randomInt(0, response.jsonResponse.size() - 1);
-	} while (response.jsonResponse[randomIndex]["level_id"].is_null());
+	} while (randomIndex <= response.jsonResponse.size() - 1 && response.jsonResponse[randomIndex]["level_id"].is_null());
 
 	int levelId = response.jsonResponse[randomIndex]["level_id"].get<int>();
 	getLevelInfo(levelId, json, cfr);
