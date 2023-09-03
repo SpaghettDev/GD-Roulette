@@ -12,9 +12,7 @@ std::size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, std::st
 
 	// Check for memory allocation failure
 	if (s->length() < new_length)
-	{
 		return 0;
-	}
 
 	return new_length;
 }
@@ -81,9 +79,11 @@ curlResponse ListFetcher::fetchLink(std::string link)
 }
 
 void ListFetcher::getRandomNormalListLevel(int stars, nlohmann::json& json, curlResponse& cfr) {
-	if (stars > 10) {
+	if (stars > 10)
+	{
 		json = {};
 		cfr = { CURLcode::CURLE_HTTP_RETURNED_ERROR, "", {} };
+		isFetching = false;
 		return;
 	}
 
@@ -101,20 +101,23 @@ void ListFetcher::getRandomNormalListLevel(int stars, nlohmann::json& json, curl
 	nlohmann::json responseJson = response.jsonResponse;
 
 	// Prevent auto levels from appearing in the Easy difficulty
-	if (responseJson.size() != 0 && stars == 1) {
+	if (responseJson.size() != 0 && stars == 1)
+	{
 		responseJson.erase(
-			std::remove_if(responseJson.begin(), responseJson.end(), [](const auto& level) {
-				return level["difficulty"].get<std::string>() == "Auto";
-				}),
-			responseJson.end());
+			std::remove_if(
+				responseJson.begin(), responseJson.end(),
+				[](const auto& level) {
+					return level["difficulty"].get<std::string>() == "Auto";
+				}
+			),
+			responseJson.end()
+		);
 	}
 
-	if (response.responseCode == CURLcode::CURLE_OK) {
+	if (response.responseCode == CURLcode::CURLE_OK)
 		json = responseJson[utils::randomInt(0, responseJson.size() - 1)];
-	}
-	else {
+	else
 		json = {};
-	}
 
 	cfr = response;
 	isFetching = false;
@@ -138,7 +141,7 @@ void ListFetcher::getRandomDemonListLevel(nlohmann::json& json, curlResponse& cf
 	int randomIndex;
 	do {
 		randomIndex = utils::randomInt(0, response.jsonResponse.size() - 1);
-	} while (randomIndex <= response.jsonResponse.size() - 1 && response.jsonResponse[randomIndex]["level_id"].is_null());
+	} while (response.jsonResponse[randomIndex]["level_id"].is_null());
 
 	int levelId = response.jsonResponse[randomIndex]["level_id"].get<int>();
 	getLevelInfo(levelId, json, cfr);
@@ -164,7 +167,7 @@ void ListFetcher::getRandomChallengeListLevel(nlohmann::json& json, curlResponse
 	int randomIndex;
 	do {
 		randomIndex = utils::randomInt(0, response.jsonResponse.size() - 1);
-	} while (randomIndex <= response.jsonResponse.size() - 1 && response.jsonResponse[randomIndex]["level_id"].is_null());
+	} while (response.jsonResponse[randomIndex]["level_id"].is_null());
 
 	int levelId = response.jsonResponse[randomIndex]["level_id"].get<int>();
 	getLevelInfo(levelId, json, cfr);
