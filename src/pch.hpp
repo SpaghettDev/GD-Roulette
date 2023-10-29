@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 
 #include <windows.h>
+#include <psapi.h>
 #include <cocos2d.h>
 #include <cocos-ext.h>
 #include <minhook.h>
@@ -12,6 +13,10 @@
 #include <fmod.h>
 #include <WinSock2.h>
 #include <curl/curl.h>
+
+#ifdef DEV_CONSOLE
+#include <fstream>
+#endif
 
 #include "common.hpp"
 

@@ -20,6 +20,16 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 
 		mainThread = CreateThread(nullptr, 0,
 		[](PVOID) -> DWORD {
+#ifdef DEV_CONSOLE
+			if (AllocConsole())
+			{
+				freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+				SetConsoleTitleW(L"GD-Roulette");
+				SetConsoleCP(CP_UTF8);
+				SetConsoleOutputCP(CP_UTF8);
+			}
+#endif
+
 			MH_Initialize();
 
 			Sleep(utils::randomInt(250, 1000));

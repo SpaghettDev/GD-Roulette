@@ -1,4 +1,5 @@
 #include "CreatorLayer.hpp"
+#include "../utils.hpp"
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 
@@ -47,6 +48,8 @@ bool __fastcall CreatorLayer::initHook(gd::CreatorLayer* self)
 			break;
 
 	RouletteManager.rouletteResourcesFound = spritesFound == rouletteSprites.size();
+	
+	CCPoint buttonPos = utils::isProcessLoaded("hackpro.dll", GetCurrentProcessId()) ? CCPoint{ -255.f, 0.f } : CCPoint{ -235.f, -110.f };
 
 	if (RouletteManager.rouletteResourcesFound)
 	{
@@ -55,7 +58,7 @@ bool __fastcall CreatorLayer::initHook(gd::CreatorLayer* self)
 			self,
 			menu_selector(ButtonsClass::onRouletteButton)
 		);
-		rouletteButton->setPosition({ -235.f, -110.f });
+		rouletteButton->setPosition(buttonPos);
 		auto rouletteSprite = CCSprite::create("RL_btn_001.png");
 		rouletteSprite->setScale(.035f);
 		rouletteSprite->setPosition({ 22.5f, 23.5f });
@@ -69,7 +72,7 @@ bool __fastcall CreatorLayer::initHook(gd::CreatorLayer* self)
 			self,
 			menu_selector(ButtonsClass::onRouletteButton)
 		);
-		rouletteButton->setPosition({ -235.f, -110.f });
+		rouletteButton->setPosition(buttonPos);
 		menu->addChild(rouletteButton);
 	}
 

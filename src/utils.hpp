@@ -4,8 +4,8 @@
 namespace utils
 {
 	int randomInt(int, int);
-
 	void setClipboardText(std::string);
+	bool isProcessLoaded(std::string, DWORD);
 	
 	namespace vars
 	{

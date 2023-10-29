@@ -64,3 +64,6 @@ add_compile_definitions(
     "NOMINMAX"
     "WIN32_LEAN_AND_MEAN"
 )
+
+# Enable dev console if building in RelWithDebInfo
+target_compile_definitions(GD-Roulette PUBLIC "$<$<CONFIG:RELWITHDEBINFO>:DEV_CONSOLE>")
