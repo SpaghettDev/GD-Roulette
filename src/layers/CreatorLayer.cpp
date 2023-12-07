@@ -13,10 +13,20 @@ public:
 		if (!RouletteManager.rouletteResourcesFound)
 		{
 			FLAlertLayer::create(
-				nullptr, "Resources", "Ok", nullptr,
+				nullptr, "Resources", "OK", nullptr,
 				"The <cg>roulette's resources</c> were not loaded.\nThis may be due to an <cr>incorrect installation</c>.\nPlease check the Github for more information."
 			)->show();
 			RouletteManager.rouletteResourcesFound = true;
+		}
+
+		if (RouletteManager.isJsonCorrupted)
+		{
+			FLAlertLayer::create(
+				nullptr, "JSON file", "OK", nullptr,
+				"The <cg>roulette's save file</c> was corrupted.\nAs such, the options have been <cr>reset to their default values</c>."
+			)->show();
+
+			RouletteManager.isJsonCorrupted = false;
 		}
 	}
 };

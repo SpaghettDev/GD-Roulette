@@ -33,18 +33,19 @@ void __fastcall PlayLayer::resetLevelHook(gd::PlayLayer* self, void*)
 void __fastcall PlayLayer::destroyPlayerHook(gd::PlayLayer* self, void*, gd::PlayerObject* player, gd::GameObject* obj)
 {
 	if (
-		int percentage = static_cast<int>((player->getPositionX() / self->m_levelLength) * 100.f);
+		float percentage = (player->getPositionX() / self->m_levelLength) * 100.f;
 		RouletteManager.isPlayingRoulette &&
 		self->m_level->levelID == RouletteManager.lastLevelID &&
 		!self->m_isPracticeMode &&
 		percentage >= RouletteManager.levelPercentageGoal
 		) {
-		if (delta > 0.2f && !self->m_isDead)
+		if (delta > .2f && !self->m_isDead)
 		{
 			RouletteManager.hasFinishedPreviousLevel = true;
 			RouletteManager.lastLevelPercentage = percentage;
-			RouletteManager.levelPercentageGoal++;
+			RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1.f;
 			RouletteManager.numLevels++;
+			// TODO: wait a few seconds then pause
 			self->pauseGame(false);
 		}
 	}
@@ -59,7 +60,7 @@ gd::GameSoundManager* __fastcall PlayLayer::levelCompleteHook(gd::PlayLayer* sel
 		self->m_level->levelID == RouletteManager.lastLevelID &&
 		!self->m_isPracticeMode
 		) {
-		if (delta > 0.2f && !self->m_isDead)
+		if (delta > .2f && !self->m_isDead)
 		{
 			RouletteManager.hasFinishedPreviousLevel = true;
 			RouletteManager.lastLevelPercentage = 100;

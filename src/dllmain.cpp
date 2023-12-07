@@ -3,6 +3,8 @@
 #include "layers/CreatorLayer.hpp"
 #include "layers/LevelInfoLayer.hpp"
 #include "layers/PlayLayer.hpp"
+#include "layers/PauseLayer.hpp"
+#include "json_manager/JsonManager.hpp"
 
 #include "utils.hpp"
 
@@ -31,6 +33,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 #endif
 
 			MH_Initialize();
+			JsonManager();
 
 			Sleep(utils::randomInt(250, 1000));
 
@@ -62,8 +65,17 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 			);
 
 			MH_CreateHook(
+				reinterpret_cast<void*>(gd::base + 0x175DF0), LevelInfoLayer::initHook,
+				reinterpret_cast<void**>(&LevelInfoLayer::init)
+			);
+			MH_CreateHook(
 				reinterpret_cast<void*>(gd::base + 0x17C110), LevelInfoLayer::onBackHook,
 				reinterpret_cast<void**>(&LevelInfoLayer::onBack)
+			);
+
+			MH_CreateHook(
+				reinterpret_cast<void*>(gd::base + 0x1E4570), PauseLayer::createHook,
+				reinterpret_cast<void**>(&PauseLayer::create)
 			);
 
 

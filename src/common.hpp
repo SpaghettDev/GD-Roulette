@@ -10,7 +10,7 @@ namespace
 		HANDLE mainThread;
 		DWORD threadID;
 
-		std::string_view version = "1.1.7";
+		std::string_view version = "1.2.0";
 	}
 }
 

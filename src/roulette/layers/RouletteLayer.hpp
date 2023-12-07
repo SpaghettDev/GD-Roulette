@@ -1,21 +1,7 @@
 #pragma once
 #include "../../pch.hpp"
 #include "../../listfetcher/ListFetcher.hpp"
-
-class CustomLayer : public gd::FLAlertLayer
-{
-public:
-	CCPoint alertSize{};
-	gd::CCMenuItemSpriteExtra* closeBtn{};
-
-	bool createBasics(CCPoint, SEL_MenuHandler, float = 1, const ccColor4B& = { 0x00, 0x00, 0x00, 0x4B });
-	void createTitle(std::string, float = .75f, float = 1);
-	gd::CCMenuItemSpriteExtra* createButton(const char*, CCPoint, SEL_MenuHandler, int = -1, float = 1.0f, float = 1.2f);
-	virtual void onClose(CCObject*) = 0;
-	void keyDown(enumKeyCodes);
-	void keyBackClicked();
-};
-
+#include "../../layers/CustomLayer.hpp"
 
 class RouletteLayer : public CustomLayer
 {
@@ -64,31 +50,4 @@ public:
 private:
 	void getRandomListLevel(int, nlohmann::json&, curlResponse&);
 	gd::CCMenuItemSpriteExtra* createDifficultyButton(int, CCNode*, CCPoint, float, bool = false, bool = true);
-};
-
-class RouletteInfoLayer : public CustomLayer
-{
-public:
-	static RouletteInfoLayer* create();
-	bool init();
-
-	void onClose(CCObject*);
-	void onToggleButton(CCObject*);
-	void onSkipsButton(CCObject*);
-
-private:
-	gd::CCMenuItemToggler* createToggler(int, const char*, CCPoint, bool = true);
-
-	void destroyLayerChildren();
-};
-
-class IntegerInputLayer : public CustomLayer
-{
-public:
-	static IntegerInputLayer* create();
-	bool init();
-
-	void onClose(CCObject*);
-	void onLeftButton(CCObject*);
-	void onRightButton(CCObject*);
 };

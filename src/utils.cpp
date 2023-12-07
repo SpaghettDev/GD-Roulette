@@ -65,3 +65,14 @@ bool utils::isProcessLoaded(std::string processName, DWORD processID)
 	CloseHandle(process);
 	return found;
 }
+
+
+CCLabelBMFont* utils::createTextLabel(const std::string text, const CCPoint& position, const float scale, CCNode* menu, const char* font)
+{
+	CCLabelBMFont* bmFont = CCLabelBMFont::create(text.c_str(), font);
+	bmFont->setPosition(position);
+	bmFont->setScale(scale);
+	menu->addChild(bmFont);
+
+	return bmFont;
+}

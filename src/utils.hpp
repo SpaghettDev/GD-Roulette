@@ -1,11 +1,34 @@
 #pragma once
 #include "pch.hpp"
+#include "json_manager/WriteInvokingType.hpp"
 
 namespace utils
 {
 	int randomInt(int, int);
 	void setClipboardText(std::string);
 	bool isProcessLoaded(std::string, DWORD);
+
+	template<typename T, std::size_t S>
+	std::ptrdiff_t getIndexOf(const std::array<T, S>& arr, T to_find)
+	{
+		auto it = std::find(arr.cbegin(), arr.cend(), to_find);
+
+		return it != arr.cend() ? (it - arr.cbegin()) : -1;
+	}
+
+	template<typename T, std::size_t S>
+	std::ptrdiff_t getIndexOf(const std::array<WriteInvoking<T>, S>& arr, T to_find)
+	{
+		auto it = std::find_if(arr.cbegin(), arr.cend(), [&](WriteInvoking<T> wit)
+		{
+			return wit == to_find;
+		});
+
+		return it != arr.cend() ? (it - arr.cbegin()) : -1;
+	}
+
+	CCLabelBMFont* createTextLabel(const std::string, const CCPoint&, const float, CCNode*, const char* = "bigFont.fnt");
+
 	
 	namespace vars
 	{
