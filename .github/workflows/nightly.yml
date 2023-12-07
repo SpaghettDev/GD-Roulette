@@ -5,6 +5,7 @@ on:
     # cronjob that triggers every day at 2PM UTC
     - cron: '0 14 * * *'
   workflow_dispatch:
+  push:
 
 jobs:
   build_nightly:
