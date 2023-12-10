@@ -40,7 +40,7 @@ bool RouletteLayer::init()
 	m_pButtonMenu->addChild(title);
 
 
-	auto rouletteBg = cocos2d::extension::CCScale9Sprite::create("square02b_001.png", { .0f, .0f, 80.0f, 80.0f });
+	auto rouletteBg = cocos2d::extension::CCScale9Sprite::create("square02b_001.png", { .0f, .0f, 80.f, 80.f });
 	rouletteBg->setContentSize({ 340.f, 210.f });
 	rouletteBg->setAnchorPoint({ .5f, 1.f });
 	rouletteBg->setColor({ 123, 60, 31 });
@@ -296,8 +296,11 @@ bool RouletteLayer::init()
 
 	if (RouletteManager.difficultyArr[5])
 	{
-		RouletteLayer::isPlusButtonToggled = false;
-		RouletteLayer::onPlusButton(nullptr);
+		if (RouletteLayer::isPlusButtonToggled)
+		{
+			RouletteLayer::isPlusButtonToggled = false;
+			RouletteLayer::onPlusButton(nullptr);
+		}
 
 		for (int i = 6; i < 11; i++)
 			if (RouletteManager.demonDifficultyArr[i - 6])
@@ -350,6 +353,7 @@ void RouletteLayer::onInfoButton(CCObject* sender)
 		this->addChild(gd::TextAlertPopup::create("You are currently in a game of roulette!", 1.2f, .8f));
 }
 
+// TODO: split to onDemonDifficultyChosen and onDifficultyChosen
 void RouletteLayer::onDifficultyChosen(CCObject* sender)
 {
 	if (
@@ -397,17 +401,14 @@ void RouletteLayer::onDifficultyChosen(CCObject* sender)
 
 void RouletteLayer::onStartButton(CCObject* sender)
 {
+	for (int i = 0; i < 13; i++)
+		m_pButtonMenu->getChildByTag(i)->setVisible(false);
+
 	if (RouletteManager.isPlayingRoulette)
 	{
-		for (int i = 0; i < 13; i++)
-			m_pButtonMenu->getChildByTag(i)->setVisible(false);
-
 		finishLevelRoulette();
 		return;
 	}
-
-	for (int i = 0; i < 13; i++)
-		m_pButtonMenu->getChildByTag(i)->setVisible(false);
 
 	int diffInd = utils::getIndexOf(RouletteManager.difficultyArr, true);
 	int demonInd = utils::getIndexOf(RouletteManager.demonDifficultyArr, true);
@@ -432,9 +433,6 @@ void RouletteLayer::onPlusButton(CCObject* sender)
 
 		this->m_pButtonMenu->getChildByTag(11)->setPositionY(15.f);
 		this->m_pButtonMenu->getChildByTag(12)->setPositionY(-90.f);
-
-		for (int i = 6; i < 11; i++)
-			this->m_pButtonMenu->getChildByTag(i)->setVisible(true);
 	}
 	else
 	{
@@ -443,10 +441,10 @@ void RouletteLayer::onPlusButton(CCObject* sender)
 
 		this->m_pButtonMenu->getChildByTag(11)->setPositionY(-20.f);
 		this->m_pButtonMenu->getChildByTag(12)->setPositionY(-85.f);
-
-		for (int i = 6; i < 11; i++)
-			this->m_pButtonMenu->getChildByTag(i)->setVisible(false);
 	}
+
+	for (int i = 6; i < 11; i++)
+		this->m_pButtonMenu->getChildByTag(i)->setVisible(isPlusButtonToggled);
 }
 
 void RouletteLayer::onLevelInfo(CCObject* sender)
@@ -782,7 +780,6 @@ void RouletteLayer::finishLevelRoulette()
 		levelFeaturedSprite->setPosition(difficultySprite->getPosition());
 		m_pButtonMenu->addChild(levelFeaturedSprite, -1);
 	}
-
 }
 
 
@@ -842,29 +839,4 @@ gd::CCMenuItemSpriteExtra* RouletteLayer::createDifficultyButton(int tag, CCNode
 	m_pButtonMenu->addChild(button);
 
 	return button;
-}
-
-gd::CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelText, CCPoint point, bool visible)
-{
-	auto buttonSpriteOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
-	auto buttonSpriteOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
-	buttonSpriteOn->setScale(.8f);
-	buttonSpriteOff->setScale(.8f);
-
-	auto button = gd::CCMenuItemToggler::create(
-		buttonSpriteOff,
-		buttonSpriteOn,
-		this,
-		menu_selector(RouletteInfoLayer::onToggleButton)
-	);
-	button->setPosition(point);
-	button->setSizeMult(1.2f);
-	button->setTag(tag);
-	button->setVisible(visible);
-	button->toggle(RouletteManager.selectedListArr.at(tag));
-	m_pButtonMenu->addChild(button);
-
-	auto label = utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_pButtonMenu);
-	label->setAnchorPoint({ .0f, .5f });
-	label->limitLabelWidth(80.f, .5f, 0);
 }

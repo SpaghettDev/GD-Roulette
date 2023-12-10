@@ -9,10 +9,10 @@ nlohmann::ordered_json JsonManager::m_savedata;
 
 JsonManager::JsonManager()
 {
-	m_default_savedata["normalList"] = static_cast<bool>(RouletteManager.selectedListArr[0]);
-	m_default_savedata["demonList"] = static_cast<bool>(RouletteManager.selectedListArr[1]);
-	m_default_savedata["challengeList"] = static_cast<bool>(RouletteManager.selectedListArr[2]);
-	m_default_savedata["maxSkips"] = static_cast<int>(RouletteManager.maxSkips);
+	m_default_savedata["normalList"] = true;
+	m_default_savedata["demonList"] = false;
+	m_default_savedata["challengeList"] = false;
+	m_default_savedata["maxSkips"] = 3;
 
 	if (!std::filesystem::exists(m_savefile))
 	{
@@ -31,8 +31,15 @@ JsonManager::JsonManager()
 	{
 		file >> m_savedata;
 
-		if (m_savedata["normalList"].get<bool>() == m_savedata["demonList"].get<bool>() == m_savedata["challengeList"].get<bool>() == false)
+		// TODO: tidy & fix
+		if (
+			m_savedata["normalList"].get<bool>() == m_savedata["challengeList"].get<bool>() == m_savedata["challengeList"].get<bool>() == false ||
+			m_savedata["normalList"].get<bool>() == m_savedata["challengeList"].get<bool>() == m_savedata["challengeList"].get<bool>() == true
+			) {
 			m_savedata["normalList"] = true;
+			m_savedata["demonList"] = false;
+			m_savedata["challengeList"] = false;
+		}
 
 		RouletteManager.selectedListArr[0].assignNoSave(m_savedata["normalList"]);
 		RouletteManager.selectedListArr[1].assignNoSave(m_savedata["demonList"]);

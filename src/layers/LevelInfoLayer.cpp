@@ -22,7 +22,6 @@ namespace LevelInfoLayer
 		if (RouletteManager.isPlayingRoulette)
 		{
 			CCNode* normalPercentageNode = nullptr;
-			CCPoint normalPercentagePos = { 284.5f, 136.f };
 			float goalOffset = .0f;
 
 			if (self->m_pLevel->normalPercent < 10)
@@ -33,19 +32,21 @@ namespace LevelInfoLayer
 			CCObject* levelInfoLayerObject;
 			CCARRAY_FOREACH(self->getChildren(), levelInfoLayerObject)
 			{
-				CCNode* levelInfoLayerNode = reinterpret_cast<CCNode*>(levelInfoLayerObject);
-				if (levelInfoLayerNode->getPositionX() == 284.5f && levelInfoLayerNode->getPositionY() == 136.f)
-				{
+				auto levelInfoLayerNode = reinterpret_cast<CCNode*>(levelInfoLayerObject);
+				if (
+					auto levelInfoLayerLabel = dynamic_cast<CCLabelBMFont*>(levelInfoLayerNode);
+					levelInfoLayerLabel &&
+					strcmp(levelInfoLayerLabel->getString(), CCString::createWithFormat("%d%%", self->m_pLevel->normalPercent)->getCString()) == 0
+					) {
 					normalPercentageNode = levelInfoLayerNode;
 					break;
 				}
 			};
 
-			if (normalPercentageNode != nullptr)
-				normalPercentagePos = normalPercentageNode->getPosition();
+			if (normalPercentageNode == nullptr) return self;
 
 			auto goalPercentage = CCLabelBMFont::create(CCString::createWithFormat("(%d%%)", static_cast<int>(RouletteManager.levelPercentageGoal))->getCString(), "bigFont.fnt");
-			goalPercentage->setPosition({ normalPercentagePos.x + goalOffset, normalPercentagePos.y });
+			goalPercentage->setPosition({ normalPercentageNode->getPositionX() + goalOffset, normalPercentageNode->getPositionY() });
 			goalPercentage->setScale(.4f);
 			goalPercentage->setColor({ 125, 125, 125 });
 			goalPercentage->setZOrder(3);
@@ -62,35 +63,27 @@ namespace LevelInfoLayer
 	{
 		CustomDirector* director = reinterpret_cast<CustomDirector*>(CCDirector::sharedDirector());
 
-		if (!RouletteManager.isPlayingRoulette || self->m_pLevel->levelID != RouletteManager.lastLevelID)
-			onBack(self, sender);
-		else
+		if (RouletteManager.isPlayingRoulette && self->m_pLevel->levelID == RouletteManager.lastLevelID)
 		{
 			if (
 				CCScene* prevScene = director->getPreviousScene();
 				prevScene->getChildrenCount() == 2
 				) {
 				if (
-					std::string_view name = (typeid(*prevScene->getChildren()->objectAtIndex(1)).name() + 6);
-					name == "RouletteLayer"
+					std::string_view prevLayerName = (typeid(*prevScene->getChildren()->objectAtIndex(1)).name() + 6);
+					prevLayerName == "RouletteLayer"
 					) {
-					CCLayer* rouletteLayer = reinterpret_cast<CCLayer*>(
+					RouletteLayer* rouletteLayer = reinterpret_cast<RouletteLayer*>(
 						director->getPreviousScene()->getChildren()->objectAtIndex(1)
 					);
 
-					CCMenu* rouletteMenu = reinterpret_cast<CCMenu*>(
-						reinterpret_cast<CCLayer*>(
-							rouletteLayer->getChildren()->objectAtIndex(0)
-						)->getChildren()->objectAtIndex(1)
-					);
-
 					reinterpret_cast<CCLabelBMFont*>(
-						rouletteMenu->getChildByTag(117)
+						rouletteLayer->m_pButtonMenu->getChildByTag(117)
 					)->setString(CCString::createWithFormat("%d%%", RouletteManager.lastLevelPercentage)->getCString());
 				}
 			}
-
-			onBack(self, sender);
 		}
+
+		onBack(self, sender);
 	}
 }

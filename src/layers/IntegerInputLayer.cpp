@@ -78,7 +78,7 @@ void IntegerInputLayer::onClose(CCObject* sender)
 {
 	try
 	{
-		int skips = std::stoi(
+		const int skips = std::stoi(
 			reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1))->getString()
 		);
 
@@ -95,7 +95,7 @@ void IntegerInputLayer::onClose(CCObject* sender)
 
 void IntegerInputLayer::onLeftButton(CCObject* sender)
 {
-	auto inputNode = reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1));
+	const auto inputNode = reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1));
 	int previousValue;
 
 	try
@@ -116,7 +116,7 @@ void IntegerInputLayer::onLeftButton(CCObject* sender)
 
 void IntegerInputLayer::onRightButton(CCObject* sender)
 {
-	auto inputNode = reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1));
+	const auto inputNode = reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1));
 	int previousValue;
 
 	try

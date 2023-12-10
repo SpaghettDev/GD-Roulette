@@ -2,16 +2,13 @@
 #define COMMON_H
 
 // workaround linker errors lol
-namespace
+namespace common
 {
-	namespace common
-	{
-		HMODULE hmodule;
-		HANDLE mainThread;
-		DWORD threadID;
+	inline HMODULE hmodule;
+	inline HANDLE mainThread;
+	inline DWORD threadID;
 
-		std::string_view version = "1.2.0";
-	}
+	inline std::string_view version = "1.2.1";
 }
 
 #endif //COMMON_H

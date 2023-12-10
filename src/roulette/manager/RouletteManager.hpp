@@ -26,7 +26,7 @@ public:
 	inline static std::string levelCreatorName = "";
 
 	inline static int skipsCount = 0;
-	inline static WriteInvoking<int> maxSkips = 3;
+	inline static WriteInvoking<int> maxSkips;
 
 	inline static int numLevels = 0;
 
@@ -38,11 +38,9 @@ public:
 		{
 			difficultyArr.fill(false);
 			demonDifficultyArr.fill(false);
-			selectedListArr.fill(false);
 
 			difficultyArr[0] = true;
 			demonDifficultyArr[0] = true;
-			selectedListArr[0] = true;
 
 			hasInitManager = true;
 		}

@@ -119,3 +119,28 @@ void RouletteInfoLayer::onSkipsButton(CCObject* sender)
 {
 	IntegerInputLayer::create()->show();
 }
+
+gd::CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelText, CCPoint point, bool visible)
+{
+	auto buttonSpriteOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
+	auto buttonSpriteOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
+	buttonSpriteOn->setScale(.8f);
+	buttonSpriteOff->setScale(.8f);
+
+	auto button = gd::CCMenuItemToggler::create(
+		buttonSpriteOff,
+		buttonSpriteOn,
+		this,
+		menu_selector(RouletteInfoLayer::onToggleButton)
+	);
+	button->setPosition(point);
+	button->setSizeMult(1.2f);
+	button->setTag(tag);
+	button->setVisible(visible);
+	button->toggle(RouletteManager.selectedListArr.at(tag));
+	m_pButtonMenu->addChild(button);
+
+	auto label = utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_pButtonMenu);
+	label->setAnchorPoint({ .0f, .5f });
+	label->limitLabelWidth(80.f, .5f, 0);
+}

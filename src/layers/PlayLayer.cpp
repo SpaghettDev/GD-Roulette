@@ -2,6 +2,19 @@
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 
+class PlayLayerPause : public CCLayer
+{
+public:
+	inline static CCAction* pauseGameAction = nullptr;
+
+	void pause()
+	{
+		gd::GameManager::sharedState()->getPlayLayer()->pauseGame(false);
+
+		CCDirector::sharedDirector()->getRunningScene()->stopAction(pauseGameAction);
+	}
+};
+
 float previousPosition = .0f, delta = -1.f;
 
 bool __fastcall PlayLayer::initHook(gd::PlayLayer* self, void*, gd::GJGameLevel* level)
@@ -33,7 +46,7 @@ void __fastcall PlayLayer::resetLevelHook(gd::PlayLayer* self, void*)
 void __fastcall PlayLayer::destroyPlayerHook(gd::PlayLayer* self, void*, gd::PlayerObject* player, gd::GameObject* obj)
 {
 	if (
-		float percentage = (player->getPositionX() / self->m_levelLength) * 100.f;
+		const float percentage = (player->getPositionX() / self->m_levelLength) * 100.f;
 		RouletteManager.isPlayingRoulette &&
 		self->m_level->levelID == RouletteManager.lastLevelID &&
 		!self->m_isPracticeMode &&
@@ -45,8 +58,13 @@ void __fastcall PlayLayer::destroyPlayerHook(gd::PlayLayer* self, void*, gd::Pla
 			RouletteManager.lastLevelPercentage = percentage;
 			RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1.f;
 			RouletteManager.numLevels++;
-			// TODO: wait a few seconds then pause
-			self->pauseGame(false);
+			
+			const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
+			PlayLayerPause::pauseGameAction = runningScene->runAction(
+				CCSequence::create(
+					CCDelayTime::create(1.f), CCCallFunc::create(runningScene, callfunc_selector(PlayLayerPause::pause)), nullptr
+				)
+			);
 		}
 	}
 

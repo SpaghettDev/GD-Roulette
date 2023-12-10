@@ -11,31 +11,37 @@ namespace PauseLayer
 
 		if (RouletteManager.isPlayingRoulette)
 		{
+			const gd::PlayLayer* playLayer = gd::GameManager::sharedState()->getPlayLayer();
+
 			CCNode* normalPercentageNode = nullptr;
-			CCPoint normalPercentagePos = { 284.5f, 240.f };
 			float goalOffset = 24.f;
 
-			if (gd::PlayLayer::get()->m_level->normalPercent < 10)
+			if (playLayer->m_level->normalPercent < 10)
 				goalOffset = 28.f;
-			else if (gd::PlayLayer::get()->m_level->normalPercent <= 100)
+			else if (playLayer->m_level->normalPercent <= 100)
 				goalOffset = 40.f;
 
 			CCObject* pauseLayerObject;
 			CCARRAY_FOREACH(self->getChildren(), pauseLayerObject)
 			{
-				CCNode* pauseLayerNode = reinterpret_cast<CCNode*>(pauseLayerObject);
-				if (pauseLayerNode->getPositionX() == 284.5f && pauseLayerNode->getPositionY() == 240.f)
-				{
+				auto pauseLayerNode = reinterpret_cast<CCNode*>(pauseLayerObject);
+				if (
+					auto levelInfoLayerLabel = dynamic_cast<CCLabelBMFont*>(pauseLayerNode);
+					levelInfoLayerLabel &&
+					strcmp(levelInfoLayerLabel->getString(), CCString::createWithFormat("%d%%", playLayer->m_level->normalPercent)->getCString()) == 0
+					) {
 					normalPercentageNode = pauseLayerNode;
 					break;
 				}
 			};
 
-			if (normalPercentageNode != nullptr)
-				normalPercentagePos = normalPercentageNode->getPosition();
+			if (normalPercentageNode == nullptr) return self;
 
-			auto goalPercentage = CCLabelBMFont::create(CCString::createWithFormat("(%d%%)", static_cast<int>(RouletteManager.levelPercentageGoal))->getCString(), "bigFont.fnt");
-			goalPercentage->setPosition({ normalPercentagePos.x + goalOffset, normalPercentagePos.y });
+			auto goalPercentage = CCLabelBMFont::create(
+				CCString::createWithFormat("(%d%%)", static_cast<int>(RouletteManager.levelPercentageGoal))->getCString(),
+				"bigFont.fnt"
+			);
+			goalPercentage->setPosition({ normalPercentageNode->getPositionX() + goalOffset, normalPercentageNode->getPositionY() });
 			goalPercentage->setScale(.5f);
 			goalPercentage->setColor({ 125, 125, 125 });
 			goalPercentage->setZOrder(4);
