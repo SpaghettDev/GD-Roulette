@@ -30,7 +30,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				SetConsoleCP(CP_UTF8);
 				SetConsoleOutputCP(CP_UTF8);
 			}
-#endif
+#endif // DEV_CONSOLE
 
 			MH_Initialize();
 			JsonManager();

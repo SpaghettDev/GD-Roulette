@@ -2,7 +2,7 @@
 #include "../../utils.hpp"
 #define DECLAREROULETTEMANAGER
 #include "../manager/RouletteManager.hpp"
-#include "../../layers/IntegerInputLayer.hpp"
+#include "../../custom_layers/IntegerInputLayer.hpp"
 #include "../../json_manager/JsonManager.hpp"
 
 RouletteInfoLayer* RouletteInfoLayer::create()
@@ -37,20 +37,19 @@ bool RouletteInfoLayer::init()
 	infoTitle->setScale(.725f);
 	m_pButtonMenu->addChild(infoTitle);
 
+	auto infoText = gd::TextArea::create(
+		"chatFont.fnt", false,
+		"Welcome to the <cl>GD Level Roulette settings</c>!\n"
+		"Here you can modify some <cy>settings</c> to your liking.",
+		.85f, 290.f, 20.f, { .5f, .5f }
+	);
+	infoText->setPosition({ 27.f, 61.f });
+	m_pButtonMenu->addChild(infoText);
 
-	auto infoText1 = CCLabelBMFont::create("Welcome to GD Level Roulette!", "chatFont.fnt");
-	auto infoText2 = CCLabelBMFont::create("Here you can modify some settings to your liking.", "chatFont.fnt");
-	infoText1->setPosition({ .0f, 72.f });
-	infoText2->setPosition({ .0f, 56.f });
-	infoText1->setScale(.9f);
-	infoText2->setScale(.85f);
-	m_pButtonMenu->addChild(infoText1);
-	m_pButtonMenu->addChild(infoText2);
 
-
-	createToggler(0, "Normal List", { -120.f, 20.f });
-	createToggler(1, "Demon List", { 20.f, 20.f });
-	createToggler(2, "Challenge List", { -120.f, -20.f });
+	createToggler(0, "Normal List", { -120.f, 15.f });
+	createToggler(1, "Demon List", { 20.f, 15.f });
+	createToggler(2, "Challenge List", { -120.f, -25.f });
 
 
 	auto skipsButtonText = CCLabelBMFont::create("Number of Skips", "bigFont.fnt");
@@ -59,7 +58,7 @@ bool RouletteInfoLayer::init()
 	auto skipsButton = gd::CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("GJ_longBtn03_001.png"),
 		this,
-		menu_selector(RouletteInfoLayer::onSkipsButton)
+		menu_selector(RouletteInfoLayer::onNumSkipsButton)
 	);
 	skipsButton->setPosition({ .0f, -65.f });
 	skipsButton->addChild(skipsButtonText);
@@ -94,7 +93,7 @@ void RouletteInfoLayer::destroyLayerChildren()
 	init();
 }
 
-void RouletteInfoLayer::onClose(CCObject* sender)
+void RouletteInfoLayer::onClose(CCObject*)
 {
 	setKeypadEnabled(false);
 	removeFromParentAndCleanup(true);
@@ -115,10 +114,21 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 	sender->release();
 }
 
-void RouletteInfoLayer::onSkipsButton(CCObject* sender)
+void RouletteInfoLayer::onNumSkipsButton(CCObject*)
 {
-	IntegerInputLayer::create()->show();
+	m_integer_input_layer->setup({
+		"Number Of Skips", "Skips",
+		0, 3, 99999, RouletteManager.maxSkips,
+		[&](auto iil) {
+			RouletteManager.maxSkips = iil->m_integer;
+		}
+	});
+
+	m_integer_input_layer = IntegerInputLayer::create();
+	if (m_integer_input_layer)
+		m_integer_input_layer->show();
 }
+
 
 gd::CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelText, CCPoint point, bool visible)
 {

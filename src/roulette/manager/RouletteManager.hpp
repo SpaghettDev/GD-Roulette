@@ -16,8 +16,8 @@ public:
 	inline static bool showOptionsSprite = true;
 	inline static bool rouletteResourcesFound = false;
 
-	inline static std::array<bool, 6> difficultyArr;
-	inline static std::array<bool, 5> demonDifficultyArr;
+	inline static std::array<bool, 6> difficultyArr{};
+	inline static std::array<bool, 5> demonDifficultyArr{};
 	inline static WriteInvoking<std::array<bool, 3>> selectedListArr;
 
 	inline static int lastLevelID = 0;
@@ -25,7 +25,7 @@ public:
 	inline static float levelPercentageGoal = 1.f;
 	inline static std::string levelCreatorName = "";
 
-	inline static int skipsCount = 0;
+	inline static int skipsUsed = 0;
 	inline static WriteInvoking<int> maxSkips;
 
 	inline static int numLevels = 0;
@@ -44,6 +44,18 @@ public:
 
 			hasInitManager = true;
 		}
+	}
+
+	void reset()
+	{
+		isPlayingRoulette = false;
+		hasFinishedPreviousLevel = false;
+		lastLevelID = 0;
+		lastLevelPercentage = 0;
+		levelPercentageGoal = 1.f;
+		levelCreatorName = "";
+		skipsUsed = 0;
+		numLevels = 0;
 	}
 };
 

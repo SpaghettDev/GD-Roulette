@@ -78,8 +78,10 @@ namespace LevelInfoLayer
 					);
 
 					reinterpret_cast<CCLabelBMFont*>(
-						rouletteLayer->m_pButtonMenu->getChildByTag(117)
+						rouletteLayer->m_pPlayingMenu->getChildByTag(20)
 					)->setString(CCString::createWithFormat("%d%%", RouletteManager.lastLevelPercentage)->getCString());
+
+					self->m_pLevel->userName = RouletteManager.levelCreatorName;
 				}
 			}
 		}

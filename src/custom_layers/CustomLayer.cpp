@@ -17,10 +17,10 @@ bool CustomLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, flo
 	this->addChild(m_pLayer);
 
 	CCSize winSize = director->getWinSize();
-	extension::CCScale9Sprite* bg = extension::CCScale9Sprite::create("GJ_square01.png", { .0f, .0f, 80.0f, 80.0f });
+	extension::CCScale9Sprite* bg = extension::CCScale9Sprite::create("GJ_square01.png", { .0f, .0f, 80.f, 80.f });
 	bg->setContentSize(alertSize);
-	m_pLayer->addChild(bg, -1);
 	bg->setPosition({ winSize.width / 2, winSize.height / 2 });
+	m_pLayer->addChild(bg, -1);
 
 	m_pButtonMenu = CCMenu::create();
 	m_pLayer->addChild(m_pButtonMenu, 10);
