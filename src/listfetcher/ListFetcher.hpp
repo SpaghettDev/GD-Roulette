@@ -1,13 +1,12 @@
 #pragma once
 #include "../pch.hpp"
 #include <nlohmann/json.hpp>
-#define CURL_STATICLIB
-#include <curl/curl.h>
 #include "CurlResponse.hpp"
 
 class ListFetcher
 {
 private:
+	// TODO: update
 	inline static std::array<int, 10> m_normalListMaxPage{
 		67, 160, 958, 1194, 490,
 		171, 186, 178, 88, 72

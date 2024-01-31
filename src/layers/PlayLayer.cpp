@@ -1,91 +1,95 @@
-#include "PlayLayer.hpp"
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 
-class PlayLayerPause : public CCLayer
-{
-public:
-	inline static CCAction* pauseGameAction = nullptr;
+#include <Geode/Geode.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 
-	void pause()
-	{
-		gd::GameManager::sharedState()->getPlayLayer()->pauseGame(false);
-
-		CCDirector::sharedDirector()->getRunningScene()->stopAction(pauseGameAction);
-	}
-};
+using namespace geode::prelude;
 
 float previousPosition = .0f, delta = -1.f;
 
-bool __fastcall PlayLayer::initHook(gd::PlayLayer* self, void*, gd::GJGameLevel* level)
+class $modify(PlayLayerPause, PlayLayer)
 {
-	delta = .0f;
-	previousPosition = .0f;
+	CCAction* pauseGameAction = nullptr;
 
-	return init(self, level);
-}
+	void pause()
+	{
+		GameManager::sharedState()->getPlayLayer()->pauseGame(false);
 
-void __fastcall PlayLayer::updateHook(gd::PlayLayer* self, void*, float dt)
-{
-	if (self->m_pPlayer1->getPositionX() != previousPosition)
-		delta += dt;
-
-	previousPosition = self->m_pPlayer1->getPositionX();
-
-	update(self, dt);
-}
-
-void __fastcall PlayLayer::resetLevelHook(gd::PlayLayer* self, void*)
-{
-	delta = .0f;
-	previousPosition = .0f;
-
-	resetLevel(self);
-}
-
-void __fastcall PlayLayer::destroyPlayerHook(gd::PlayLayer* self, void*, gd::PlayerObject* player, gd::GameObject* obj)
-{
-	if (
-		const float percentage = (player->getPositionX() / self->m_levelLength) * 100.f;
-		RouletteManager.isPlayingRoulette &&
-		self->m_level->levelID == RouletteManager.lastLevelID &&
-		!self->m_isPracticeMode &&
-		percentage >= RouletteManager.levelPercentageGoal
-		) {
-		if (delta > .2f && !self->m_isDead)
-		{
-			RouletteManager.hasFinishedPreviousLevel = true;
-			RouletteManager.lastLevelPercentage = percentage;
-			RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1.f;
-			RouletteManager.numLevels++;
-			
-			const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
-			PlayLayerPause::pauseGameAction = runningScene->runAction(
-				CCSequence::create(
-					CCDelayTime::create(1.f), CCCallFunc::create(runningScene, callfunc_selector(PlayLayerPause::pause)), nullptr
-				)
-			);
-		}
+		CCDirector::sharedDirector()->getRunningScene()->stopAction(m_fields->pauseGameAction);
 	}
 
-	destroyPlayer(self, player, obj);
-}
+	bool init(GJGameLevel* level, bool p1, bool p2)
+	{
+		delta = .0f;
+		previousPosition = .0f;
 
-gd::GameSoundManager* __fastcall PlayLayer::levelCompleteHook(gd::PlayLayer* self)
-{
-	if (
-		RouletteManager.isPlayingRoulette &&
-		self->m_level->levelID == RouletteManager.lastLevelID &&
-		!self->m_isPracticeMode
-		) {
-		if (delta > .2f && !self->m_isDead)
-		{
-			RouletteManager.hasFinishedPreviousLevel = true;
-			RouletteManager.lastLevelPercentage = 100;
-			RouletteManager.levelPercentageGoal++;
-			RouletteManager.numLevels++;
-		}
+		return PlayLayer::init(level, p1, p2);
 	}
 
-	return levelComplete(self);
-}
+	void update(float dt)
+	{
+		if (this->m_player1->getPositionX() != previousPosition)
+			delta += dt;
+
+		previousPosition = this->m_player1->getPositionX();
+
+		PlayLayer::update(dt);
+	}
+
+	void resetLevel()
+	{
+		delta = .0f;
+		previousPosition = .0f;
+
+		PlayLayer::resetLevel();
+	}
+
+	void destroyPlayer(PlayerObject* player, GameObject* obj)
+	{
+		if (
+			const float percentage = (player->getPositionX() / this->m_level->m_levelLength) * 100.f;
+			RouletteManager.isPlayingRoulette &&
+			this->m_level->m_levelID == RouletteManager.lastLevelID &&
+			!this->m_isPracticeMode &&
+			percentage >= RouletteManager.levelPercentageGoal
+			) {
+			if (delta > .2f && !this->m_player1->m_isDead)
+			{
+				RouletteManager.hasFinishedPreviousLevel = true;
+				RouletteManager.lastLevelPercentage = percentage;
+				RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1.f;
+				RouletteManager.numLevels++;
+				
+				const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
+				m_fields->pauseGameAction = runningScene->runAction(
+					CCSequence::create(
+						CCDelayTime::create(1.f), CCCallFunc::create(runningScene, callfunc_selector(PlayLayerPause::pause)), nullptr
+					)
+				);
+			}
+		}
+
+		PlayLayer::destroyPlayer(player, obj);
+	}
+
+	// TODO: correct bindings (GameSoundManager*)
+	void levelComplete()
+	{
+		if (
+			RouletteManager.isPlayingRoulette &&
+			this->m_level->m_levelID == RouletteManager.lastLevelID &&
+			!this->m_isPracticeMode
+			) {
+			if (delta > .2f && !this->m_player1->m_isDead)
+			{
+				RouletteManager.hasFinishedPreviousLevel = true;
+				RouletteManager.lastLevelPercentage = 100;
+				RouletteManager.levelPercentageGoal++;
+				RouletteManager.numLevels++;
+			}
+		}
+
+		PlayLayer::levelComplete();
+	}
+};

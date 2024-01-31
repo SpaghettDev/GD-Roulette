@@ -1,9 +1,12 @@
 #pragma once
 #include "../../pch.hpp"
-#include "../../custom_layers/CustomLayer.hpp"
+#include "../../custom_layers/base/BaseCustomLayer.hpp"
 #include "../../custom_layers/IntegerInputLayer.hpp"
+#include <Geode/Bindings.hpp>
 
-class RouletteInfoLayer : public CustomLayer
+using namespace geode::prelude;
+
+class RouletteInfoLayer : public BaseCustomLayer
 {
 private:
 	IntegerInputLayer* m_integer_input_layer{};
@@ -17,7 +20,7 @@ public:
 	void onNumSkipsButton(CCObject*);
 
 private:
-	gd::CCMenuItemToggler* createToggler(int, const char*, CCPoint, bool = true);
+	CCMenuItemToggler* createToggler(int, const char*, CCPoint, bool = true);
 
 	void destroyLayerChildren();
 };

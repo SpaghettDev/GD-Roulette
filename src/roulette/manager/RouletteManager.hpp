@@ -1,5 +1,4 @@
 #pragma once
-#include "../../pch.hpp"
 #include <atomic>
 #include <array>
 #include "../../json_manager/WriteInvokingType.hpp"
@@ -18,7 +17,7 @@ public:
 
 	inline static std::array<bool, 6> difficultyArr{};
 	inline static std::array<bool, 5> demonDifficultyArr{};
-	inline static WriteInvoking<std::array<bool, 3>> selectedListArr;
+	inline static std::array<bool, 3> selectedListArr;
 
 	inline static int lastLevelID = 0;
 	inline static int lastLevelPercentage = 0;
@@ -26,7 +25,7 @@ public:
 	inline static std::string levelCreatorName = "";
 
 	inline static int skipsUsed = 0;
-	inline static WriteInvoking<int> maxSkips;
+	inline static int maxSkips;
 
 	inline static int numLevels = 0;
 

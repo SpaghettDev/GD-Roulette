@@ -1,10 +1,14 @@
 #pragma once
 #include "../../pch.hpp"
 #include "../../listfetcher/ListFetcher.hpp"
-#include "../../custom_layers/CustomLayer.hpp"
+#include "../../custom_layers/base/BaseCustomLayer.hpp"
 #include "../../custom_layers/ConfirmationLayer.hpp"
 
-class RouletteLayer : public CustomLayer
+#include <Geode/Bindings.hpp>
+
+using namespace geode::prelude;
+
+class RouletteLayer : public BaseCustomLayer
 {
 private:
 	inline static bool m_plus_button_state = false;
@@ -21,7 +25,7 @@ private:
 		{ "Extreme Demon", 11 }
 	};
 
-	gd::LoadingCircle* m_loading_circle{};
+	LoadingCircle* m_loading_circle{};
 	ConfirmationAlertLayer* m_confirmation_layer{};
 
 	static nlohmann::json m_level;
@@ -59,5 +63,5 @@ public:
 
 private:
 	void getRandomListLevel(int, nlohmann::json&, curlResponse&);
-	gd::CCMenuItemSpriteExtra* createDifficultyButton(int, CCNode*, CCPoint, float, bool = false, bool = true);
+	CCMenuItemSpriteExtra* createDifficultyButton(int, CCNode*, CCPoint, float, bool = false, bool = true);
 };

@@ -21,13 +21,13 @@ bool ConfirmationAlertLayer::init()
 
 	if (!this->createBasics({ 250.f, 150.f }, menu_selector(ConfirmationAlertLayer::onClose), 1.f, { 0, 0, 0, 150 })) return false;
 
-	{ // modify CustomLayer
+	{ // modify BaseCustomLayer
 		closeBtn->setVisible(false);
 
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
 		auto bg = reinterpret_cast<cocos2d::extension::CCScale9Sprite*>(
-			m_pLayer->getChildren()->objectAtIndex(0)
+			m_mainLayer->getChildren()->objectAtIndex(0)
 		);
 		auto bgContentSize = bg->getContentSize();
 		auto bgPosition = bg->getPosition();
@@ -36,7 +36,7 @@ bool ConfirmationAlertLayer::init()
 		auto newBg = cocos2d::extension::CCScale9Sprite::create("square01_001.png", { .0f, .0f, 94.f, 94.f });
 		newBg->setContentSize(bgContentSize);
 		newBg->setPosition(bgPosition);
-		m_pLayer->addChild(newBg);
+		m_mainLayer->addChild(newBg);
 	}
 
 	auto titleText = CCLabelBMFont::create(
@@ -45,26 +45,26 @@ bool ConfirmationAlertLayer::init()
 	titleText->setPosition({ .0f, 48.f });
 	titleText->setScale(.9f);
 	titleText->setTag(1);
-	m_pButtonMenu->addChild(titleText);
+	m_buttonMenu->addChild(titleText);
 
-	auto textText = gd::TextArea::create("chatFont.fnt", false, m_cli.text.data(), 1.f, 190.f, 20.f, {.5f, .5f});
+	auto textText = TextArea::create(m_cli.text.data(), "chatFont.fnt", 1.f, 190.f, { .5f, .5f }, 20.f, false);
 	textText->setPosition({ .0f, 4.f });
 	textText->setTag(2);
-	m_pButtonMenu->addChild(textText);
+	m_buttonMenu->addChild(textText);
 
 
-	auto yesBtn = gd::CCMenuItemSpriteExtra::create(
-		gd::ButtonSprite::create(m_cli.yesText.data(), 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
+	auto yesBtn = CCMenuItemSpriteExtra::create(
+		ButtonSprite::create(m_cli.yesText.data(), 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
 		this,
 		menu_selector(ConfirmationAlertLayer::onYesButton)
 	);
 	yesBtn->setPosition({ m_cli.onNo == nullptr ? .0f : -40.f, -44.f });
 	yesBtn->setScale(.9f);
 	yesBtn->setTag(3);
-	m_pButtonMenu->addChild(yesBtn);
+	m_buttonMenu->addChild(yesBtn);
 
-	auto noBtn = gd::CCMenuItemSpriteExtra::create(
-		gd::ButtonSprite::create(m_cli.noText.data(), 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
+	auto noBtn = CCMenuItemSpriteExtra::create(
+		ButtonSprite::create(m_cli.noText.data(), 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
 		this,
 		menu_selector(ConfirmationAlertLayer::onNoButton)
 	);
@@ -72,7 +72,7 @@ bool ConfirmationAlertLayer::init()
 	noBtn->setScale(.9f);
 	noBtn->setVisible(m_cli.onNo != nullptr);
 	noBtn->setTag(4);
-	m_pButtonMenu->addChild(noBtn);
+	m_buttonMenu->addChild(noBtn);
 
 
 	return true;

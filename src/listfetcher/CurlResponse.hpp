@@ -1,5 +1,6 @@
 #pragma once
 #include "../pch.hpp"
+#include <string>
 
 struct curlResponse
 {

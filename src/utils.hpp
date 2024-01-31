@@ -1,35 +1,80 @@
 #pragma once
 #include "pch.hpp"
-#include "json_manager/WriteInvokingType.hpp"
+#include <string>
+#include <random>
+#include "custom_layers/base/BaseCustomLayer.hpp"
 
-namespace utils
+namespace roulette::utils
 {
-	int randomInt(int, int);
-	void setClipboardText(std::string);
-	bool isProcessLoaded(std::string, DWORD);
+	inline int randomInt(int min, int max)
+	{
+		std::random_device device;
+		std::mt19937 generator(device());
+		std::uniform_int_distribution<int> distribution(min, max);
+
+		return distribution(generator);
+	}
+
+	inline void setClipboardText(std::string text)
+	{
+		if (OpenClipboard(0))
+		{
+			HGLOBAL clipbuffer;
+			char* buffer;
+			EmptyClipboard();
+
+			clipbuffer = GlobalAlloc(GMEM_DDESHARE, text.size() + 1);
+			if (clipbuffer)
+			{
+				buffer = static_cast<char*>(GlobalLock(clipbuffer));
+				if (buffer)
+				{
+					strcpy(buffer, text.c_str());
+					GlobalUnlock(clipbuffer);
+					SetClipboardData(CF_TEXT, clipbuffer);
+				}
+			}
+
+			CloseClipboard();
+		}
+	}
 
 	template<typename T, std::size_t S>
-	std::ptrdiff_t getIndexOf(const std::array<T, S>& arr, T to_find)
+	inline std::ptrdiff_t getIndexOf(const std::array<T, S>& arr, T to_find)
 	{
 		auto it = std::find(arr.cbegin(), arr.cend(), to_find);
 
 		return it != arr.cend() ? (it - arr.cbegin()) : -1;
 	}
 
-	template<typename T, std::size_t S>
-	std::ptrdiff_t getIndexOf(const std::array<WriteInvoking<T>, S>& arr, T to_find)
+	inline CCLabelBMFont* createTextLabel(const std::string& text, const CCPoint& position, const float scale, CCNode* menu, const char* font = "bigFont.fnt")
 	{
-		auto it = std::find_if(arr.cbegin(), arr.cend(), [&](WriteInvoking<T> wit)
-		{
-			return wit == to_find;
-		});
+		CCLabelBMFont* bmFont = CCLabelBMFont::create(text.c_str(), font);
+		bmFont->setPosition(position);
+		bmFont->setScale(scale);
+		menu->addChild(bmFont);
 
-		return it != arr.cend() ? (it - arr.cbegin()) : -1;
+		return bmFont;
 	}
 
-	CCLabelBMFont* createTextLabel(const std::string, const CCPoint&, const float, CCNode*, const char* = "bigFont.fnt");
+	inline CCMenuItemSpriteExtra* createButton(BaseCustomLayer* self, const char* texture, CCPoint position, SEL_MenuHandler callback, int tag = -1, float textureScale = 1.f, float sizeMult = 1.2f)
+	{
+		auto buttonSprite = CCSprite::createWithSpriteFrameName(texture);
+		buttonSprite->setScale(textureScale);
+		auto button = CCMenuItemSpriteExtra::create(
+			buttonSprite,
+			self,
+			callback
+		);
+		button->setPosition(position);
+		button->setSizeMult(sizeMult);
+		if (tag != -1)
+			button->setTag(tag);
+		self->addChild(button);
 
-	
+		return button;
+	}
+
 	namespace vars
 	{
 		inline std::array<const char*, CURLcode::CURL_LAST + 1> curlCodeToString{

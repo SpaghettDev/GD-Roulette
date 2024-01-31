@@ -1,0 +1,15 @@
+{
+	"geode": "2.0.0-beta.12",
+	"gd": "2.204",
+	"version": "v1.4.0-alpha",
+	"id": "spaghettdev.gd-roulette",
+	"name": "GD-Roulette",
+	"developer": "SpaghettDev",
+	"description": "An in-game level roulette.",
+	"repository": "https://github.com/SpaghettDev/GD-Roulette",
+	"resources": {
+		"sprites": [
+			"resources/*.png"
+		]
+	}
+}

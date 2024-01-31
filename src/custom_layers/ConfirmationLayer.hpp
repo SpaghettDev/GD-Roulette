@@ -1,6 +1,6 @@
 #pragma once
 #include "../pch.hpp"
-#include "CustomLayer.hpp"
+#include "base/BaseCustomLayer.hpp"
 
 class ConfirmationAlertLayer;
 
@@ -25,7 +25,7 @@ struct ConfirmationAlertInfo
 };
 
 
-class ConfirmationAlertLayer : public CustomLayer
+class ConfirmationAlertLayer : public BaseCustomLayer
 {
 public:
 	static ConfirmationAlertLayer* create();

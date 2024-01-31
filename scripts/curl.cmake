@@ -11,7 +11,6 @@ set(SSL_ENABLED ${CMAKE_USE_OPENSSL} CACHE INTERNAL "" FORCE)
 FetchContent_Declare(
     curl
     GIT_REPOSITORY https://github.com/curl/curl.git
-    GIT_TAG        curl-8_0_1
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 message("Fetching curl")

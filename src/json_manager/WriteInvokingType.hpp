@@ -1,5 +1,5 @@
 #pragma once
-#include "../pch.hpp"
+
 #include "JsonManager.hpp"
 
 // this class just writes the savedata after each assignment

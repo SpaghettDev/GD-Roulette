@@ -4,6 +4,11 @@
 #include "../manager/RouletteManager.hpp"
 #include "../../custom_layers/IntegerInputLayer.hpp"
 #include "../../json_manager/JsonManager.hpp"
+#include "../../common.hpp"
+
+#include <Geode/Bindings.hpp>
+
+using namespace geode::prelude;
 
 RouletteInfoLayer* RouletteInfoLayer::create()
 {
@@ -29,22 +34,22 @@ bool RouletteInfoLayer::init()
 	infoBg->setAnchorPoint({ .5f, 1.f });
 	infoBg->setColor({ 123, 60, 31 });
 	infoBg->setPosition({ .0f, 85.f });
-	m_pButtonMenu->addChild(infoBg, -1);
+	m_buttonMenu->addChild(infoBg, -1);
 
 
 	auto infoTitle = CCLabelBMFont::create("GD Level Roulette Info", "goldFont.fnt");
 	infoTitle->setPosition({ .0f, 102.f });
 	infoTitle->setScale(.725f);
-	m_pButtonMenu->addChild(infoTitle);
+	m_buttonMenu->addChild(infoTitle);
 
-	auto infoText = gd::TextArea::create(
-		"chatFont.fnt", false,
+	auto infoText = TextArea::create(
+		"chatFont.fnt",
 		"Welcome to the <cl>GD Level Roulette settings</c>!\n"
 		"Here you can modify some <cy>settings</c> to your liking.",
-		.85f, 290.f, 20.f, { .5f, .5f }
+		.85f, 290.f, { .5f, .5f }, 20.f, false
 	);
 	infoText->setPosition({ 27.f, 61.f });
-	m_pButtonMenu->addChild(infoText);
+	m_buttonMenu->addChild(infoText);
 
 
 	createToggler(0, "Normal List", { -120.f, 15.f });
@@ -55,7 +60,7 @@ bool RouletteInfoLayer::init()
 	auto skipsButtonText = CCLabelBMFont::create("Number of Skips", "bigFont.fnt");
 	skipsButtonText->setPosition({ 85.f, 16.f });
 	skipsButtonText->setScale(.525f);
-	auto skipsButton = gd::CCMenuItemSpriteExtra::create(
+	auto skipsButton = CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("GJ_longBtn03_001.png"),
 		this,
 		menu_selector(RouletteInfoLayer::onNumSkipsButton)
@@ -63,7 +68,7 @@ bool RouletteInfoLayer::init()
 	skipsButton->setPosition({ .0f, -65.f });
 	skipsButton->addChild(skipsButtonText);
 	skipsButton->setTag(3);
-	m_pButtonMenu->addChild(skipsButton);
+	m_buttonMenu->addChild(skipsButton);
 
 
 	auto versionText = CCLabelBMFont::create(
@@ -76,7 +81,7 @@ bool RouletteInfoLayer::init()
 	);
 	versionText->setPosition({ .0f, -94.f });
 	versionText->setScale(.5f);
-	m_pButtonMenu->addChild(versionText);
+	m_buttonMenu->addChild(versionText);
 
 
 	return true;
@@ -103,9 +108,9 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 {
 	sender->retain();
 
-	auto button = reinterpret_cast<gd::CCMenuItemToggler*>(sender);
+	auto button = reinterpret_cast<CCMenuItemToggler*>(sender);
 	auto parent = reinterpret_cast<CCMenu*>(button->getParent());
-	auto ind = utils::getIndexOf(RouletteManager.selectedListArr, true);
+	auto ind = roulette::utils::getIndexOf(RouletteManager.selectedListArr, true);
 
 	RouletteManager.selectedListArr.at(ind) = false;
 	RouletteManager.selectedListArr.at(button->getTag()) = true;
@@ -130,27 +135,29 @@ void RouletteInfoLayer::onNumSkipsButton(CCObject*)
 }
 
 
-gd::CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelText, CCPoint point, bool visible)
+CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelText, CCPoint point, bool visible)
 {
 	auto buttonSpriteOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
 	auto buttonSpriteOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
 	buttonSpriteOn->setScale(.8f);
 	buttonSpriteOff->setScale(.8f);
 
-	auto button = gd::CCMenuItemToggler::create(
+	auto button = CCMenuItemToggler::create(
 		buttonSpriteOff,
 		buttonSpriteOn,
 		this,
 		menu_selector(RouletteInfoLayer::onToggleButton)
 	);
 	button->setPosition(point);
-	button->setSizeMult(1.2f);
+	// button->setSizeMult(1.2f);
 	button->setTag(tag);
 	button->setVisible(visible);
 	button->toggle(RouletteManager.selectedListArr.at(tag));
-	m_pButtonMenu->addChild(button);
+	m_buttonMenu->addChild(button);
 
-	auto label = utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_pButtonMenu);
+	auto label = roulette::utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_buttonMenu);
 	label->setAnchorPoint({ .0f, .5f });
 	label->limitLabelWidth(80.f, .5f, 0);
+
+	return button;
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "../pch.hpp"
-#include "CustomLayer.hpp"
+#include "base/BaseCustomLayer.hpp"
 
 class IntegerInputLayer;
 
@@ -26,7 +26,7 @@ struct IntegerInputInfo
 	}
 };
 
-class IntegerInputLayer : public CustomLayer
+class IntegerInputLayer : public BaseCustomLayer
 {
 public:
 	static IntegerInputLayer* create();

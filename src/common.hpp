@@ -3,11 +3,7 @@
 
 namespace common
 {
-	inline HMODULE hmodule;
-	inline HANDLE mainThread;
-	inline DWORD threadID;
-
-	inline std::string_view version = "1.3.0";
+	inline std::string_view version = "1.4.0";
 }
 
 #endif //COMMON_H

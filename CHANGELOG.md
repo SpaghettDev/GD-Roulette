@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.0-alpha] - 2024-01-31
+
+This release is very unstable and doesn't get past the "Start" button.
+
+### Added
+
+- 2.2 support
+- Geode support
+
 ## [1.3.0] - 2023-12-17
 
 Last update before 2.2. I might update this to 2.2 if I have enough free time.

@@ -1,7 +1,7 @@
 #include <random>
+#include <fstream>
 #include "ListFetcher.hpp"
 #include "../utils.hpp"
-#include <fstream>
 
 std::size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, std::string* s)
 {
@@ -20,14 +20,14 @@ std::size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, std::st
 
 void ListFetcher::init()
 {
-	static bool firstLaunch = true;
+	static bool init = true;
 	isFetching = false;
 
-	if (firstLaunch)
+	if (init)
 	{
 		curl_global_init(CURL_GLOBAL_ALL);
 
-		firstLaunch = false;
+		init = false;
 	}
 }
 
@@ -94,7 +94,7 @@ void ListFetcher::getRandomNormalListLevel(int stars, nlohmann::json& json, curl
 		<< "https://gdbrowser.com/api/search/*"
 		<< "?diff=" << stars
 		<< "&starred"
-		<< "&page=" << utils::randomInt(1, m_normalListMaxPage[stars - 1]);
+		<< "&page=" << roulette::utils::randomInt(1, m_normalListMaxPage[stars - 1]);
 
 	curlResponse response = fetchLink(link.str());
 
@@ -115,7 +115,7 @@ void ListFetcher::getRandomNormalListLevel(int stars, nlohmann::json& json, curl
 	}
 
 	if (response.responseCode == CURLcode::CURLE_OK)
-		json = responseJson[utils::randomInt(0, responseJson.size() - 1)];
+		json = responseJson[roulette::utils::randomInt(0, responseJson.size() - 1)];
 	else
 		json = {};
 
@@ -140,7 +140,7 @@ void ListFetcher::getRandomDemonListLevel(nlohmann::json& json, curlResponse& cf
 
 	int randomIndex;
 	do {
-		randomIndex = utils::randomInt(0, response.jsonResponse.size() - 1);
+		randomIndex = roulette::utils::randomInt(0, response.jsonResponse.size() - 1);
 	} while (response.jsonResponse[randomIndex]["level_id"].is_null());
 
 	int levelId = response.jsonResponse[randomIndex]["level_id"].get<int>();
@@ -166,7 +166,7 @@ void ListFetcher::getRandomChallengeListLevel(nlohmann::json& json, curlResponse
 
 	int randomIndex;
 	do {
-		randomIndex = utils::randomInt(0, response.jsonResponse.size() - 1);
+		randomIndex = roulette::utils::randomInt(0, response.jsonResponse.size() - 1);
 	} while (response.jsonResponse[randomIndex]["level_id"].is_null());
 
 	int levelId = response.jsonResponse[randomIndex]["level_id"].get<int>();

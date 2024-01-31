@@ -29,13 +29,13 @@ bool IntegerInputLayer::init()
 	infoBg->setAnchorPoint({ .5f, 1.f });
 	infoBg->setColor({ 123, 60, 31 });
 	infoBg->setPosition({ .0f, 37.f });
-	m_pButtonMenu->addChild(infoBg, -1);
+	m_buttonMenu->addChild(infoBg, -1);
 
 
 	auto infoTitle = CCLabelBMFont::create(m_iili.title.data(), "goldFont.fnt");
 	infoTitle->setPosition({ .0f, 52.f });
 	infoTitle->setScale(.575f);
-	m_pButtonMenu->addChild(infoTitle);
+	m_buttonMenu->addChild(infoTitle);
 
 
 	auto maxSkipsBg = cocos2d::extension::CCScale9Sprite::create("square02b_small.png");
@@ -44,25 +44,25 @@ bool IntegerInputLayer::init()
 	maxSkipsBg->setAnchorPoint({ .0f, .0f });
 	maxSkipsBg->setColor({ 0, 0, 0 });
 	maxSkipsBg->setOpacity(125);
-	m_pButtonMenu->addChild(maxSkipsBg, -1);
+	m_buttonMenu->addChild(maxSkipsBg, -1);
 
-	auto leftButton = gd::CCMenuItemSpriteExtra::create(
+	auto leftButton = CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("edit_leftBtn_001.png"),
 		this,
 		menu_selector(IntegerInputLayer::onLeftButton)
 	);
 	leftButton->setPosition({ -42.f, 10.f });
-	m_pButtonMenu->addChild(leftButton);
+	m_buttonMenu->addChild(leftButton);
 
-	auto rightButton = gd::CCMenuItemSpriteExtra::create(
+	auto rightButton = CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("edit_rightBtn_001.png"),
 		this,
 		menu_selector(IntegerInputLayer::onRightButton)
 	);
 	rightButton->setPosition({ 42.f, 10.f });
-	m_pButtonMenu->addChild(rightButton);
+	m_buttonMenu->addChild(rightButton);
 
-	auto skipsInput = gd::CCTextInputNode::create(m_iili.input_text.data(), this, "bigFont.fnt", 100, 30);
+	auto skipsInput = CCTextInputNode::create(100, 30, m_iili.input_text.data(), "bigFont.fnt");
 	skipsInput->setLabelPlaceholderColor({ 0x75, 0xAA, 0xF0 });
 	skipsInput->setString(CCString::createWithFormat("%d", m_iili.starting_value)->getCString());
 	skipsInput->setAllowedChars("0123456789");
@@ -70,17 +70,17 @@ bool IntegerInputLayer::init()
 	skipsInput->setMaxLabelLength(5);
 	skipsInput->setPosition({ .0f, 10.f });
 	skipsInput->setTag(1);
-	m_pButtonMenu->addChild(skipsInput);
+	m_buttonMenu->addChild(skipsInput);
 
 
-	auto okBtn = gd::CCMenuItemSpriteExtra::create(
-		gd::ButtonSprite::create("confirm", 0, false, "goldFont.fnt", "GJ_button_01.png", 0, .85f),
+	auto okBtn = CCMenuItemSpriteExtra::create(
+		ButtonSprite::create("confirm", 0, false, "goldFont.fnt", "GJ_button_01.png", 0, .85f),
 		this,
 		menu_selector(IntegerInputLayer::onClose)
 	);
 	okBtn->setPosition({ .0f, -37.f });
 	okBtn->setScale(.925f);
-	m_pButtonMenu->addChild(okBtn);
+	m_buttonMenu->addChild(okBtn);
 
 
 	return true;
@@ -91,7 +91,7 @@ void IntegerInputLayer::onClose(CCObject*)
 	try
 	{
 		m_integer = std::stoi(
-			reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1))->getString()
+			reinterpret_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1))->getString()
 		);
 
 	}
@@ -114,8 +114,8 @@ void IntegerInputLayer::keyDown(enumKeyCodes key)
 
 void IntegerInputLayer::onLeftButton(CCObject*)
 {
-	const auto inputNode = reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1));
-	
+	const auto inputNode = reinterpret_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
+
 	try
 	{
 		m_integer = std::stoi(inputNode->getString()) - 1;
@@ -134,7 +134,7 @@ void IntegerInputLayer::onLeftButton(CCObject*)
 
 void IntegerInputLayer::onRightButton(CCObject*)
 {
-	const auto inputNode = reinterpret_cast<gd::CCTextInputNode*>(m_pButtonMenu->getChildByTag(1));
+	const auto inputNode = reinterpret_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
 
 	try
 	{

@@ -1,24 +1,32 @@
-#include "PauseLayer.hpp"
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 #include "../roulette/layers/RouletteLayer.hpp"
 
-namespace PauseLayer
+#define DECLAREROULETTEMANAGER
+#include "../roulette/manager/RouletteManager.hpp"
+#include "../roulette/layers/RouletteLayer.hpp"
+
+#include <Geode/Geode.hpp>
+#include <Geode/modify/PauseLayer.hpp>
+
+using namespace geode::prelude;
+
+class $modify(PauseLayer)
 {
-	gd::PauseLayer* __fastcall createHook(bool p0, void*)
+	PauseLayer* create(bool p0)
 	{
-		auto self = create(p0);
+		auto self = PauseLayer::create(p0);
 
 		if (RouletteManager.isPlayingRoulette)
 		{
-			const gd::PlayLayer* playLayer = gd::GameManager::sharedState()->getPlayLayer();
+			const PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
 
 			CCNode* normalPercentageNode = nullptr;
 			float goalOffset = 24.f;
 
-			if (playLayer->m_level->normalPercent < 10)
+			if (playLayer->m_level->m_normalPercent < 10)
 				goalOffset = 28.f;
-			else if (playLayer->m_level->normalPercent <= 100)
+			else if (playLayer->m_level->m_normalPercent <= 100)
 				goalOffset = 40.f;
 
 			CCObject* pauseLayerObject;
@@ -28,7 +36,7 @@ namespace PauseLayer
 				if (
 					auto levelInfoLayerLabel = dynamic_cast<CCLabelBMFont*>(pauseLayerNode);
 					levelInfoLayerLabel &&
-					strcmp(levelInfoLayerLabel->getString(), CCString::createWithFormat("%d%%", playLayer->m_level->normalPercent)->getCString()) == 0
+					strcmp(levelInfoLayerLabel->getString(), CCString::createWithFormat("%d%%", playLayer->m_level->m_normalPercent)->getCString()) == 0
 					) {
 					normalPercentageNode = pauseLayerNode;
 					break;
@@ -50,4 +58,4 @@ namespace PauseLayer
 
 		return self;
 	}
-}
+};
