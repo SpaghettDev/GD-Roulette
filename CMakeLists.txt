@@ -35,11 +35,11 @@ setup_geode_mod(${PROJECT_NAME})
 include(scripts/git.cmake)
 
 message("Getting modules\n")
-include(scripts/json.cmake)
+include(scripts/nhjson.cmake)
 include(scripts/curl.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${json_SOURCE_DIR}/single_include
+    ${nhjson_SOURCE_DIR}/single_include
     ${curl_INCLUDE_DIRS}
 )
 

@@ -2,11 +2,12 @@ include(FetchContent)
 
 set(JSON_MultipleHeaders OFF)
 
+# deprecated, move to nlohmann-json releases
 FetchContent_Declare(
-    json
+    nhjson
     GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent.git
-    GIT_TAG        67e6070f9d9a44b4dec79ebe6b591f39d2285593
+    GIT_TAG        326308d7512d2168ae00199aec4dd0f714526e89
     GIT_PROGRESS TRUE
 )
 message("Fetching nlohmann-json")
-FetchContent_MakeAvailable(json)
+FetchContent_MakeAvailable(nhjson)
