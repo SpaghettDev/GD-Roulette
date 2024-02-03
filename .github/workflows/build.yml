@@ -14,8 +14,6 @@ jobs:
         config:
         - name: Windows
           os: windows-latest
-        - name: Android32
-          os: ubuntu-latest
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
