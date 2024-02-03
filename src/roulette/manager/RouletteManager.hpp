@@ -1,10 +1,16 @@
 #pragma once
 #include <atomic>
 #include <array>
-#include "../../json_manager/WriteInvokingType.hpp"
+
+#include <Geode/Geode.hpp>
+#include <matjson/stl_serialize.hpp>
+
+using namespace geode::prelude;
+
 
 struct RouletteManagerStruct
 {
+
 private:
 	inline static bool hasInitManager = false;
 
@@ -12,12 +18,9 @@ public:
 	inline static std::atomic_bool isPlayingRoulette = false;
 	inline static std::atomic_bool hasFinishedPreviousLevel = false;
 
-	inline static bool showOptionsSprite = true;
-	inline static bool rouletteResourcesFound = false;
-
-	inline static std::array<bool, 6> difficultyArr{};
-	inline static std::array<bool, 5> demonDifficultyArr{};
-	inline static std::array<bool, 3> selectedListArr;
+	inline static matjson::Value* difficultyArr; // 6
+	inline static matjson::Value* demonDifficultyArr; // 5
+	inline static matjson::Value* selectedListArr; // 3
 
 	inline static int lastLevelID = 0;
 	inline static int lastLevelPercentage = 0;
@@ -25,21 +28,27 @@ public:
 	inline static std::string levelCreatorName = "";
 
 	inline static int skipsUsed = 0;
-	inline static int maxSkips;
 
 	inline static int numLevels = 0;
 
-	inline static bool isJsonCorrupted = false;
 
 	RouletteManagerStruct()
 	{
 		if (!hasInitManager)
 		{
-			difficultyArr.fill(false);
-			demonDifficultyArr.fill(false);
+			if (!Mod::get()->hasSavedValue("difficulty-array"))
+				Mod::get()->setSavedValue<std::vector<bool>>("difficulty-array", { true, false, false, false, false, false });
+			difficultyArr = &(Mod::get()->getSaveContainer().as_object()["difficulty-array"]);
 
-			difficultyArr[0] = true;
-			demonDifficultyArr[0] = true;
+			log::debug("{}", Mod::get()->getSaveContainer().dump(0));
+
+			if (!Mod::get()->hasSavedValue("demon-difficulty-array"))
+				Mod::get()->setSavedValue<std::vector<bool>>("demon-difficulty-array", { true, false, false, false, false });
+			demonDifficultyArr = &(Mod::get()->getSaveContainer().as_object()["demon-difficulty-array"]);
+
+			if (!Mod::get()->hasSavedValue("selected-list-array"))
+				Mod::get()->setSavedValue<std::vector<bool>>("selected-list-array", { true, false, false });
+			selectedListArr = &(Mod::get()->getSaveContainer().as_object()["selected-list-array"]);
 
 			hasInitManager = true;
 		}
@@ -50,7 +59,7 @@ public:
 		isPlayingRoulette = false;
 		hasFinishedPreviousLevel = false;
 		lastLevelID = 0;
-		lastLevelPercentage = 0;
+		lastLevelPercentage = 0.f;
 		levelPercentageGoal = 1.f;
 		levelCreatorName = "";
 		skipsUsed = 0;
@@ -58,6 +67,7 @@ public:
 	}
 };
 
+// TODO: inline variables exist...
 #ifdef INITIALIZEROULETTEMANAGER
 extern RouletteManagerStruct RouletteManager{};
 #elif defined(DECLAREROULETTEMANAGER)

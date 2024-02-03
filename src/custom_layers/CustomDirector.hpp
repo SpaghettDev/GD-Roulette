@@ -1,6 +1,4 @@
 #pragma once
-#include "../pch.hpp"
-
 #include <Geode/Geode.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 
@@ -11,6 +9,6 @@ class CustomDirector : public CCDirector
 public:
 	CCScene* getPreviousScene()
 	{
-		return reinterpret_cast<CCScene*>(m_pobScenesStack->objectAtIndex(m_pobScenesStack->count() - 2));
+		return static_cast<CCScene*>(m_pobScenesStack->objectAtIndex(m_pobScenesStack->count() - 2));
 	}
 };

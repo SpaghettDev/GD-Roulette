@@ -8,14 +8,14 @@ bool BaseCustomLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose,
 	alertSize = contentSize;
 
 	CCDirector* director = CCDirector::sharedDirector();
-	// director->getTouchDispatcher()->incrementForcePrio(2);
 
 	setTouchEnabled(true);
 	setKeypadEnabled(true);
 
 	m_mainLayer = CCLayer::create();
-
 	this->addChild(m_mainLayer);
+
+	m_mainLayer->setTouchPriority(director->getTouchDispatcher()->getTargetPrio());
 
 	CCSize winSize = director->getWinSize();
 	extension::CCScale9Sprite* bg = extension::CCScale9Sprite::create("GJ_square01.png", { .0f, .0f, 80.f, 80.f });

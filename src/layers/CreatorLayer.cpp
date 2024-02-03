@@ -7,23 +7,18 @@
 
 using namespace geode::prelude;
 
-
-class RouletteButton final : public FLAlertLayer
+class $modify(RouletteButton, CreatorLayer)
 {
-public:
 	void onRouletteButton(CCObject*)
 	{
 		RouletteLayer::create()->show();
 	}
-};
 
-class $modify(CreatorLayer)
-{
 	bool init()
 	{
 		if (!CreatorLayer::init()) return false;
 
-		auto layer = reinterpret_cast<CCMenu*>(this->getChildren()->objectAtIndex(1));
+		auto layer = static_cast<CCMenu*>(this->getChildren()->objectAtIndex(1));
 		auto menu = CCMenu::create();
 		menu->setID("creator-layer-menu"_spr);
 		menu->setPosition({ .0f, .0f });
@@ -41,6 +36,7 @@ class $modify(CreatorLayer)
 		rouletteSprite->setPosition({ 22.25f, 23.75f });
 		rouletteButton->addChild(rouletteSprite);
 		rouletteButton->setPosition({ 25.f, 160.f });
+		rouletteButton->setScale(.9f);
 
 		menu->addChild(rouletteButton);
 

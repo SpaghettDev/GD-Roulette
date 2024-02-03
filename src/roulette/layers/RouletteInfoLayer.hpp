@@ -1,5 +1,4 @@
 #pragma once
-#include "../../pch.hpp"
 #include "../../custom_layers/base/BaseCustomLayer.hpp"
 #include "../../custom_layers/IntegerInputLayer.hpp"
 #include <Geode/Bindings.hpp>

@@ -13,15 +13,16 @@ using namespace geode::prelude;
 
 class $modify(PauseLayer)
 {
-	PauseLayer* create(bool p0)
+	// TODO: return type is actually void, push to bindings
+	void customSetup()
 	{
-		auto self = PauseLayer::create(p0);
+		PauseLayer::customSetup();
 
 		if (RouletteManager.isPlayingRoulette)
 		{
 			const PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
 
-			CCNode* normalPercentageNode = nullptr;
+			CCNode* normalPercentageLabel = nullptr;
 			float goalOffset = 24.f;
 
 			if (playLayer->m_level->m_normalPercent < 10)
@@ -29,33 +30,31 @@ class $modify(PauseLayer)
 			else if (playLayer->m_level->m_normalPercent <= 100)
 				goalOffset = 40.f;
 
+			// normal mode percentage is always first in the array
 			CCObject* pauseLayerObject;
-			CCARRAY_FOREACH(self->getChildren(), pauseLayerObject)
+			CCARRAY_FOREACH(this->getChildren(), pauseLayerObject)
 			{
-				auto pauseLayerNode = reinterpret_cast<CCNode*>(pauseLayerObject);
 				if (
-					auto levelInfoLayerLabel = dynamic_cast<CCLabelBMFont*>(pauseLayerNode);
+					auto levelInfoLayerLabel = typeinfo_cast<CCLabelBMFont*>(pauseLayerObject);
 					levelInfoLayerLabel &&
-					strcmp(levelInfoLayerLabel->getString(), CCString::createWithFormat("%d%%", playLayer->m_level->m_normalPercent)->getCString()) == 0
+					fmt::format("{}%", playLayer->m_level->m_normalPercent.value()) == levelInfoLayerLabel->getString()
 					) {
-					normalPercentageNode = pauseLayerNode;
+					normalPercentageLabel = levelInfoLayerLabel;
 					break;
 				}
 			};
 
-			if (normalPercentageNode == nullptr) return self;
+			if (normalPercentageLabel == nullptr) return;
 
 			auto goalPercentage = CCLabelBMFont::create(
-				CCString::createWithFormat("(%d%%)", static_cast<int>(RouletteManager.levelPercentageGoal))->getCString(),
+				fmt::format("({}%)", static_cast<int>(RouletteManager.levelPercentageGoal)).c_str(),
 				"bigFont.fnt"
 			);
-			goalPercentage->setPosition({ normalPercentageNode->getPositionX() + goalOffset, normalPercentageNode->getPositionY() });
+			goalPercentage->setPosition({ normalPercentageLabel->getPositionX() + goalOffset, normalPercentageLabel->getPositionY() });
 			goalPercentage->setScale(.5f);
 			goalPercentage->setColor({ 125, 125, 125 });
 			goalPercentage->setZOrder(4);
-			self->addChild(goalPercentage);
+			this->addChild(goalPercentage);
 		}
-
-		return self;
 	}
 };

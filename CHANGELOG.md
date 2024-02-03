@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.0-beta] - 2024-02-03
+
+### Changed
+
+- CURL for Geode's web::AsyncWebRequest
+- nlohmann::json for matjson
+- Move from CCString::createWithFormat to fmt::format
+- Move from JsonManager to Geode settings/save data
+
+### Fixed
+
+- Crashes
+
+
 ## [1.4.0-alpha] - 2024-01-31
 
 This release is very unstable and doesn't get past the "Start" button.

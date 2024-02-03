@@ -3,10 +3,10 @@
 #define DECLAREROULETTEMANAGER
 #include "../manager/RouletteManager.hpp"
 #include "../../custom_layers/IntegerInputLayer.hpp"
-#include "../../json_manager/JsonManager.hpp"
-#include "../../common.hpp"
 
+#include <matjson/stl_serialize.hpp>
 #include <Geode/Bindings.hpp>
+#include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
@@ -43,14 +43,13 @@ bool RouletteInfoLayer::init()
 	m_buttonMenu->addChild(infoTitle);
 
 	auto infoText = TextArea::create(
-		"chatFont.fnt",
 		"Welcome to the <cl>GD Level Roulette settings</c>!\n"
 		"Here you can modify some <cy>settings</c> to your liking.",
+		"chatFont.fnt",
 		.85f, 290.f, { .5f, .5f }, 20.f, false
 	);
 	infoText->setPosition({ 27.f, 61.f });
 	m_buttonMenu->addChild(infoText);
-
 
 	createToggler(0, "Normal List", { -120.f, 15.f });
 	createToggler(1, "Demon List", { 20.f, 15.f });
@@ -73,9 +72,9 @@ bool RouletteInfoLayer::init()
 
 	auto versionText = CCLabelBMFont::create(
 #ifdef DEV_CONSOLE
-		(std::string("Version ") + common::version.data() + " dev").c_str(),
+		("Version " + Mod::get()->getVersion().toString(true) + " dev").c_str(),
 #else
-		(std::string("Version ") + common::version.data()).c_str(),
+		("Version " + Mod::get()->getVersion().toString(true)).c_str(),
 #endif // DEV_CONSOLE
 		"bigFont.fnt"
 	);
@@ -91,7 +90,7 @@ void RouletteInfoLayer::destroyLayerChildren()
 {
 	for (unsigned int i = 0; i < this->getChildrenCount(); i++)
 	{
-		auto node = reinterpret_cast<CCNode*>(this->getChildren()->objectAtIndex(0));
+		auto node = static_cast<CCNode*>(this->getChildren()->objectAtIndex(0));
 		node->removeFromParentAndCleanup(true);
 	}
 
@@ -108,12 +107,12 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 {
 	sender->retain();
 
-	auto button = reinterpret_cast<CCMenuItemToggler*>(sender);
-	auto parent = reinterpret_cast<CCMenu*>(button->getParent());
-	auto ind = roulette::utils::getIndexOf(RouletteManager.selectedListArr, true);
+	auto button = static_cast<CCMenuItemToggler*>(sender);
+	auto parent = static_cast<CCMenu*>(button->getParent());
+	auto ind = roulette::utils::getIndexOf(RouletteManager.selectedListArr->as_array(), true);
 
-	RouletteManager.selectedListArr.at(ind) = false;
-	RouletteManager.selectedListArr.at(button->getTag()) = true;
+	RouletteManager.selectedListArr->as_array().at(ind) = false;
+	RouletteManager.selectedListArr->as_array().at(button->getTag()) = true;
 
 	destroyLayerChildren();
 	sender->release();
@@ -123,9 +122,9 @@ void RouletteInfoLayer::onNumSkipsButton(CCObject*)
 {
 	m_integer_input_layer->setup({
 		"Number Of Skips", "Skips",
-		0, 3, 99999, RouletteManager.maxSkips,
+		0, 3, 9999, static_cast<int>(Mod::get()->getSettingValue<int64_t>("max-skips")),
 		[&](auto iil) {
-			RouletteManager.maxSkips = iil->m_integer;
+			Mod::get()->setSettingValue<int64_t>("max-skips", iil->m_integer);
 		}
 	});
 
@@ -152,7 +151,7 @@ CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelTe
 	// button->setSizeMult(1.2f);
 	button->setTag(tag);
 	button->setVisible(visible);
-	button->toggle(RouletteManager.selectedListArr.at(tag));
+	button->toggle(RouletteManager.selectedListArr->as_array().at(tag).as<bool>());
 	m_buttonMenu->addChild(button);
 
 	auto label = roulette::utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_buttonMenu);

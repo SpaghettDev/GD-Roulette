@@ -1,7 +1,7 @@
 #pragma once
-#include "../pch.hpp"
-#include <nlohmann/json.hpp>
-#include "CurlResponse.hpp"
+#include <matjson.hpp>
+#include <array>
+#include <atomic>
 
 class ListFetcher
 {
@@ -13,17 +13,14 @@ private:
 	};
 	inline static int m_demonListMaxPage = 490;
 
-
-	static curlResponse fetchLink(std::string link);
-
 public:
 	std::atomic_bool isFetching;
 
 	void init();
 
-	void getRandomNormalListLevel(int, nlohmann::json&, curlResponse&);
-	void getRandomDemonListLevel(nlohmann::json&, curlResponse&);
-	void getRandomChallengeListLevel(nlohmann::json&, curlResponse&);
+	void getRandomNormalListLevel(int, matjson::Value&);
+	void getRandomDemonListLevel(matjson::Value&);
+	void getRandomChallengeListLevel(matjson::Value&);
 
-	void getLevelInfo(int, nlohmann::json&, curlResponse&);
+	void getLevelInfo(int, matjson::Value&);
 };

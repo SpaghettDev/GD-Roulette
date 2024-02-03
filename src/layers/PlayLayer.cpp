@@ -3,10 +3,24 @@
 
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/GJBaseGameLayer.hpp>
 
 using namespace geode::prelude;
 
 float previousPosition = .0f, delta = -1.f;
+
+class $modify(GJBaseGameLayer)
+{
+	void update(float dt)
+	{
+		if (this->m_player1->getPositionX() != previousPosition)
+			delta += dt;
+
+		previousPosition = this->m_player1->getPositionX();
+
+		GJBaseGameLayer::update(dt);
+	}
+};
 
 class $modify(PlayLayerPause, PlayLayer)
 {
@@ -27,16 +41,6 @@ class $modify(PlayLayerPause, PlayLayer)
 		return PlayLayer::init(level, p1, p2);
 	}
 
-	void update(float dt)
-	{
-		if (this->m_player1->getPositionX() != previousPosition)
-			delta += dt;
-
-		previousPosition = this->m_player1->getPositionX();
-
-		PlayLayer::update(dt);
-	}
-
 	void resetLevel()
 	{
 		delta = .0f;
@@ -48,7 +52,7 @@ class $modify(PlayLayerPause, PlayLayer)
 	void destroyPlayer(PlayerObject* player, GameObject* obj)
 	{
 		if (
-			const float percentage = (player->getPositionX() / this->m_level->m_levelLength) * 100.f;
+			const int percentage = this->getCurrentPercentInt();
 			RouletteManager.isPlayingRoulette &&
 			this->m_level->m_levelID == RouletteManager.lastLevelID &&
 			!this->m_isPracticeMode &&
@@ -60,7 +64,7 @@ class $modify(PlayLayerPause, PlayLayer)
 				RouletteManager.lastLevelPercentage = percentage;
 				RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1.f;
 				RouletteManager.numLevels++;
-				
+
 				const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
 				m_fields->pauseGameAction = runningScene->runAction(
 					CCSequence::create(
@@ -81,13 +85,10 @@ class $modify(PlayLayerPause, PlayLayer)
 			this->m_level->m_levelID == RouletteManager.lastLevelID &&
 			!this->m_isPracticeMode
 			) {
-			if (delta > .2f && !this->m_player1->m_isDead)
-			{
-				RouletteManager.hasFinishedPreviousLevel = true;
-				RouletteManager.lastLevelPercentage = 100;
-				RouletteManager.levelPercentageGoal++;
-				RouletteManager.numLevels++;
-			}
+			RouletteManager.hasFinishedPreviousLevel = true;
+			RouletteManager.lastLevelPercentage = 100;
+			RouletteManager.levelPercentageGoal = 100;
+			RouletteManager.numLevels++;
 		}
 
 		PlayLayer::levelComplete();

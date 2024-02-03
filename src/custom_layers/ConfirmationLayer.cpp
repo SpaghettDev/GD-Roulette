@@ -26,7 +26,7 @@ bool ConfirmationAlertLayer::init()
 
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-		auto bg = reinterpret_cast<cocos2d::extension::CCScale9Sprite*>(
+		auto bg = static_cast<cocos2d::extension::CCScale9Sprite*>(
 			m_mainLayer->getChildren()->objectAtIndex(0)
 		);
 		auto bgContentSize = bg->getContentSize();

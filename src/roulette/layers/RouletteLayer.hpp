@@ -1,5 +1,4 @@
 #pragma once
-#include "../../pch.hpp"
 #include "../../listfetcher/ListFetcher.hpp"
 #include "../../custom_layers/base/BaseCustomLayer.hpp"
 #include "../../custom_layers/ConfirmationLayer.hpp"
@@ -28,9 +27,8 @@ private:
 	LoadingCircle* m_loading_circle{};
 	ConfirmationAlertLayer* m_confirmation_layer{};
 
-	static nlohmann::json m_level;
+	static matjson::Value m_level;
 	static ListFetcher m_list_fetcher;
-	static curlResponse m_list_fetcher_response;
 
 public:
 	static RouletteLayer* create();
@@ -62,6 +60,6 @@ public:
 	CCMenu* m_pErrorMenu{};
 
 private:
-	void getRandomListLevel(int, nlohmann::json&, curlResponse&);
+	void getRandomListLevel(int, matjson::Value&);
 	CCMenuItemSpriteExtra* createDifficultyButton(int, CCNode*, CCPoint, float, bool = false, bool = true);
 };

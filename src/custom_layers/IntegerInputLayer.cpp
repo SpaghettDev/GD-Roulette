@@ -22,6 +22,7 @@ bool IntegerInputLayer::init()
 	if (!this->createBasics({ 175.f, 135.f }, menu_selector(IntegerInputLayer::onClose))) return false;
 
 	this->closeBtn->setVisible(false);
+	this->setTouchPriority(CCDirector::sharedDirector()->getTouchDispatcher()->getTargetPrio());
 
 
 	auto infoBg = cocos2d::extension::CCScale9Sprite::create("square02b_001.png", { .0f, .0f, 80.0f, 80.0f });
@@ -38,13 +39,13 @@ bool IntegerInputLayer::init()
 	m_buttonMenu->addChild(infoTitle);
 
 
-	auto maxSkipsBg = cocos2d::extension::CCScale9Sprite::create("square02b_small.png");
-	maxSkipsBg->setPosition({ -30.f, -5.f });
-	maxSkipsBg->setContentSize({ 60.f, 30.f });
-	maxSkipsBg->setAnchorPoint({ .0f, .0f });
-	maxSkipsBg->setColor({ 0, 0, 0 });
-	maxSkipsBg->setOpacity(125);
-	m_buttonMenu->addChild(maxSkipsBg, -1);
+	auto integerBg = cocos2d::extension::CCScale9Sprite::create("square02b_small.png");
+	integerBg->setPosition({ -30.f, -5.f });
+	integerBg->setContentSize({ 60.f, 30.f });
+	integerBg->setAnchorPoint({ .0f, .0f });
+	integerBg->setColor({ 0, 0, 0 });
+	integerBg->setOpacity(125);
+	m_buttonMenu->addChild(integerBg, -1);
 
 	auto leftButton = CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("edit_leftBtn_001.png"),
@@ -62,15 +63,15 @@ bool IntegerInputLayer::init()
 	rightButton->setPosition({ 42.f, 10.f });
 	m_buttonMenu->addChild(rightButton);
 
-	auto skipsInput = CCTextInputNode::create(100, 30, m_iili.input_text.data(), "bigFont.fnt");
-	skipsInput->setLabelPlaceholderColor({ 0x75, 0xAA, 0xF0 });
-	skipsInput->setString(CCString::createWithFormat("%d", m_iili.starting_value)->getCString());
-	skipsInput->setAllowedChars("0123456789");
-	skipsInput->setMaxLabelScale(.5f);
-	skipsInput->setMaxLabelLength(5);
-	skipsInput->setPosition({ .0f, 10.f });
-	skipsInput->setTag(1);
-	m_buttonMenu->addChild(skipsInput);
+	auto integerInput = CCTextInputNode::create(100, 30, m_iili.input_text.data(), "bigFont.fnt");
+	integerInput->setLabelPlaceholderColor({ 0x75, 0xAA, 0xF0 });
+	integerInput->setString(fmt::format("{}", m_iili.starting_value).c_str());
+	integerInput->setAllowedChars("0123456789");
+	integerInput->setMaxLabelScale(.5f);
+	integerInput->setMaxLabelLength(5);
+	integerInput->setPosition({ .0f, 10.f });
+	integerInput->setTag(1);
+	m_buttonMenu->addChild(integerInput);
 
 
 	auto okBtn = CCMenuItemSpriteExtra::create(
@@ -91,7 +92,7 @@ void IntegerInputLayer::onClose(CCObject*)
 	try
 	{
 		m_integer = std::stoi(
-			reinterpret_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1))->getString()
+			static_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1))->getString()
 		);
 
 	}
@@ -114,7 +115,7 @@ void IntegerInputLayer::keyDown(enumKeyCodes key)
 
 void IntegerInputLayer::onLeftButton(CCObject*)
 {
-	const auto inputNode = reinterpret_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
+	const auto inputNode = static_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
 
 	try
 	{
@@ -127,14 +128,14 @@ void IntegerInputLayer::onLeftButton(CCObject*)
 
 	// manually sanitizing input because of mod menus
 	if (m_integer > m_iili.min_value)
-		inputNode->setString(CCString::createWithFormat("%d", m_integer)->getCString());
+		inputNode->setString(fmt::format("{}", m_integer).c_str());
 	else
-		inputNode->setString(CCString::createWithFormat("%d", m_iili.fallback_value)->getCString());
+		inputNode->setString(fmt::format("{}", m_iili.fallback_value).c_str());
 }
 
 void IntegerInputLayer::onRightButton(CCObject*)
 {
-	const auto inputNode = reinterpret_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
+	const auto inputNode = static_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
 
 	try
 	{
@@ -146,7 +147,7 @@ void IntegerInputLayer::onRightButton(CCObject*)
 	}
 
 	if (m_integer < m_iili.max_value)
-		inputNode->setString(CCString::createWithFormat("%d", m_integer)->getCString());
+		inputNode->setString(fmt::format("{}", m_integer).c_str());
 	else
-		inputNode->setString(CCString::createWithFormat("%d", m_iili.fallback_value)->getCString());
+		inputNode->setString(fmt::format("{}", m_iili.fallback_value).c_str());
 }

@@ -1,20 +1,12 @@
 #define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 #include "../roulette/layers/RouletteLayer.hpp"
+#include "../custom_layers/CustomDirector.hpp"
 
 #include <Geode/Geode.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 
 using namespace geode::prelude;
-
-class CustomDirector : public CCDirector
-{
-public:
-	CCScene* getPreviousScene()
-	{
-		return reinterpret_cast<CCScene*>(m_pobScenesStack->objectAtIndex(m_pobScenesStack->count() - 2));
-	}
-};
 
 class $modify(LevelInfoLayer)
 {
@@ -24,7 +16,7 @@ class $modify(LevelInfoLayer)
 
 		if (RouletteManager.isPlayingRoulette)
 		{
-			CCNode* normalPercentageNode = nullptr;
+			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
 			float goalOffset = .0f;
 
 			if (this->m_level->m_normalPercent < 10)
@@ -32,24 +24,13 @@ class $modify(LevelInfoLayer)
 			else if (this->m_level->m_normalPercent <= 100)
 				goalOffset = 31.f;
 
-			CCObject* levelInfoLayerObject;
-			CCARRAY_FOREACH(this->getChildren(), levelInfoLayerObject)
-			{
-				auto levelInfoLayerNode = reinterpret_cast<CCNode*>(levelInfoLayerObject);
-				if (
-					auto levelInfoLayerLabel = dynamic_cast<CCLabelBMFont*>(levelInfoLayerNode);
-					levelInfoLayerLabel &&
-					strcmp(levelInfoLayerLabel->getString(), CCString::createWithFormat("%d%%", this->m_level->m_normalPercent)->getCString()) == 0
-					) {
-					normalPercentageNode = levelInfoLayerNode;
-					break;
-				}
-			};
+			if (normalPercentageLabel == nullptr) return true;
 
-			if (normalPercentageNode == nullptr) return this;
-
-			auto goalPercentage = CCLabelBMFont::create(CCString::createWithFormat("(%d%%)", static_cast<int>(RouletteManager.levelPercentageGoal))->getCString(), "bigFont.fnt");
-			goalPercentage->setPosition({ normalPercentageNode->getPositionX() + goalOffset, normalPercentageNode->getPositionY() });
+			auto goalPercentage = CCLabelBMFont::create(
+				fmt::format("({}%)", static_cast<int>(RouletteManager.levelPercentageGoal)).c_str(),
+				"bigFont.fnt"
+			);
+			goalPercentage->setPosition({ normalPercentageLabel->getPositionX() + goalOffset, normalPercentageLabel->getPositionY() });
 			goalPercentage->setScale(.4f);
 			goalPercentage->setColor({ 125, 125, 125 });
 			goalPercentage->setZOrder(3);
@@ -61,7 +42,7 @@ class $modify(LevelInfoLayer)
 
 	void onBack(CCObject* sender)
 	{
-		CustomDirector* director = reinterpret_cast<CustomDirector*>(CCDirector::sharedDirector());
+		CustomDirector* director = static_cast<CustomDirector*>(CCDirector::sharedDirector());
 
 		if (RouletteManager.isPlayingRoulette && this->m_level->m_levelID == RouletteManager.lastLevelID)
 		{
@@ -69,19 +50,11 @@ class $modify(LevelInfoLayer)
 				CCScene* prevScene = director->getPreviousScene();
 				prevScene->getChildrenCount() == 2
 				) {
-				if (
-					std::string_view prevLayerName = (typeid(*prevScene->getChildren()->objectAtIndex(1)).name() + 6);
-					prevLayerName == "RouletteLayer"
-					) {
-					RouletteLayer* rouletteLayer = reinterpret_cast<RouletteLayer*>(
-						director->getPreviousScene()->getChildren()->objectAtIndex(1)
-					);
-
-					reinterpret_cast<CCLabelBMFont*>(
+				if (auto rouletteLayer = typeinfo_cast<RouletteLayer*>(prevScene->getChildren()->objectAtIndex(1)))
+				{
+					static_cast<CCLabelBMFont*>(
 						rouletteLayer->m_pPlayingMenu->getChildByTag(20)
-					)->setString(CCString::createWithFormat("%d%%", RouletteManager.lastLevelPercentage)->getCString());
-
-					this->m_level->m_creatorName = RouletteManager.levelCreatorName;
+					)->setString(fmt::format("{}%", RouletteManager.levelPercentageGoal).c_str());
 				}
 			}
 		}

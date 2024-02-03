@@ -28,24 +28,7 @@ endif()
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
-
 setup_geode_mod(${PROJECT_NAME})
-
-# Get needed modules
-include(scripts/git.cmake)
-
-message("Getting modules\n")
-include(scripts/nhjson.cmake)
-include(scripts/curl.cmake)
-
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ${nhjson_SOURCE_DIR}/single_include
-    ${curl_INCLUDE_DIRS}
-)
-
-target_link_libraries(${PROJECT_NAME} libcurl_static)
-
-target_precompile_headers(${PROJECT_NAME} PUBLIC ${SRC_DIR}/pch.hpp)
 
 # Warnings as errors
 set_property(TARGET ${PROJECT_NAME} PROPERTY COMPILE_WARNING_AS_ERROR ON)
