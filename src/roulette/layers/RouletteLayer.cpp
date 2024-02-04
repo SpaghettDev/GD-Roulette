@@ -516,7 +516,7 @@ void RouletteLayer::onLevelInfo(CCObject* sender)
 		break;
 	}
 
-	roulette::utils::setClipboardText(text.c_str());
+	clipboard::write(text);
 	// this->addChild(TextAlertPopup::create("Copied to Clipboard", .5f, .6f, 1, "bigFont.fnt"));
 	Notification::create("Copied to Clipboard", NotificationIcon::Success)->show();
 }
@@ -591,7 +591,7 @@ void RouletteLayer::onNextButton(CCObject*)
 		// 	), 1.2f, .8f, 1, "bigFont.fnt"
 		// ));
 		Notification::create(
-			std::format(
+			fmt::format(
 				"You need to get at least {}%!", static_cast<int>(RouletteManager.levelPercentageGoal)
 			),
 			NotificationIcon::Error

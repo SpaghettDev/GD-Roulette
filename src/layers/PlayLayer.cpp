@@ -58,7 +58,7 @@ class $modify(PlayLayerPause, PlayLayer)
 			!this->m_isPracticeMode &&
 			percentage >= RouletteManager.levelPercentageGoal
 			) {
-			if (delta > .2f && !this->m_player1->m_isDead)
+			if (delta > .2f/* && !this->m_player1->m_isDead*/)
 			{
 				RouletteManager.hasFinishedPreviousLevel = true;
 				RouletteManager.lastLevelPercentage = percentage;

@@ -2,7 +2,6 @@
 #include <matjson.hpp>
 
 #include <random>
-#include <format>
 #include "ListFetcher.hpp"
 #include "../utils.hpp"
 
@@ -22,8 +21,9 @@ void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json)
 
 	isFetching = true;
 
-	std::string link = std::format(
-		"https://gdbrowser.com/api/search/*?diff={}&starred&page={}", stars, roulette::utils::randomInt(1, m_normalListMaxPage[stars - 1])
+	std::string link = fmt::format(
+		"https://gdbrowser.com/api/search/*?diff={}&starred&page={}",
+		stars, roulette::utils::randomInt(1, m_normalListMaxPage[stars - 1])
 	);
 
 	web::AsyncWebRequest()
@@ -125,7 +125,7 @@ void ListFetcher::getRandomChallengeListLevel(matjson::Value& json)
 
 void ListFetcher::getLevelInfo(int levelID, matjson::Value& json)
 {
-	std::string link = std::format("https://gdbrowser.com/api/search/{}", levelID);
+	std::string link = fmt::format("https://gdbrowser.com/api/search/{}", levelID);
 
 	web::AsyncWebRequest()
 		.get(link)
