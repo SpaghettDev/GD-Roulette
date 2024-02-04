@@ -18,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Crashes
 
-
 ## [1.4.0-alpha] - 2024-01-31
 
 This release is very unstable and doesn't get past the "Start" button.
