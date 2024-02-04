@@ -10,7 +10,7 @@ void ListFetcher::init()
 	isFetching = false;
 }
 
-void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json)
+void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json, std::string& error)
 {
 	if (stars > 10)
 	{
@@ -32,35 +32,39 @@ void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json)
 		.then([&, stars](auto const& fjson) {
 			json = fjson;
 
-			// Prevent auto levels from appearing in the Easy difficulty
-			if (!json.is_null() && stars == 1)
-			{
-				matjson::Array& arr = json.as_array();
-
-				arr.erase(
-					std::remove_if(
-						arr.begin(), arr.end(),
-						[](const auto& level) {
-							return level.template get<std::string>("difficulty") == "Auto";
-						}
-					),
-					arr.end()
-				);
-			}
-
+			// TODO: support platformer levels
+			// Prevent auto levels from appearing in the Easy difficulty, and platformer levels because idk how this roulette would work with them lol!
 			if (!json.is_null())
+			{
+				if (stars == 1)
+				{
+					matjson::Array& arr = json.as_array();
+
+					arr.erase(
+						std::remove_if(
+							arr.begin(), arr.end(),
+							[](const auto& level) {
+								return level.template get<std::string>("difficulty") == "Auto" || level.template get<bool>("platformer");
+							}
+						),
+						arr.end()
+					);
+				}
+
 				json = json[roulette::utils::randomInt(0, json.as_array().size() - 1)];
+			}
 
 			isFetching = false;
 		})
 		.expect([&](auto const& err) {
 			json = matjson::parse("null");
+			error = err;
 
 			isFetching = false;
 		});
 }
 
-void ListFetcher::getRandomDemonListLevel(matjson::Value& json)
+void ListFetcher::getRandomDemonListLevel(matjson::Value& json, std::string& error)
 {
 	isFetching = true;
 	std::string link = "https://pointercrate.com/api/v2/demons/listed";
@@ -83,16 +87,18 @@ void ListFetcher::getRandomDemonListLevel(matjson::Value& json)
 			} while (json[randomIndex]["level_id"].is_null());
 
 			int levelId = json[randomIndex].get<int>("level_id");
-			getLevelInfo(levelId, json);
+			getLevelInfo(levelId, json, error);
 		})
 		.expect([&](auto const& err) {
 			json = matjson::parse("null");
+			error = err;
+
 			isFetching = false;
 		});
 }
 
 // TODO: figure out how to get extended list & the rest of the list (current limit is 50 levels)
-void ListFetcher::getRandomChallengeListLevel(matjson::Value& json)
+void ListFetcher::getRandomChallengeListLevel(matjson::Value& json, std::string& error)
 {
 	isFetching = true;
 	std::string link = "https://challengelist.gd/api/v1/demons/";
@@ -115,15 +121,17 @@ void ListFetcher::getRandomChallengeListLevel(matjson::Value& json)
 			} while (json[randomIndex]["level_id"].is_null());
 
 			int levelId = json[randomIndex].get<int>("level_id");
-			getLevelInfo(levelId, json);
+			getLevelInfo(levelId, json, error);
 		})
 		.expect([&](auto const& err) {
 			json = matjson::parse("null");
+			error = err;
+
 			isFetching = false;
 		});
 }
 
-void ListFetcher::getLevelInfo(int levelID, matjson::Value& json)
+void ListFetcher::getLevelInfo(int levelID, matjson::Value& json, std::string& error)
 {
 	std::string link = fmt::format("https://gdbrowser.com/api/search/{}", levelID);
 
@@ -140,6 +148,8 @@ void ListFetcher::getLevelInfo(int levelID, matjson::Value& json)
 		})
 		.expect([&](auto const& err) {
 			json = matjson::parse("null");
+			error = err;
+
 			isFetching = false;
 		});
 }

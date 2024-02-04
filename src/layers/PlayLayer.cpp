@@ -1,4 +1,3 @@
-#define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 
 #include <Geode/Geode.hpp>
@@ -53,17 +52,17 @@ class $modify(PlayLayerPause, PlayLayer)
 	{
 		if (
 			const int percentage = this->getCurrentPercentInt();
-			RouletteManager.isPlayingRoulette &&
-			this->m_level->m_levelID == RouletteManager.lastLevelID &&
+			g_rouletteManager.isPlayingRoulette &&
+			this->m_level->m_levelID == g_rouletteManager.lastLevelID &&
 			!this->m_isPracticeMode &&
-			percentage >= RouletteManager.levelPercentageGoal
+			percentage >= g_rouletteManager.levelPercentageGoal
 			) {
 			if (delta > .2f/* && !this->m_player1->m_isDead*/)
 			{
-				RouletteManager.hasFinishedPreviousLevel = true;
-				RouletteManager.lastLevelPercentage = percentage;
-				RouletteManager.levelPercentageGoal = RouletteManager.lastLevelPercentage + 1.f;
-				RouletteManager.numLevels++;
+				g_rouletteManager.hasFinishedPreviousLevel = true;
+				g_rouletteManager.lastLevelPercentage = percentage;
+				g_rouletteManager.levelPercentageGoal = percentage + 1;
+				g_rouletteManager.numLevels++;
 
 				const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
 				m_fields->pauseGameAction = runningScene->runAction(
@@ -77,18 +76,18 @@ class $modify(PlayLayerPause, PlayLayer)
 		PlayLayer::destroyPlayer(player, obj);
 	}
 
-	// TODO: correct bindings (GameSoundManager*)
+	// TODO: correct bindings (void)
 	void levelComplete()
 	{
 		if (
-			RouletteManager.isPlayingRoulette &&
-			this->m_level->m_levelID == RouletteManager.lastLevelID &&
+			g_rouletteManager.isPlayingRoulette &&
+			this->m_level->m_levelID == g_rouletteManager.lastLevelID &&
 			!this->m_isPracticeMode
 			) {
-			RouletteManager.hasFinishedPreviousLevel = true;
-			RouletteManager.lastLevelPercentage = 100;
-			RouletteManager.levelPercentageGoal = 100;
-			RouletteManager.numLevels++;
+			g_rouletteManager.hasFinishedPreviousLevel = true;
+			g_rouletteManager.lastLevelPercentage = 100;
+			g_rouletteManager.levelPercentageGoal = 100;
+			g_rouletteManager.numLevels++;
 		}
 
 		PlayLayer::levelComplete();

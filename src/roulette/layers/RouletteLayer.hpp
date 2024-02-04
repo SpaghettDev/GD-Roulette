@@ -29,6 +29,7 @@ private:
 
 	static matjson::Value m_level;
 	static ListFetcher m_list_fetcher;
+	static std::string m_list_fetcher_error;
 
 public:
 	static RouletteLayer* create();
@@ -60,6 +61,6 @@ public:
 	CCMenu* m_pErrorMenu{};
 
 private:
-	void getRandomListLevel(int, matjson::Value&);
+	void getRandomListLevel(int, matjson::Value&, std::string&);
 	CCMenuItemSpriteExtra* createDifficultyButton(int, CCNode*, CCPoint, float, bool = false, bool = true);
 };

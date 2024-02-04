@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0-beta.1] - 2024-02-04
+
+### Added
+
+- Android support (?)
+- Error text when ListFetcher fails to fetch a link
+- RouletteLayer pointer member to RouletteManager
+- Array verifier to assure selected difficulty/list is correct (cant select multiple at once, maybe for a future update?)
+- Choosing a list highlights a difficulty that matches said list
+
+### Changed
+
+- about.md
+- Logo
+- RouletteManager to be an inline global variable instead of that broken define system
+- Removed CustomDirector
+- Made selecting a list change the selected difficulty (only visual)
+- Renamed RouletteManagerStruct to RouletteManager
+- Renamed RouletteManager's variable name to g_rouletteManager
+- Cleaned up include directives
+
+### Fixed
+
+- Crash when clicking Reset after ListFetcher fails
+- Bugs
+
 ## [1.5.0-beta] - 2024-02-03
 
 ### Changed
@@ -75,7 +101,6 @@ Last update before 2.2. I might update this to 2.2 if I have enough free time.
 
 - Fixed JsonManager overriding saved values
 
-
 ## [1.2.0] - 2023-12-06
 
 ### Added
@@ -99,23 +124,3 @@ Last update before 2.2. I might update this to 2.2 if I have enough free time.
 
 - Added a DEV_CONSOLE macro enabled only when compiling RelWithDebInfo
 - Added a check for MegaHack v7 to change the roulette button's position
-
-<!-- maybe add the other versions here too -->
-<!-- 
-## [X.Y.Z] - YYYY-MM-DD
-
-### Added
-- ...
-- ...
-- ...
-
-### Changed
-- ...
-- ...
-- ...
-
-### Fixed
-- ...
-- ...
-- ...
--->

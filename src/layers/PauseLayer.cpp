@@ -1,8 +1,3 @@
-#define DECLAREROULETTEMANAGER
-#include "../roulette/manager/RouletteManager.hpp"
-#include "../roulette/layers/RouletteLayer.hpp"
-
-#define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 #include "../roulette/layers/RouletteLayer.hpp"
 
@@ -18,7 +13,7 @@ class $modify(PauseLayer)
 	{
 		PauseLayer::customSetup();
 
-		if (RouletteManager.isPlayingRoulette)
+		if (g_rouletteManager.isPlayingRoulette)
 		{
 			const PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
 
@@ -47,7 +42,7 @@ class $modify(PauseLayer)
 			if (normalPercentageLabel == nullptr) return;
 
 			auto goalPercentage = CCLabelBMFont::create(
-				fmt::format("({}%)", static_cast<int>(RouletteManager.levelPercentageGoal)).c_str(),
+				fmt::format("({}%)", static_cast<int>(g_rouletteManager.levelPercentageGoal)).c_str(),
 				"bigFont.fnt"
 			);
 			goalPercentage->setPosition({ normalPercentageLabel->getPositionX() + goalOffset, normalPercentageLabel->getPositionY() });

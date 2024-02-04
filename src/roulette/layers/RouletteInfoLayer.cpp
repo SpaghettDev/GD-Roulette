@@ -1,8 +1,7 @@
 #include "RouletteInfoLayer.hpp"
-#include "../../utils.hpp"
-#define DECLAREROULETTEMANAGER
 #include "../manager/RouletteManager.hpp"
 #include "../../custom_layers/IntegerInputLayer.hpp"
+#include "../../utils.hpp"
 
 #include <matjson/stl_serialize.hpp>
 #include <Geode/Bindings.hpp>
@@ -109,10 +108,51 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 
 	auto button = static_cast<CCMenuItemToggler*>(sender);
 	auto parent = static_cast<CCMenu*>(button->getParent());
-	auto ind = roulette::utils::getIndexOf(RouletteManager.selectedListArr->as_array(), true);
+	auto ind = roulette::utils::getIndexOf(g_rouletteManager.selectedListArr->as_array(), true);
 
-	RouletteManager.selectedListArr->as_array().at(ind) = false;
-	RouletteManager.selectedListArr->as_array().at(button->getTag()) = true;
+	g_rouletteManager.selectedListArr->as_array().at(ind) = false;
+	g_rouletteManager.selectedListArr->as_array().at(button->getTag()) = true;
+
+	// purely visual, "toggles" the difficulty face based on the selected list (demon for demon list, insane for challenge list, and previous difficulty for normal list)
+	switch (button->getTag())
+	{
+		case 0:
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(4)
+			)->setColor({ 125, 125, 125 });
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(5)
+			)->setColor({ 125, 125, 125 });
+
+			g_rouletteManager.rouletteLayer->onDifficultyChosen(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(g_rouletteManager.previousDifficulty)
+			);
+		break;
+
+		case 1:
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(g_rouletteManager.previousDifficulty)
+			)->setColor({ 125, 125, 125 });
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(4)
+			)->setColor({ 125, 125, 125 });
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(5)
+			)->setColor({ 255, 255, 255 });
+		break;
+
+		case 2:
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(g_rouletteManager.previousDifficulty)
+			)->setColor({ 125, 125, 125 });
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(4)
+			)->setColor({ 255, 255, 255 });
+			static_cast<CCMenuItemSpriteExtra*>(
+				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(5)
+			)->setColor({ 125, 125, 125 });
+		break;
+	}
 
 	destroyLayerChildren();
 	sender->release();
@@ -151,7 +191,7 @@ CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelTe
 	// button->setSizeMult(1.2f);
 	button->setTag(tag);
 	button->setVisible(visible);
-	button->toggle(RouletteManager.selectedListArr->as_array().at(tag).as<bool>());
+	button->toggle(g_rouletteManager.selectedListArr->as_array().at(tag).as<bool>());
 	m_buttonMenu->addChild(button);
 
 	auto label = roulette::utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_buttonMenu);

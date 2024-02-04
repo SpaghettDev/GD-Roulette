@@ -1,4 +1,3 @@
-#define DECLAREROULETTEMANAGER
 #include "../roulette/manager/RouletteManager.hpp"
 #include "../roulette/layers/RouletteLayer.hpp"
 
@@ -11,7 +10,9 @@ class $modify(RouletteButton, CreatorLayer)
 {
 	void onRouletteButton(CCObject*)
 	{
-		RouletteLayer::create()->show();
+		g_rouletteManager.rouletteLayer = RouletteLayer::create();
+		if (g_rouletteManager.rouletteLayer)
+			g_rouletteManager.rouletteLayer->show();
 	}
 
 	bool init()

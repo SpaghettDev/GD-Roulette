@@ -25,6 +25,14 @@ namespace roulette::utils
 		return it != vec.cend() ? (it - vec.cbegin()) : -1;
 	}
 
+	template<typename T>
+	inline std::size_t getCountOf(const std::vector<matjson::Value>& vec, T to_find)
+	{
+		return std::count_if(vec.cbegin(), vec.cend(), [&](const matjson::Value arr) {
+			return arr.as<T>() == to_find;
+		});
+	}
+
 	inline CCLabelBMFont* createTextLabel(const std::string& text, const CCPoint& position, const float scale, CCNode* menu, const char* font = "bigFont.fnt")
 	{
 		CCLabelBMFont* bmFont = CCLabelBMFont::create(text.c_str(), font);

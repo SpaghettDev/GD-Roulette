@@ -2,6 +2,7 @@
 #include <matjson.hpp>
 #include <array>
 #include <atomic>
+#include <string>
 
 class ListFetcher
 {
@@ -18,9 +19,9 @@ public:
 
 	void init();
 
-	void getRandomNormalListLevel(int, matjson::Value&);
-	void getRandomDemonListLevel(matjson::Value&);
-	void getRandomChallengeListLevel(matjson::Value&);
+	void getRandomNormalListLevel(int, matjson::Value&, std::string&);
+	void getRandomDemonListLevel(matjson::Value&, std::string&);
+	void getRandomChallengeListLevel(matjson::Value&, std::string&);
 
-	void getLevelInfo(int, matjson::Value&);
+	void getLevelInfo(int, matjson::Value&, std::string&);
 };
