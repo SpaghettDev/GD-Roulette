@@ -131,7 +131,7 @@ bool RouletteLayer::init()
 	plusButton->setPosition({ 135.f, -20.f });
 	plusButton->setSizeMult(1.2f);
 	plusButton->setTag(11);
-	plusButton->setVisible(g_rouletteManager.getArrayState(g_rouletteManager.difficultyArr, 5));
+	plusButton->setVisible(g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("difficulty-array"), 5));
 	m_pMainMenu->addChild(plusButton);
 
 	auto startButtonText = CCLabelBMFont::create("Start", "bigFont.fnt");
@@ -347,7 +347,7 @@ bool RouletteLayer::init()
 	m_pErrorMenu->addChild(errorResetButton);
 
 
-	if (g_rouletteManager.getArrayState(g_rouletteManager.difficultyArr, 5))
+	if (g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("difficulty-array"), 5))
 	{
 		if (RouletteLayer::m_plus_button_state)
 		{
@@ -356,7 +356,7 @@ bool RouletteLayer::init()
 		}
 
 		for (int i = 6; i < 11; i++)
-			if (g_rouletteManager.getArrayState(g_rouletteManager.demonDifficultyArr, i - 6))
+			if (g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("demon-difficulty-array"), i - 6))
 				static_cast<CCMenuItemSpriteExtra*>(
 					m_pMainMenu->getChildByTag(i)
 				)->setColor({ 255, 255, 255 });
@@ -423,7 +423,7 @@ void RouletteLayer::onInfoButton(CCObject*)
 void RouletteLayer::onDifficultyChosen(CCObject* sender)
 {
 	if (
-		auto ind = roulette::utils::getIndexOf(g_rouletteManager.selectedListArr->as_array(), true);
+		auto ind = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
 		ind != 0
 		)
 		return;
@@ -434,41 +434,41 @@ void RouletteLayer::onDifficultyChosen(CCObject* sender)
 	// check if difficultyButton is one of the demon types and not a regular difficulty
 	if (tag > 5 && (tag < 10 || tag > 5))
 	{
-		int ind = roulette::utils::getIndexOf(g_rouletteManager.demonDifficultyArr->as_array(), true);
+		int ind = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array(), true);
 		static_cast<CCMenuItemSpriteExtra*>(
 			m_pMainMenu->getChildByTag(ind + 6)
 		)->setColor({ 125, 125, 125 });
 
-		g_rouletteManager.demonDifficultyArr->as_array().at(ind) = false;
-		g_rouletteManager.demonDifficultyArr->as_array().at(tag - 6) = true;
+		g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array().at(ind) = false;
+		g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array().at(tag - 6) = true;
 	}
 	else
 	{
 		if (m_plus_button_state && tag != 5)
 			onPlusButton(nullptr);
 
-		int ind = roulette::utils::getIndexOf(g_rouletteManager.difficultyArr->as_array(), true);
+		int ind = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("difficulty-array").as_array(), true);
 		static_cast<CCMenuItemSpriteExtra*>(
 			m_pMainMenu->getChildByTag(ind)
 		)->setColor({ 125, 125, 125 });
 
-		g_rouletteManager.difficultyArr->as_array().at(ind) = false;
-		g_rouletteManager.difficultyArr->as_array().at(tag) = true;
+		g_rouletteManager.getFromSaveContainer("difficulty-array").as_array().at(ind) = false;
+		g_rouletteManager.getFromSaveContainer("difficulty-array").as_array().at(tag) = true;
 		g_rouletteManager.previousDifficulty = tag;
 	}
 
 	difficultyButton->setColor({ 255, 255, 255 });
 
 	// demon
-	m_pMainMenu->getChildByTag(11)->setVisible(g_rouletteManager.getArrayState(g_rouletteManager.difficultyArr, 5));
+	m_pMainMenu->getChildByTag(11)->setVisible(g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("difficulty-array"), 5));
 }
 
 void RouletteLayer::onStartButton(CCObject*)
 {
 	m_pMainMenu->setVisible(false);
 
-	int diffInd = roulette::utils::getIndexOf(g_rouletteManager.difficultyArr->as_array(), true);
-	int demonInd = roulette::utils::getIndexOf(g_rouletteManager.demonDifficultyArr->as_array(), true);
+	int diffInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("difficulty-array").as_array(), true);
+	int demonInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array(), true);
 	int difficulty = diffInd == 5 ? (demonInd + 6) : (diffInd + 1);
 
 	getRandomListLevel(difficulty, m_level, m_list_fetcher_error);
@@ -586,8 +586,8 @@ void RouletteLayer::onNextButton(CCObject*)
 			m_pPlayingMenu->getChildByTag(20)
 		)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
 
-		int diffInd = roulette::utils::getIndexOf(g_rouletteManager.difficultyArr->as_array(), true);
-		int demonInd = roulette::utils::getIndexOf(g_rouletteManager.demonDifficultyArr->as_array(), true);
+		int diffInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("difficulty-array").as_array(), true);
+		int demonInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array(), true);
 		int difficulty = diffInd == 5 ? (demonInd + 6) : (diffInd + 1);
 
 		getRandomListLevel(difficulty, m_level, m_list_fetcher_error);
@@ -637,7 +637,7 @@ void RouletteLayer::onResetButton(CCObject*)
 	m_pMainMenu->getChildByTag(12)->setVisible(true);
 	m_pMainMenu->getChildByTag(12)->setPositionY(-85.f);
 
-	if (g_rouletteManager.getArrayState(g_rouletteManager.difficultyArr, 5))
+	if (g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("difficulty-array"), 5))
 	{
 		m_plus_button_state = true;
 		onPlusButton(nullptr);
@@ -664,8 +664,8 @@ void RouletteLayer::onSkipButton(CCObject*)
 
 		onNextLevel(false, true, -125.f);
 
-		int diffInd = roulette::utils::getIndexOf(g_rouletteManager.difficultyArr->as_array(), true);
-		int demonInd = roulette::utils::getIndexOf(g_rouletteManager.demonDifficultyArr->as_array(), true);
+		int diffInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("difficulty-array").as_array(), true);
+		int demonInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array(), true);
 		int difficulty = diffInd == 5 ? (demonInd + 6) : (diffInd + 1);
 
 		getRandomListLevel(difficulty, m_level, m_list_fetcher_error);
@@ -719,8 +719,8 @@ void RouletteLayer::finishLevelRoulette()
 		m_pPlayingMenu->getChildByTag(3)->getChildren()->objectAtIndex(0)
 	)->setString(("ID: " + m_level.get<std::string>("id")).c_str());
 
-	auto diffInd = roulette::utils::getIndexOf(g_rouletteManager.difficultyArr->as_array(), true);
-	auto demonInd = roulette::utils::getIndexOf(g_rouletteManager.demonDifficultyArr->as_array(), true);
+	auto diffInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("difficulty-array").as_array(), true);
+	auto demonInd = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array(), true);
 	int difficultyTag = m_difficulty_to_tag.at(m_level.get<std::string>("difficulty"));
 
 	if (int coins = m_level.get<int>("coins"); coins > 0)
@@ -810,7 +810,7 @@ void RouletteLayer::onNextLevel(bool levelTextVisible, bool enableLoadingCircle,
 
 void RouletteLayer::getRandomListLevel(int difficulty, matjson::Value& list, std::string& error)
 {
-	int listType = roulette::utils::getIndexOf(g_rouletteManager.selectedListArr->as_array(), true);
+	int listType = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
 	std::thread getListThread;
 
 	switch (listType)
@@ -853,12 +853,12 @@ CCMenuItemSpriteExtra* RouletteLayer::createDifficultyButton(int tag, CCNode* sp
 	button->setTag(tag);
 	if (isDemon)
 	{
-		if (!g_rouletteManager.getArrayState(g_rouletteManager.difficultyArr, tag - 6))
+		if (!g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("difficulty-array"), tag - 6))
 			button->setColor({ 125, 125, 125 });
 	}
 	else
 	{
-		if (!g_rouletteManager.getArrayState(g_rouletteManager.difficultyArr, tag))
+		if (!g_rouletteManager.getArrayState(g_rouletteManager.getFromSaveContainer("difficulty-array"), tag))
 			button->setColor({ 125, 125, 125 });
 	}
 	button->setVisible(visible);

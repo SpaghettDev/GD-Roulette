@@ -108,10 +108,10 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 
 	auto button = static_cast<CCMenuItemToggler*>(sender);
 	auto parent = static_cast<CCMenu*>(button->getParent());
-	auto ind = roulette::utils::getIndexOf(g_rouletteManager.selectedListArr->as_array(), true);
+	auto ind = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
 
-	g_rouletteManager.selectedListArr->as_array().at(ind) = false;
-	g_rouletteManager.selectedListArr->as_array().at(button->getTag()) = true;
+	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(ind) = false;
+	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = true;
 
 	// purely visual, "toggles" the difficulty face based on the selected list (demon for demon list, insane for challenge list, and previous difficulty for normal list)
 	switch (button->getTag())
@@ -191,7 +191,7 @@ CCMenuItemToggler* RouletteInfoLayer::createToggler(int tag, const char* labelTe
 	// button->setSizeMult(1.2f);
 	button->setTag(tag);
 	button->setVisible(visible);
-	button->toggle(g_rouletteManager.selectedListArr->as_array().at(tag).as<bool>());
+	button->toggle(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(tag).as<bool>());
 	m_buttonMenu->addChild(button);
 
 	auto label = roulette::utils::createTextLabel(labelText, { point.x + 20, point.y }, .5f, m_buttonMenu);

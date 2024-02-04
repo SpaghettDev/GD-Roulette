@@ -19,7 +19,6 @@ class $modify(RouletteButton, CreatorLayer)
 	{
 		if (!CreatorLayer::init()) return false;
 
-		auto layer = static_cast<CCMenu*>(this->getChildren()->objectAtIndex(1));
 		auto menu = CCMenu::create();
 		menu->setID("creator-layer-menu"_spr);
 		menu->setPosition({ .0f, .0f });
@@ -27,9 +26,10 @@ class $modify(RouletteButton, CreatorLayer)
 
 		// Loader::get()->isModLoaded("absolllute.megahack")
 
+		// this is, well uhhh, very awful
 		auto rouletteButton = CCMenuItemSpriteExtra::create(
 			CCSprite::create("RL_blankBtn_001.png"_spr),
-			layer,
+			this,
 			menu_selector(RouletteButton::onRouletteButton)
 		);
 		auto rouletteSprite = CCSprite::create("RL_btn_001.png"_spr);
@@ -37,7 +37,6 @@ class $modify(RouletteButton, CreatorLayer)
 		rouletteSprite->setPosition({ 22.25f, 23.75f });
 		rouletteButton->addChild(rouletteSprite);
 		rouletteButton->setPosition({ 25.f, 160.f });
-		rouletteButton->setScale(.9f);
 
 		menu->addChild(rouletteButton);
 

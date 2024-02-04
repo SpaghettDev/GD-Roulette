@@ -31,9 +31,9 @@ public:
 	inline static std::atomic_bool isPlayingRoulette = false;
 	inline static bool hasFinishedPreviousLevel = false;
 
-	inline static matjson::Value* difficultyArr; // 6
-	inline static matjson::Value* demonDifficultyArr; // 5
-	inline static matjson::Value* selectedListArr; // 3
+	// inline static matjson::Value* difficultyArr; // 6
+	// inline static matjson::Value* demonDifficultyArr; // 5
+	// inline static matjson::Value* selectedListArr; // 3
 
 	inline static int lastLevelID = 0;
 	inline static int lastLevelPercentage = 0;
@@ -54,29 +54,40 @@ public:
 			auto& saveContainer = Mod::get()->getSaveContainer().as_object();
 
 			if (!Mod::get()->hasSavedValue("difficulty-array"))
+			{
 				Mod::get()->setSavedValue<std::vector<bool>>("difficulty-array", { true, false, false, false, false, false });
-			difficultyArr = &(saveContainer["difficulty-array"]);
-			verifyArray(difficultyArr->as_array());
+				previousDifficulty = 0;
+			}
+			else
+			{
+				auto& arr = getFromSaveContainer("difficulty-array").as_array();
+
+				previousDifficulty = roulette::utils::getIndexOf(arr, true);
+				verifyArray(arr);
+			}
 
 			if (!Mod::get()->hasSavedValue("demon-difficulty-array"))
 				Mod::get()->setSavedValue<std::vector<bool>>("demon-difficulty-array", { true, false, false, false, false });
-			demonDifficultyArr = &(saveContainer["demon-difficulty-array"]);
-			verifyArray(demonDifficultyArr->as_array());
+			else
+				verifyArray(saveContainer["demon-difficulty-array"].as_array());
 
 			if (!Mod::get()->hasSavedValue("selected-list-array"))
 				Mod::get()->setSavedValue<std::vector<bool>>("selected-list-array", { true, false, false });
-			selectedListArr = &(saveContainer["selected-list-array"]);
-			verifyArray(selectedListArr->as_array());
-
-			previousDifficulty = roulette::utils::getIndexOf(difficultyArr->as_array(), true);
+			else
+				verifyArray(saveContainer["selected-list-array"].as_array());
 
 			hasInitManager = true;
 		}
 	}
 
-	bool getArrayState(matjson::Value* arr, std::size_t idx)
+	matjson::Value& getFromSaveContainer(std::string_view const key)
 	{
-		return arr->as_array().at(idx).as<bool>();
+		return Mod::get()->getSaveContainer().as_object()[key];
+	}
+
+	bool getArrayState(matjson::Value& arr, std::size_t idx)
+	{
+		return arr.as_array().at(idx).as<bool>();
 	}
 
 	void reset()
