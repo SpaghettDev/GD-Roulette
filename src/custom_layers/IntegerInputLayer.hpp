@@ -29,9 +29,9 @@ class IntegerInputLayer : public BaseCustomLayer
 {
 public:
 	static IntegerInputLayer* create();
-	bool init();
+	bool init() override;
 
-	void onClose(CCObject*);
+	void onClose(CCObject*) override;
 	void onLeftButton(CCObject*);
 	void onRightButton(CCObject*);
 

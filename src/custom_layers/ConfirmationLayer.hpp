@@ -28,9 +28,9 @@ class ConfirmationAlertLayer : public BaseCustomLayer
 {
 public:
 	static ConfirmationAlertLayer* create();
-	bool init();
+	bool init() override;
 
-	void onClose(CCObject*);
+	void onClose(CCObject*) override;
 	void onYesButton(CCObject*);
 	void onNoButton(CCObject*);
 

@@ -32,11 +32,11 @@ private:
 
 public:
 	static RouletteLayer* create();
-	bool init();
+	bool init() override;
 
-	void update(float);
+	void update(float) override;
 
-	void onClose(CCObject*);
+	void onClose(CCObject*) override;
 	void onInfoButton(CCObject*);
 	void onDifficultyChosen(CCObject*);
 	void onStartButton(CCObject*);
