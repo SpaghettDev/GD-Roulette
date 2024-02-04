@@ -41,7 +41,7 @@ void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json)
 					std::remove_if(
 						arr.begin(), arr.end(),
 						[](const auto& level) {
-							return level.get<std::string>("difficulty") == "Auto";
+							return level.template get<std::string>("difficulty") == "Auto";
 						}
 					),
 					arr.end()
