@@ -20,12 +20,12 @@
 		]
 	},
 	"dependencies": [
-        {
-            "id": "geode.node-ids",
-            "version": "v1.1.4",
-            "importance": "required"
-        }
-    ],
+		{
+			"id": "geode.node-ids",
+			"version": "v1.1.4",
+			"importance": "required"
+		}
+	],
 	"tags": [
 		"level", "roulette"
 	],
