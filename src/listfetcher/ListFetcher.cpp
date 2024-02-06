@@ -15,6 +15,7 @@ void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json, std:
 	if (stars > 10)
 	{
 		json = {};
+		error = "Invalid request given to the ListFetcher";
 		isFetching = false;
 		return;
 	}
@@ -32,24 +33,20 @@ void ListFetcher::getRandomNormalListLevel(int stars, matjson::Value& json, std:
 		.then([&, stars](auto const& fjson) {
 			json = fjson;
 
-			// TODO: support platformer levels
-			// Prevent auto levels from appearing in the Easy difficulty, and platformer levels because idk how this roulette would work with them lol!
+			// Prevent auto levels from appearing in the Easy difficulty, and platformer levels because this roulette doesn't work with them lol!
 			if (!json.is_null())
 			{
-				if (stars == 1)
-				{
-					matjson::Array& arr = json.as_array();
+				matjson::Array& arr = json.as_array();
 
-					arr.erase(
-						std::remove_if(
-							arr.begin(), arr.end(),
-							[](const auto& level) {
-								return level.template get<std::string>("difficulty") == "Auto" || level.template get<bool>("platformer");
-							}
-						),
-						arr.end()
-					);
-				}
+				arr.erase(
+					std::remove_if(
+						arr.begin(), arr.end(),
+						[=](const auto& level) {
+							return (stars == 1 ? level.template get<std::string>("difficulty") == "Auto" : false) || level.template get<bool>("platformer");
+						}
+					),
+					arr.end()
+				);
 
 				json = json[roulette::utils::randomInt(0, json.as_array().size() - 1)];
 			}
