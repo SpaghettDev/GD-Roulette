@@ -53,23 +53,27 @@ class $modify(PlayLayerPause, PlayLayer)
 		if (
 			const int percentage = this->getCurrentPercentInt();
 			g_rouletteManager.isPlayingRoulette &&
-			this->m_level->m_levelID == g_rouletteManager.lastLevelID &&
+			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
 			!this->m_isPracticeMode &&
 			percentage >= g_rouletteManager.levelPercentageGoal
 			) {
 			if (delta > .2f/* && !this->m_player1->m_isDead*/)
 			{
 				g_rouletteManager.hasFinishedPreviousLevel = true;
-				g_rouletteManager.lastLevelPercentage = percentage;
+				g_rouletteManager.currentLevelPercentage = percentage;
 				g_rouletteManager.levelPercentageGoal = percentage + 1;
 				g_rouletteManager.numLevels++;
 
-				const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
-				m_fields->pauseGameAction = runningScene->runAction(
-					CCSequence::create(
-						CCDelayTime::create(1.f), CCCallFunc::create(runningScene, callfunc_selector(PlayLayerPause::pause)), nullptr
-					)
-				);
+				if (Mod::get()->getSettingValue<bool>("auto-pause"))
+				{
+					const auto runningScene = CCDirector::sharedDirector()->getRunningScene();
+
+					m_fields->pauseGameAction = runningScene->runAction(
+						CCSequence::create(
+							CCDelayTime::create(1.f), CCCallFunc::create(runningScene, callfunc_selector(PlayLayerPause::pause)), nullptr
+						)
+					);
+				}
 			}
 		}
 
@@ -81,11 +85,11 @@ class $modify(PlayLayerPause, PlayLayer)
 	{
 		if (
 			g_rouletteManager.isPlayingRoulette &&
-			this->m_level->m_levelID == g_rouletteManager.lastLevelID &&
+			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
 			!this->m_isPracticeMode
 			) {
 			g_rouletteManager.hasFinishedPreviousLevel = true;
-			g_rouletteManager.lastLevelPercentage = 100;
+			g_rouletteManager.currentLevelPercentage = 100;
 			g_rouletteManager.levelPercentageGoal = 100;
 			g_rouletteManager.numLevels++;
 		}

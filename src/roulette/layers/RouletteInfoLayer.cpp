@@ -89,7 +89,7 @@ void RouletteInfoLayer::destroyLayerChildren()
 {
 	for (unsigned int i = 0; i < this->getChildrenCount(); i++)
 	{
-		auto node = static_cast<CCNode*>(this->getChildren()->objectAtIndex(0));
+		auto node = as<CCNode*>(this->getChildren()->objectAtIndex(0));
 		node->removeFromParentAndCleanup(true);
 	}
 
@@ -106,8 +106,8 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 {
 	sender->retain();
 
-	auto button = static_cast<CCMenuItemToggler*>(sender);
-	auto parent = static_cast<CCMenu*>(button->getParent());
+	auto button = as<CCMenuItemToggler*>(sender);
+	auto parent = as<CCMenu*>(button->getParent());
 	auto ind = roulette::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
 
 	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(ind) = false;
@@ -117,10 +117,10 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 	switch (button->getTag())
 	{
 		case 0:
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(4)
 			)->setColor({ 125, 125, 125 });
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(5)
 			)->setColor({ 125, 125, 125 });
 
@@ -130,25 +130,25 @@ void RouletteInfoLayer::onToggleButton(CCObject* sender)
 		break;
 
 		case 1:
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(g_rouletteManager.previousDifficulty)
 			)->setColor({ 125, 125, 125 });
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(4)
 			)->setColor({ 125, 125, 125 });
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(5)
 			)->setColor({ 255, 255, 255 });
 		break;
 
 		case 2:
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(g_rouletteManager.previousDifficulty)
 			)->setColor({ 125, 125, 125 });
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(4)
 			)->setColor({ 255, 255, 255 });
-			static_cast<CCMenuItemSpriteExtra*>(
+			as<CCMenuItemSpriteExtra*>(
 				g_rouletteManager.rouletteLayer->m_pMainMenu->getChildByTag(5)
 			)->setColor({ 125, 125, 125 });
 		break;
@@ -162,7 +162,7 @@ void RouletteInfoLayer::onNumSkipsButton(CCObject*)
 {
 	m_integer_input_layer->setup({
 		"Number Of Skips", "Skips",
-		0, 3, 9999, static_cast<int>(Mod::get()->getSettingValue<int64_t>("max-skips")),
+		0, 3, 9999, as<int>(Mod::get()->getSettingValue<int64_t>("max-skips")),
 		[&](auto iil) {
 			Mod::get()->setSettingValue<int64_t>("max-skips", iil->m_integer);
 		}

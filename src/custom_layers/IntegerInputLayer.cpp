@@ -92,7 +92,7 @@ void IntegerInputLayer::onClose(CCObject*)
 	try
 	{
 		m_integer = std::stoi(
-			static_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1))->getString()
+			as<CCTextInputNode*>(m_buttonMenu->getChildByTag(1))->getString()
 		);
 
 	}
@@ -115,7 +115,7 @@ void IntegerInputLayer::keyDown(enumKeyCodes key)
 
 void IntegerInputLayer::onLeftButton(CCObject*)
 {
-	const auto inputNode = static_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
+	const auto inputNode = as<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
 
 	try
 	{
@@ -135,7 +135,7 @@ void IntegerInputLayer::onLeftButton(CCObject*)
 
 void IntegerInputLayer::onRightButton(CCObject*)
 {
-	const auto inputNode = static_cast<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
+	const auto inputNode = as<CCTextInputNode*>(m_buttonMenu->getChildByTag(1));
 
 	try
 	{

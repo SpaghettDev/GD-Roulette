@@ -35,10 +35,9 @@ public:
 	// inline static matjson::Value* demonDifficultyArr; // 5
 	// inline static matjson::Value* selectedListArr; // 3
 
-	inline static int lastLevelID = 0;
-	inline static int lastLevelPercentage = 0;
+	inline static int currentLevelID = 0;
+	inline static int currentLevelPercentage = 0;
 	inline static int levelPercentageGoal = 1;
-	inline static std::string levelCreatorName = "";
 
 	inline static int skipsUsed = 0;
 
@@ -80,6 +79,7 @@ public:
 		}
 	}
 
+	// not using getSavedValue because i want a reference and not a copy
 	matjson::Value& getFromSaveContainer(std::string_view const key)
 	{
 		return Mod::get()->getSaveContainer().as_object()[key];
@@ -94,10 +94,9 @@ public:
 	{
 		isPlayingRoulette = false;
 		hasFinishedPreviousLevel = false;
-		lastLevelID = 0;
-		lastLevelPercentage = 0;
+		currentLevelID = 0;
+		currentLevelPercentage = 0;
 		levelPercentageGoal = 1;
-		levelCreatorName = "";
 		skipsUsed = 0;
 		numLevels = 0;
 	}

@@ -1,3 +1,5 @@
+#include <list>
+
 #include "../roulette/manager/RouletteManager.hpp"
 #include "../roulette/layers/RouletteLayer.hpp"
 
@@ -6,15 +8,20 @@
 
 using namespace geode::prelude;
 
+// not a field because the field dtor crashes the game idk why
+std::list<int> levelIDs{};
+
 class $modify(LevelInfoLayer)
 {
 	bool init(GJGameLevel* level, bool p1)
 	{
 		if (!LevelInfoLayer::init(level, p1)) return false;
 
-		if (g_rouletteManager.isPlayingRoulette)
+		if (g_rouletteManager.isPlayingRoulette && level->m_levelID.value() == g_rouletteManager.currentLevelID)
 		{
-			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
+			levelIDs.push_back(level->m_levelID);
+
+			CCLabelBMFont* normalPercentageLabel = as<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
 			float goalOffset = .0f;
 
 			// wtf v2
@@ -25,16 +32,15 @@ class $modify(LevelInfoLayer)
 			else
 				goalOffset = 39.f;
 
-			if (normalPercentageLabel == nullptr) return true;
-
 			auto goalPercentage = CCLabelBMFont::create(
-				fmt::format("({}%)", static_cast<int>(g_rouletteManager.levelPercentageGoal)).c_str(),
+				fmt::format("({}%)", g_rouletteManager.levelPercentageGoal).c_str(),
 				"bigFont.fnt"
 			);
 			goalPercentage->setPosition({ normalPercentageLabel->getPositionX() + goalOffset, normalPercentageLabel->getPositionY() });
 			goalPercentage->setScale(.4f);
 			goalPercentage->setColor({ 125, 125, 125 });
 			goalPercentage->setZOrder(3);
+			goalPercentage->setID("goal-progress-label"_spr);
 			this->addChild(goalPercentage);
 		}
 
@@ -43,12 +49,18 @@ class $modify(LevelInfoLayer)
 
 	void onBack(CCObject* sender)
 	{
-		if (g_rouletteManager.rouletteLayer)
+		if (levelIDs.size() != 1)
+			levelIDs.pop_back();
+
+		if (g_rouletteManager.isPlayingRoulette && g_rouletteManager.rouletteLayer && levelIDs.back() == g_rouletteManager.currentLevelID)
 		{
-			static_cast<CCLabelBMFont*>(
+			as<CCLabelBMFont*>(
 				g_rouletteManager.rouletteLayer->m_pPlayingMenu->getChildByTag(20)
 			)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
 		}
+
+		if (levelIDs.size() == 1)
+			levelIDs.pop_back();
 
 		LevelInfoLayer::onBack(sender);
 	}

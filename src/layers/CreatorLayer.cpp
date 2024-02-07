@@ -37,6 +37,7 @@ class $modify(RouletteButton, CreatorLayer)
 		rouletteSprite->setPosition({ 22.25f, 23.75f });
 		rouletteButton->addChild(rouletteSprite);
 		rouletteButton->setPosition({ 25.f, 160.f });
+		rouletteButton->setID("roulette-button"_spr);
 
 		menu->addChild(rouletteButton);
 
