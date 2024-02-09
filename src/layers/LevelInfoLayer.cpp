@@ -49,18 +49,18 @@ class $modify(LevelInfoLayer)
 
 	void onBack(CCObject* sender)
 	{
-		if (levelIDs.size() != 1)
-			levelIDs.pop_back();
-
-		if (g_rouletteManager.isPlayingRoulette && g_rouletteManager.rouletteLayer && levelIDs.back() == g_rouletteManager.currentLevelID)
+		if (g_rouletteManager.isPlayingRoulette)
 		{
-			as<CCLabelBMFont*>(
-				g_rouletteManager.rouletteLayer->m_pPlayingMenu->getChildByTag(20)
-			)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
-		}
+			if (levelIDs.size() != 0)
+				levelIDs.pop_back();
 
-		if (levelIDs.size() == 1)
-			levelIDs.pop_back();
+			if (g_rouletteManager.rouletteLayer && levelIDs.back() == g_rouletteManager.currentLevelID)
+			{
+				as<CCLabelBMFont*>(
+					g_rouletteManager.rouletteLayer->m_pPlayingMenu->getChildByTag(20)
+				)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
+			}
+		}
 
 		LevelInfoLayer::onBack(sender);
 	}
