@@ -103,10 +103,10 @@ namespace rl
 			const rtrp::objects::LevelObject& level
 		) {
 			auto it = std::find_if(creators.cbegin(), creators.cend(), [&](const auto& creator) {
-				return creator.userID == level.creatorID;
+				return creator.userID == level.creatorUserID;
 			});
 
-			return it != creators.cend() ? creators[it - creators.cbegin()] : rtrp::objects::CreatorObject{ level.creatorID, "-", 0 };
+			return it != creators.cend() ? creators[it - creators.cbegin()] : rtrp::objects::CreatorObject{ level.creatorUserID, "-", 0 };
 		}
 
 		inline GJDifficulty getDifficultyFromResponse(const rtrp::objects::LevelObject& level)
