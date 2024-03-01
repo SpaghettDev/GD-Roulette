@@ -1,5 +1,5 @@
 #include "../roulette/manager/RouletteManager.hpp"
-#include "../roulette/layers/RouletteLayer.hpp"
+#include "../roulette/layers/RLRouletteLayer.hpp"
 
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PauseLayer.hpp>
@@ -8,17 +8,19 @@ using namespace geode::prelude;
 
 class $modify(PauseLayer)
 {
-	// TODO: return type is actually void, push to bindings
 	void customSetup()
 	{
 		PauseLayer::customSetup();
 
 		const PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
 
-		if (g_rouletteManager.isPlayingRoulette && playLayer->m_level->m_levelID.value() == g_rouletteManager.currentLevelID)
+		if (g_rouletteManager.isPlaying && playLayer->m_level->m_levelID.value() == g_rouletteManager.currentLevelID)
 		{
-			CCLabelBMFont* normalPercentageLabel = as<CCLabelBMFont*>(this->getChildByID("normal-progress-label"));
+			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-progress-label"));
 			float goalOffset = 24.f;
+
+			// TODO: fix this because it only happens on platformer levels, which only happens in GD List
+			if (!normalPercentageLabel) return;
 
 			if (playLayer->m_level->m_normalPercent < 10)
 				goalOffset = 28.f;

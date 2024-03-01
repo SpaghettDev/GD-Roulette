@@ -1,6 +1,6 @@
-#include "BaseCustomLayer.hpp"
+#include "BaseCustomAlertLayer.hpp"
 
-bool BaseCustomLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, float closeBtnScale, const ccColor4B& color)
+bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, float closeBtnScale, const ccColor4B& color)
 {
 	if (!CCLayerColor::initWithColor(color)) return false;
 
@@ -30,7 +30,7 @@ bool BaseCustomLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose,
 	return true;
 }
 
-void BaseCustomLayer::createTitle(std::string text, float separatorScale, float usernameScale)
+void BaseCustomAlertLayer::createTitle(std::string text, float separatorScale, float usernameScale)
 {
 	auto userName = CCLabelBMFont::create(text.c_str(), "bigFont.fnt");
 	userName->setPosition({ .0f, (alertSize.y / 2.f) - 22.f });
@@ -44,7 +44,7 @@ void BaseCustomLayer::createTitle(std::string text, float separatorScale, float 
 	m_buttonMenu->addChild(separator);
 }
 
-CCMenuItemSpriteExtra* BaseCustomLayer::createButton(const char* texture, CCPoint position, SEL_MenuHandler callback, int tag, float textureScale, float sizeMult)
+CCMenuItemSpriteExtra* BaseCustomAlertLayer::createButton(const char* texture, CCPoint position, SEL_MenuHandler callback, int tag, float textureScale, float sizeMult)
 {
 	auto buttonSprite = CCSprite::createWithSpriteFrameName(texture);
 	buttonSprite->setScale(textureScale);
@@ -62,19 +62,14 @@ CCMenuItemSpriteExtra* BaseCustomLayer::createButton(const char* texture, CCPoin
 	return button;
 }
 
-cocos2d::CCScene* BaseCustomLayer::scene()
-{
-	return nullptr;
-}
-
 // overriden because clicking space crashes the game
-void BaseCustomLayer::keyDown(enumKeyCodes key)
+void BaseCustomAlertLayer::keyDown(enumKeyCodes key)
 {
 	if (key == enumKeyCodes::KEY_Escape)
 		onClose(nullptr);
 }
 
-void BaseCustomLayer::keyBackClicked()
+void BaseCustomAlertLayer::keyBackClicked()
 {
 	onClose(nullptr);
 }

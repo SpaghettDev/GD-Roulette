@@ -1,10 +1,11 @@
 {
-	"geode": "2.0.0-beta.16",
+	"geode": "2.0.0-beta.21",
 	"gd": {
 		"win": "2.204",
-		"android": "2.205"
+		"android": "2.205",
+		"mac": "2.200"
 	},
-	"version": "v1.6.2",
+	"version": "v2.0.0",
 	"id": "spaghettdev.gd-roulette",
 	"name": "GD-Roulette",
 	"developer": "SpaghettDev",
@@ -27,7 +28,7 @@
 		}
 	],
 	"tags": [
-		"level", "roulette"
+		"Interface", "Online"
 	],
 	"settings": {
 		"max-skips": {

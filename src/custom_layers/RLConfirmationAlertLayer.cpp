@@ -1,10 +1,10 @@
-#include "ConfirmationLayer.hpp"
+#include "RLConfirmationAlertLayer.hpp"
 
-ConfirmationAlertLayer* ConfirmationAlertLayer::create()
+RLConfirmationAlertLayer* RLConfirmationAlertLayer::create(const ConfirmationAlertInfo& cli)
 {
-	auto ret = new ConfirmationAlertLayer();
+	auto ret = new RLConfirmationAlertLayer();
 
-	if (ret && ret->init())
+	if (ret && ret->init(cli))
 		ret->autorelease();
 	else
 	{
@@ -15,18 +15,17 @@ ConfirmationAlertLayer* ConfirmationAlertLayer::create()
 	return ret;
 }
 
-bool ConfirmationAlertLayer::init()
+bool RLConfirmationAlertLayer::init(const ConfirmationAlertInfo& cli)
 {
-	std::swap(m_tmp_cli, m_cli);
+	m_cli = cli;
+	if (!this->createBasics({ 250.f, 150.f }, menu_selector(RLConfirmationAlertLayer::onClose), 1.f, { 0, 0, 0, 150 })) return false;
 
-	if (!this->createBasics({ 250.f, 150.f }, menu_selector(ConfirmationAlertLayer::onClose), 1.f, { 0, 0, 0, 150 })) return false;
-
-	{ // modify BaseCustomLayer
+	{ // modify BaseCustomAlertLayer
 		closeBtn->setVisible(false);
 
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-		auto bg = as<cocos2d::extension::CCScale9Sprite*>(
+		auto bg = static_cast<cocos2d::extension::CCScale9Sprite*>(
 			m_mainLayer->getChildren()->objectAtIndex(0)
 		);
 		auto bgContentSize = bg->getContentSize();
@@ -39,59 +38,56 @@ bool ConfirmationAlertLayer::init()
 		m_mainLayer->addChild(newBg);
 	}
 
-	auto titleText = CCLabelBMFont::create(
-		m_cli.title.data(), "goldFont.fnt"
-	);
+	auto titleText = CCLabelBMFont::create(m_cli.title.data(), "goldFont.fnt");
 	titleText->setPosition({ .0f, 48.f });
 	titleText->setScale(.9f);
-	titleText->setTag(1);
 	m_buttonMenu->addChild(titleText);
 
 	auto textText = TextArea::create(m_cli.text.data(), "chatFont.fnt", 1.f, 190.f, { .5f, .5f }, 20.f, false);
 	textText->setPosition({ .0f, 4.f });
-	textText->setTag(2);
+	textText->setID("text-area");
 	m_buttonMenu->addChild(textText);
 
 
 	auto yesBtn = CCMenuItemSpriteExtra::create(
 		ButtonSprite::create(m_cli.yesText.data(), 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
 		this,
-		menu_selector(ConfirmationAlertLayer::onYesButton)
+		menu_selector(RLConfirmationAlertLayer::onYesButton)
 	);
-	yesBtn->setPosition({ m_cli.onNo == nullptr ? .0f : -40.f, -44.f });
+	yesBtn->setPosition({ m_cli.onBtn2 == nullptr ? .0f : -40.f, -44.f });
 	yesBtn->setScale(.9f);
-	yesBtn->setTag(3);
+	yesBtn->setID("yes-button");
 	m_buttonMenu->addChild(yesBtn);
 
 	auto noBtn = CCMenuItemSpriteExtra::create(
 		ButtonSprite::create(m_cli.noText.data(), 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
 		this,
-		menu_selector(ConfirmationAlertLayer::onNoButton)
+		menu_selector(RLConfirmationAlertLayer::onNoButton)
 	);
 	noBtn->setPosition({ 50.f, -44.f });
 	noBtn->setScale(.9f);
-	noBtn->setVisible(m_cli.onNo != nullptr);
-	noBtn->setTag(4);
+	noBtn->setVisible(m_cli.onBtn2 != nullptr);
+	noBtn->setID("no-button");
 	m_buttonMenu->addChild(noBtn);
 
 
 	return true;
 }
 
-void ConfirmationAlertLayer::onClose(CCObject*)
+void RLConfirmationAlertLayer::onClose(CCObject*)
 {
 	setKeypadEnabled(false);
 	removeFromParentAndCleanup(true);
 }
 
-void ConfirmationAlertLayer::onYesButton(CCObject*)
+void RLConfirmationAlertLayer::onYesButton(CCObject*)
 {
-	m_cli.onYes(this);
+	m_cli.onBtn1(this);
 	onClose(nullptr);
 }
 
-void ConfirmationAlertLayer::onNoButton(CCObject*)
+void RLConfirmationAlertLayer::onNoButton(CCObject*)
 {
-	m_cli.onNo(this);
+	m_cli.onBtn2(this);
 	onClose(nullptr);
 }

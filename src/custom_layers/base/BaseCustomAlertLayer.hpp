@@ -4,7 +4,7 @@
 
 using namespace geode::prelude;
 
-class BaseCustomLayer : public FLAlertLayer
+class BaseCustomAlertLayer : public FLAlertLayer
 {
 public:
 	CCPoint alertSize{};
@@ -14,7 +14,6 @@ public:
 	void createTitle(std::string, float = .75f, float = 1.f);
 	CCMenuItemSpriteExtra* createButton(const char*, CCPoint, SEL_MenuHandler, int = -1, float = 1.f, float = 1.2f);
 	virtual void onClose(CCObject*) = 0;
-	static cocos2d::CCScene* scene();
 	void keyDown(enumKeyCodes);
 	void keyBackClicked();
 };

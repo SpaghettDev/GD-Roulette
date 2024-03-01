@@ -1,14 +1,13 @@
 #include <list>
 
 #include "../roulette/manager/RouletteManager.hpp"
-#include "../roulette/layers/RouletteLayer.hpp"
+#include "../roulette/layers/RLRouletteLayer.hpp"
 
 #include <Geode/Geode.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 
 using namespace geode::prelude;
 
-// not a field because the field dtor crashes the game idk why
 std::list<int> levelIDs{};
 
 class $modify(LevelInfoLayer)
@@ -17,12 +16,15 @@ class $modify(LevelInfoLayer)
 	{
 		if (!LevelInfoLayer::init(level, p1)) return false;
 
-		if (g_rouletteManager.isPlayingRoulette && level->m_levelID.value() == g_rouletteManager.currentLevelID)
+		if (g_rouletteManager.isPlaying && level->m_levelID.value() == g_rouletteManager.currentLevelID)
 		{
 			levelIDs.push_back(level->m_levelID);
 
-			CCLabelBMFont* normalPercentageLabel = as<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
+			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
 			float goalOffset = .0f;
+
+			// TODO: fix this because it only happens on platformer levels, which only happens in GD List
+			if (!normalPercentageLabel) return true;
 
 			// wtf v2
 			if (this->m_level->m_normalPercent < 10)
@@ -49,15 +51,15 @@ class $modify(LevelInfoLayer)
 
 	void onBack(CCObject* sender)
 	{
-		if (g_rouletteManager.isPlayingRoulette)
+		if (g_rouletteManager.isPlaying)
 		{
 			if (levelIDs.size() != 0)
 				levelIDs.pop_back();
 
 			if (g_rouletteManager.rouletteLayer && levelIDs.back() == g_rouletteManager.currentLevelID)
 			{
-				as<CCLabelBMFont*>(
-					g_rouletteManager.rouletteLayer->m_pPlayingMenu->getChildByTag(20)
+				static_cast<CCLabelBMFont*>(
+					g_rouletteManager.rouletteLayer->playing_menu->getChildByID("percentage-text")
 				)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
 			}
 		}

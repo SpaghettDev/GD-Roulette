@@ -52,7 +52,7 @@ class $modify(PlayLayerPause, PlayLayer)
 	{
 		if (
 			const int percentage = this->getCurrentPercentInt();
-			g_rouletteManager.isPlayingRoulette &&
+			g_rouletteManager.isPlaying &&
 			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
 			!this->m_isPracticeMode &&
 			percentage >= g_rouletteManager.levelPercentageGoal
@@ -80,11 +80,10 @@ class $modify(PlayLayerPause, PlayLayer)
 		PlayLayer::destroyPlayer(player, obj);
 	}
 
-	// TODO: correct bindings (void)
 	void levelComplete()
 	{
 		if (
-			g_rouletteManager.isPlayingRoulette &&
+			g_rouletteManager.isPlaying &&
 			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
 			!this->m_isPracticeMode
 			) {

@@ -30,6 +30,16 @@ add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 setup_geode_mod(${PROJECT_NAME} EXTERNALS geode.node-ids:1.3.0)
 
+# Get needed modules
+include(cmake/git.cmake)
+
+message("Getting modules\n")
+include(cmake/rtrp.cmake)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${RTRP_SOURCE_DIR}/include)
+
+target_link_libraries(${PROJECT_NAME} RTRP)
+
 # Warnings as errors
 set_property(TARGET ${PROJECT_NAME} PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
@@ -38,3 +48,4 @@ add_compile_definitions(
     "NOMINMAX"
     "WIN32_LEAN_AND_MEAN"
 )
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:RelWithDebInfo>:RWDI_MODE>)
