@@ -39,6 +39,8 @@ Notable changes:
 - `rl::constants` namespace
 - `rl::utils::createLevelFromResponse()`, `rl::utils::getCreatorFromLevelResponse()`, `rl::utils::getDifficultyFromResponse()`
 - Geode 2.0.0-beta.21 support
+- Some missing node IDs to `RLRouletteLayer`
+- Some colors to some layers
 
 ### Changed
 
@@ -61,6 +63,8 @@ Notable changes:
 - `RLRouletteLayer::getRandomListLevel` is passed a GJDifficulty instead of an int
 - How coins are positioned in `RLRouletteLayer` (they're now based on the difficulty node's position)
 - Some info about the info icons in ABOUT.md
+- How touch priority is handled in BaseCustomAlertLayer
+- No longer use `geode::cocos::handleTouchPriority`
 
 ### Fixed
 
@@ -75,6 +79,7 @@ Notable changes:
 - Clicking the level's name/creator/id not copying it to the clipboard
 - Potential crash if `RLRouletteLayer::m_level` is empty (highly situational)
 - Geode invalid tags
+- Touch Prio on android :heart:
 
 ## [1.6.2] - 2024-02-09
 

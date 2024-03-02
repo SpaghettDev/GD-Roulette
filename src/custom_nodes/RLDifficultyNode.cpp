@@ -29,6 +29,11 @@ bool RLDifficultyNode::init(GJDifficulty difficulty, bool featured, bool epic)
 	m_difficulty_sprite->setID("difficulty-sprite");
 	this->addChild(m_difficulty_sprite);
 
+	// TODO: fix this setting the position relative to the bottom left when not in a CCMenuItemSpriteExtra
+	const CCPoint& targetContentSize = m_difficulty_sprite->getContentSize();
+	this->setContentSize(targetContentSize);
+	m_difficulty_sprite->setPosition(targetContentSize / 2);
+
 	if (featured)
 	{
 		m_featured_sprite = CCSprite::createWithSpriteFrameName("GJ_featuredCoin_001.png");
@@ -45,9 +50,6 @@ bool RLDifficultyNode::init(GJDifficulty difficulty, bool featured, bool epic)
 		this->addChild(m_epic_sprite, -1);
 	}
 
-	this->setContentSize(m_difficulty_sprite->getContentSize());
-	m_difficulty_sprite->setPosition(this->getContentSize() / 2);
-
 	return true;
 }
 
@@ -62,6 +64,7 @@ void RLDifficultyNode::setColor(const ccColor3B& color)
 	m_color = color;
 }
 
+// basically RLDifficultyNode::init but without the call to CCNode::init and some extra checks
 void RLDifficultyNode::setDifficulty(GJDifficulty difficulty, bool featured, bool epic)
 {
 	if (m_difficulty_info == DifficultyInfo{ difficulty, featured, epic }) return;
@@ -75,6 +78,11 @@ void RLDifficultyNode::setDifficulty(GJDifficulty difficulty, bool featured, boo
 	m_difficulty_sprite->setColor(m_color);
 	m_difficulty_sprite->setID("difficulty-sprite");
 	this->addChild(m_difficulty_sprite);
+
+	// man this codebase is getting worse by the minute
+	// TODO: find a better way :despair:
+	if (this->getParent() && typeinfo_cast<CCMenuItemSpriteExtra*>(this->getParent()))
+		m_difficulty_sprite->setPosition(this->getContentSize() / 2);
 
 	if (featured)
 	{
@@ -93,11 +101,6 @@ void RLDifficultyNode::setDifficulty(GJDifficulty difficulty, bool featured, boo
 		m_epic_sprite->setID("epic-sprite");
 		this->addChild(m_epic_sprite, -1);
 	}
-
-	// man this codebase is getting worse by the minute
-	// TODO: is there a better way :despair:
-	if (this->getParent() && typeinfo_cast<CCMenuItemSpriteExtra*>(this->getParent()))
-		m_difficulty_sprite->setPosition(this->getContentSize() / 2);
 
 	m_difficulty_info = { difficulty, featured, epic };
 }

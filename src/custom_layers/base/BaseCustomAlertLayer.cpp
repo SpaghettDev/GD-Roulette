@@ -1,6 +1,7 @@
+#include <limits>
 #include "BaseCustomAlertLayer.hpp"
 
-bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, float closeBtnScale, const ccColor4B& color)
+bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, float closeBtnScale, const ccColor4B& color, int prio)
 {
 	if (!CCLayerColor::initWithColor(color)) return false;
 
@@ -8,13 +9,18 @@ bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onC
 
 	CCDirector* director = CCDirector::sharedDirector();
 
-	setTouchEnabled(true);
-	setKeypadEnabled(true);
+	this->setTouchEnabled(true);
+	this->setKeypadEnabled(true);
 
 	m_mainLayer = CCLayer::create();
 	this->addChild(m_mainLayer);
 
-	m_mainLayer->setTouchPriority(director->getTouchDispatcher()->getTargetPrio());
+	if (prio == std::numeric_limits<int>::max())
+		m_mainLayer->setTouchPriority(director->getTouchDispatcher()->getTargetPrio());
+	else
+		m_mainLayer->setTouchPriority(prio);
+	// this is what FLAlertLayer::incrementForcePrio does
+	director->getTouchDispatcher()->registerForcePrio(this, 2);
 
 	CCSize winSize = director->getWinSize();
 	extension::CCScale9Sprite* bg = extension::CCScale9Sprite::create("GJ_square01.png", { .0f, .0f, 80.f, 80.f });

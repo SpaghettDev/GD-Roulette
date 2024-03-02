@@ -214,6 +214,7 @@ bool RLRouletteLayer::init()
 		levelCoinSprite->setPosition({ -120.f + 10.f * (i - 6), 13.f });
 		levelCoinSprite->setScale(1.5f);
 		levelCoinSprite->setVisible(false);
+		levelCoinSprite->setID(fmt::format("coin-{}", i - 5));
 		levelCoinSprite->setTag(i);
 		if (i == 6)
 			levelCoinSprite->setZOrder(-1);
@@ -253,7 +254,7 @@ bool RLRouletteLayer::init()
 		menu_selector(RLRouletteLayer::onNextButton)
 	);
 	nextButton->setPosition({ 50.f, -70.f });
-	nextButton->setTag(25);
+	nextButton->setID("next-button");
 	playing_menu->addChild(nextButton);
 
 	auto resetButton = CCMenuItemSpriteExtra::create(
@@ -316,13 +317,13 @@ bool RLRouletteLayer::init()
 	errorResetButton->setID("reset-button");
 	error_menu->addChild(errorResetButton);
 
+
 	if (g_rouletteManager.isPaused)
 	{
 		g_rouletteManager.isPlaying = true;
 		g_rouletteManager.isPaused = false;
 		finishLevelRoulette();
 	}
-
 
 	return true;
 }
@@ -343,7 +344,7 @@ void RLRouletteLayer::onClose(CCObject*)
 	{
 		m_confirmation_layer = RLConfirmationAlertLayer::create({
 			"Woah there!",
-			"Would you like to quit or pause the roulette?",
+			"Would you like to <cr>quit</c> or <co>pause</c> the roulette?",
 			[&](auto cl) {
 				this->setKeypadEnabled(false);
 				this->removeFromParentAndCleanup(true);
@@ -456,15 +457,10 @@ void RLRouletteLayer::onLevelInfo(CCObject* sender)
 
 	switch (textButton->getTag())
 	{
-	case 1:
-		text = m_level.first.name;
-		break;
-	case 2:
-		text = m_level.second.name;
-		break;
-	case 3:
-		text = m_level.first.levelID;
-		break;
+	case 1: text = m_level.first.name; break;
+	case 2: text = m_level.second.name; break;
+	case 3: text = std::to_string(m_level.first.levelID); break;
+	default: text = "[invalid]"; break;
 	}
 
 	clipboard::write(text);
@@ -651,9 +647,8 @@ void RLRouletteLayer::finishLevelRoulette()
 
 			if (x_pos != .0f)
 				playing_menu->getChildByTag(i)->setPositionX(x_pos);
-			playing_menu->getChildByTag(i)->setVisible(x_pos != .0f);
-			// playing_menu->getChildByTag(i)->setPositionY(difficulty >= GJDifficulty::Demon ? -1.f : 10.f);
 			playing_menu->getChildByTag(i)->setPositionY(difficultyNodeYPos - coinsYOffset);
+			playing_menu->getChildByTag(i)->setVisible(x_pos != .0f);
 		}
 	}
 	else

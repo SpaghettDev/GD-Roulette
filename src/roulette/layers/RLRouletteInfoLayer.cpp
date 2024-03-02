@@ -197,7 +197,7 @@ void RLRouletteInfoLayer::onInfoIcon(CCObject* sender)
 		FLAlertLayer::create(
 			nullptr,
 			"Normal List",
-			"Levels ranging from the Easy difficulty to the Extreme Demon difficulty.\nOnly rated levels appear in this list.",
+			"Levels ranging from the <cl>Easy</c> difficulty to the <cr>Extreme Demon</c> difficulty.\nOnly rated levels appear in this list.",
 			"OK",
 			nullptr
 		)->show();
@@ -207,7 +207,7 @@ void RLRouletteInfoLayer::onInfoIcon(CCObject* sender)
 		FLAlertLayer::create(
 			nullptr,
 			"Demon List",
-			"The Pointercrate demon list.\nOnly includes levels from the regular demon list, and not the extended list.\nSource: https://pointercrate.com/demonlist",
+			"The Pointercrate demon list.\n<cy>Only</c> includes levels from the regular demon list, <cr>and not</c> the extended list.\nSource: https://pointercrate.com/demonlist",
 			"OK",
 			nullptr
 		)->show();
@@ -217,7 +217,7 @@ void RLRouletteInfoLayer::onInfoIcon(CCObject* sender)
 		FLAlertLayer::create(
 			nullptr,
 			"Challenge List",
-			"The Challenge list.\nSame as the demon list, as in the levels from the extended list don't appear in the roulette.\nSource: https://challengelist.gd/challenges",
+			"The Challenge list.\nSame as the demon list, as in the levels from the extended list <cr>don't appear</c> in the roulette.\nSource: https://challengelist.gd/challenges",
 			"OK",
 			nullptr
 		)->show();
@@ -227,7 +227,7 @@ void RLRouletteInfoLayer::onInfoIcon(CCObject* sender)
 		FLAlertLayer::create(
 			nullptr,
 			"GD List",
-			"A GD List.\nPretty self-explanatory.\nPlatformer levels appear in this list. No, i will not fix :D",
+			"A GD List.\nPretty self-explanatory.\n<cr>Platformer levels appear in this list!</c> <cy>No</c>, i will not fix :D",
 			"OK",
 			nullptr
 		)->show();

@@ -18,7 +18,6 @@ RLIntegerInputLayer* RLIntegerInputLayer::create(const IntegerInputInfo& iili)
 bool RLIntegerInputLayer::init(const IntegerInputInfo& iili)
 {
 	m_iili = iili;
-	handleTouchPriority(this);
 	if (!this->createBasics({ 175.f, 135.f }, menu_selector(RLIntegerInputLayer::onClose))) return false;
 	this->closeBtn->setVisible(false);
 
