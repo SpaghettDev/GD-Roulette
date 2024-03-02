@@ -52,9 +52,7 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, level_pair_t
 				response.levels.erase(
 					std::remove_if(
 						response.levels.begin(), response.levels.end(),
-						[=](const auto& level) {
-							return level.stars == 1;
-						}
+						[=](const auto& level) { return level.stars == 1; }
 					),
 					response.levels.end()
 				);
@@ -95,7 +93,7 @@ void ListFetcher::getRandomDemonListLevel(level_pair_t& level, std::string& erro
 				randomIndex = rl::utils::randomInt(0, fjson.as_array().size() - 1);
 			} while (fjson[randomIndex]["level_id"].is_null());
 
-			int levelId = fjson[randomIndex].get<int>("level_id");
+			int levelId = fjson[randomIndex].template get<int>("level_id");
 			getLevelInfo(levelId, level, error);
 		})
 		.expect([&](const auto& err) {
@@ -127,7 +125,7 @@ void ListFetcher::getRandomChallengeListLevel(level_pair_t& level, std::string& 
 				randomIndex = rl::utils::randomInt(0, fjson.as_array().size() - 1);
 			} while (fjson[randomIndex]["level_id"].is_null());
 
-			int levelId = fjson[randomIndex].get<int>("level_id");
+			int levelId = fjson[randomIndex].template get<int>("level_id");
 			getLevelInfo(levelId, level, error);
 		})
 		.expect([&](const auto& err) {
