@@ -32,6 +32,24 @@ class $modify(PlayLayerPause, PlayLayer)
 		CCDirector::sharedDirector()->getRunningScene()->stopAction(m_fields->pauseGameAction);
 	}
 
+	// thank you alk <3
+	float currentPercent()
+	{
+		float percent;
+
+		if (m_level->m_timestamp > 0)
+			percent = static_cast<float>(m_gameState.m_unk1f8) / m_level->m_timestamp * 100.f;
+		else
+			percent = m_player1->getPosition().x / m_levelLength * 100.f;
+
+		if (percent >= 100.f)
+			return 100.f;
+		else if (percent <= 0.f)
+			return 0.f;
+		else
+			return percent;
+	}
+
 	bool init(GJGameLevel* level, bool p1, bool p2)
 	{
 		delta = .0f;
@@ -51,7 +69,7 @@ class $modify(PlayLayerPause, PlayLayer)
 	void destroyPlayer(PlayerObject* player, GameObject* obj)
 	{
 		if (
-			const int percentage = this->getCurrentPercentInt();
+			const int percentage = static_cast<int>(currentPercent());
 			g_rouletteManager.isPlaying &&
 			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
 			!this->m_isPracticeMode &&
