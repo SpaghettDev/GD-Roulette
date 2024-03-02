@@ -3,7 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
     RTRP
     GIT_REPOSITORY https://github.com/SpaghettDev/RTRP.git
-    GIT_TAG        53fe19f867b4b52b241f4c0522299896cb32c628
+    GIT_TAG        deb04e500252058187b8afa1b1222d9fc5ed3191
     GIT_PROGRESS TRUE
 )
 message("Fetching RTRP")

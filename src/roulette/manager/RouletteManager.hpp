@@ -3,7 +3,7 @@
 #include <array>
 #include <matjson/stl_serialize.hpp>
 
-#include <Geode/Loader/Mod.hpp>
+#include <Geode/loader/Mod.hpp>
 #include <Geode/Enums.hpp>
 
 #include "../layers/RLRouletteLayer.hpp"
