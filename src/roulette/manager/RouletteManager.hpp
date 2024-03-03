@@ -84,30 +84,30 @@ public:
 
 			if (!Mod::get()->hasSavedValue("difficulty-array"))
 				Mod::get()->setSavedValue<std::vector<bool>>("difficulty-array", { true, false, false, false, false, false });
-
-			{
-				auto& arr = getFromSaveContainer("difficulty-array").as_array();
-
-				previousDifficulty = getDifficultyFromSaveContainer("difficulty-array");
-				previousDemonDifficulty = getDifficultyFromSaveContainer("demon-difficulty-array");
-				verifyArray("difficulty-array", arr);
-			}
+			else
+				verifyArray("difficulty-array", getFromSaveContainer("difficulty-array").as_array());
 
 
 			if (!Mod::get()->hasSavedValue("demon-difficulty-array"))
 				Mod::get()->setSavedValue<std::vector<bool>>("demon-difficulty-array", { true, false, false, false, false });
-			verifyArray("demon-difficulty-array", saveContainer["demon-difficulty-array"].as_array());
+			else
+				verifyArray("demon-difficulty-array", saveContainer["demon-difficulty-array"].as_array());
 
 
 			if (!Mod::get()->hasSavedValue("selected-list-array"))
 				Mod::get()->setSavedValue<std::vector<bool>>("selected-list-array", { true, false, false, false });
-			verifyArray("selected-list-array", saveContainer["selected-list-array"].as_array());
+			else
+				verifyArray("selected-list-array", saveContainer["selected-list-array"].as_array());
 
 
 			if (!Mod::get()->hasSavedValue("gdListID"))
 				Mod::get()->setSavedValue<uint64_t>("gdListID", static_cast<uint64_t>(gdListID));
 			else
 				gdListID = static_cast<int>(Mod::get()->getSavedValue<uint64_t>("gdListID"));
+
+
+			previousDifficulty = getDifficultyFromSaveContainer("difficulty-array");
+			previousDemonDifficulty = getDifficultyFromSaveContainer("demon-difficulty-array");
 
 			m_hasInitManager = true;
 		}
