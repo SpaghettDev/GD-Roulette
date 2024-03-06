@@ -1,5 +1,7 @@
 #pragma once
+#include <string_view>
 #include <optional>
+#include <functional>
 
 #include "base/BaseCustomAlertLayer.hpp"
 

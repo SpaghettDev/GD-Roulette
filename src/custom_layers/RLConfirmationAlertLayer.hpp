@@ -1,4 +1,7 @@
 #pragma once
+#include <string_view>
+#include <functional>
+
 #include "base/BaseCustomAlertLayer.hpp"
 
 class RLConfirmationAlertLayer;

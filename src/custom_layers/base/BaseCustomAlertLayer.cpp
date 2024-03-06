@@ -29,6 +29,7 @@ bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onC
 	m_mainLayer->addChild(bg, -1);
 
 	m_buttonMenu = CCMenu::create();
+	m_buttonMenu->setID("button-menu");
 	m_mainLayer->addChild(m_buttonMenu, 10);
 
 	closeBtn = createButton("GJ_closeBtn_001.png", { -((alertSize.x) / 2) + 9.5f, (alertSize.y / 2) - 10.f }, onClose, -1, closeBtnScale);

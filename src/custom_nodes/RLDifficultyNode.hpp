@@ -4,6 +4,7 @@
 
 using namespace geode::prelude;
 
+// TODO: mfw CCNodeRGBA
 class RLDifficultyNode : public CCNode
 {
 private:

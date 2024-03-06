@@ -47,7 +47,6 @@ bool RLRouletteLayer::init()
 	finished_menu = CCMenu::create();
 	error_menu = CCMenu::create();
 
-	m_buttonMenu->setID("button-menu");
 	main_menu->setID("main-menu");
 
 	playing_menu->setID("playing-menu");
@@ -81,7 +80,7 @@ bool RLRouletteLayer::init()
 	createButton("GJ_infoIcon_001.png", { 200.f, 125.f }, menu_selector(RLRouletteLayer::onInfoButton));
 	auto optionsSprite = CCSprite::createWithSpriteFrameName("GJ_optionsTxt_001.png");
 	optionsSprite->setPosition({ 155.f, 110.f });
-	optionsSprite->setVisible(!Mod::get()->setSavedValue<bool>("show-options-sprite", true));
+	optionsSprite->setVisible(!Mod::get()->hasSavedValue("show-options-sprite"));
 	optionsSprite->setID("options-sprite");
 	m_buttonMenu->addChild(optionsSprite);
 
@@ -304,7 +303,7 @@ bool RLRouletteLayer::init()
 		"chatFont.fnt",
 		.85f, 290.f, { .5f, .5f }, 20.f, false
 	);
-	errorReasonText->setPosition({ 25.f, -20.f });
+	errorReasonText->setPosition({ .0f, -20.f });
 	errorReasonText->setID("reason-label");
 	error_menu->addChild(errorReasonText);
 
@@ -375,8 +374,11 @@ void RLRouletteLayer::onInfoButton(CCObject*)
 {
 	if (!g_rouletteManager.isPlaying)
 	{
-		if (Mod::get()->getSavedValue<bool>("show-options-sprite"))
+		if (!Mod::get()->hasSavedValue("show-options-sprite"))
+		{
 			m_buttonMenu->getChildByID("options-sprite")->setVisible(false);
+			Mod::get()->setSavedValue<bool>("show-options-sprite", false);
+		}
 
 		m_roulette_info_layer = RLRouletteInfoLayer::create();
 		if (m_roulette_info_layer)
@@ -429,7 +431,9 @@ void RLRouletteLayer::onStartButton(CCObject*)
 
 void RLRouletteLayer::onPlusButton(CCObject*)
 {
-	m_demon_select_layer = RLDemonSelectLayer::create({
+	m_demon_select_layer = RLDifficultySelectLayer::create({
+		"Demon Filter",
+		{ GJDifficulty::DemonEasy, GJDifficulty::DemonMedium, GJDifficulty::Demon, GJDifficulty::DemonInsane, GJDifficulty::DemonExtreme },
 		m_selected_demon_difficulty,
 		[&](GJDifficulty currentDifficulty, GJDifficulty previousDifficulty)
 		{
@@ -447,7 +451,10 @@ void RLRouletteLayer::onPlusButton(CCObject*)
 		}
 	});
 	if (m_demon_select_layer)
+	{
+		m_demon_select_layer->m_scene = this;
 		m_demon_select_layer->show();
+	}
 }
 
 void RLRouletteLayer::onLevelInfo(CCObject* sender)
@@ -673,10 +680,9 @@ void RLRouletteLayer::onNextLevel(bool levelTextVisible, bool enableLoadingCircl
 	}
 }
 
-void RLRouletteLayer::onEnter()
+void RLRouletteLayer::registerWithTouchDispatcher()
 {
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, cocos2d::kCCMenuHandlerPriority, true);
-	CCLayer::onEnter();
 }
 
 CCMenuItemSpriteExtra* RLRouletteLayer::getDifficultyButton(GJDifficulty difficulty)

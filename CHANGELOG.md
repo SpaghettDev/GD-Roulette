@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.2] - 2024-03-06
+
+### Added
+
+- `#include` directives to the `/custom_layers`
+
+### Changed
+
+- Renamed RLDemonSelectLayer to RLDifficultySelectLayer
+- Made RLDifficultySelectLayer dynamically made (RLDifficultySelectInfo)
+- How touch prio is handled in RLRouletteLayer
+- Made the difficulty buttons in RLDifficultySelectLayer in another menu
+- Refactored RLDifficultySelectLayer.cpp
+- Use structured bindings (i forgor they existed)
+
+### Fixed
+
+- Empty list id crash on Android (probably)
+- Show options sprite being set even if the info icon was never clicked
+
 ## [2.0.1] - 2024-03-03
 
 ### Fixed

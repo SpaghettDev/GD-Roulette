@@ -55,47 +55,48 @@ namespace rl
 
 		inline GJGameLevel* createLevelFromResponse(const ListFetcher::level_pair_t& lp)
 		{
-			auto level = GJGameLevel::create();
+			const auto& [level, creator] = lp; 
+			auto gjlevel = GJGameLevel::create();
 
-			level->m_levelID = lp.first.levelID;
-			level->m_levelName = lp.first.name;
-			level->m_levelDesc = lp.first.description;
-			level->m_levelVersion = lp.first.version;
-			level->m_creatorName = lp.second.name;
-			level->m_accountID = lp.second.accountID;
-			level->m_userID = lp.second.userID;
-			level->m_ratings = lp.first.difficultyDenominator;
-			level->m_ratingsSum = lp.first.difficultyNumerator;
-			level->m_stars = lp.first.stars;
-			level->m_coins = lp.first.coins;
-			level->m_downloads = lp.first.downloads;
-			level->m_likes = lp.first.likes;
-			level->m_levelLength = lp.first.length;
-			level->m_coinsVerified = lp.first.verifiedCoins;
-			level->m_starsRequested = lp.first.starsRequested;
-			level->m_featured = lp.first.featureIdx;
-			level->m_isEpic = lp.first.epic;
+			gjlevel->m_levelID = level.levelID;
+			gjlevel->m_levelName = level.name;
+			gjlevel->m_levelDesc = level.description;
+			gjlevel->m_levelVersion = level.version;
+			gjlevel->m_creatorName = creator.name;
+			gjlevel->m_accountID = creator.accountID;
+			gjlevel->m_userID = creator.userID;
+			gjlevel->m_ratings = level.difficultyDenominator;
+			gjlevel->m_ratingsSum = level.difficultyNumerator;
+			gjlevel->m_stars = level.stars;
+			gjlevel->m_coins = level.coins;
+			gjlevel->m_downloads = level.downloads;
+			gjlevel->m_likes = level.likes;
+			gjlevel->m_levelLength = level.length;
+			gjlevel->m_coinsVerified = level.verifiedCoins;
+			gjlevel->m_starsRequested = level.starsRequested;
+			gjlevel->m_featured = level.featureIdx;
+			gjlevel->m_isEpic = level.epic;
 
-			if (lp.first.isDemon)
+			if (level.isDemon)
 			{
-				level->m_demon = 1;
-				level->m_difficulty = static_cast<GJDifficulty>(lp.first.demonDifficulty + 4);
-				level->m_demonDifficulty = lp.first.demonDifficulty;
+				gjlevel->m_demon = 1;
+				gjlevel->m_difficulty = static_cast<GJDifficulty>(level.demonDifficulty + 4);
+				gjlevel->m_demonDifficulty = level.demonDifficulty;
 			}
-			else if (lp.first.isAuto)
-				level->m_difficulty = GJDifficulty::Auto;
+			else if (level.isAuto)
+				gjlevel->m_difficulty = GJDifficulty::Auto;
 			else
-				level->m_difficulty = static_cast<GJDifficulty>(lp.first.difficultyNumerator / lp.first.difficultyDenominator);
+				gjlevel->m_difficulty = static_cast<GJDifficulty>(level.difficultyNumerator / level.difficultyDenominator);
 
-			if (auto id = lp.first.customSongID; id != 0)
-				level->m_songID = id;
+			if (auto id = level.customSongID; id != 0)
+				gjlevel->m_songID = id;
 			else
-				level->m_audioTrack = lp.first.officialSong;
+				gjlevel->m_audioTrack = level.officialSong;
 
-			level->m_levelNotDownloaded = true;
-			level->m_levelType = GJLevelType::Saved;
+			gjlevel->m_levelNotDownloaded = true;
+			gjlevel->m_levelType = GJLevelType::Saved;
 
-			return level;
+			return gjlevel;
 		}
 
 		inline const rtrp::objects::CreatorObject getCreatorFromLevelResponse(

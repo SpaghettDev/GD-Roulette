@@ -152,6 +152,16 @@ void ListFetcher::getRandomGDListLevel(int listID, level_pair_t& level, std::str
 		return;
 	}
 
+	// android my beloved
+#ifdef GEODE_IS_ANDROID
+	if (listID == 0)
+	{
+		error = "Invalid List ID.";
+		is_fetching = false;
+		return;
+	}
+#endif // GEODE_IS_ANDROID
+
 	web::AsyncWebRequest()
 		.userAgent("")
 		.bodyRaw(fmt::format("secret={}&type={}&str={}", GJ_SECRET, 0, listID))

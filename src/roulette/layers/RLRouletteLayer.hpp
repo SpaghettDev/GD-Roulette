@@ -3,7 +3,7 @@
 #include "RLRouletteInfoLayer.hpp"
 #include "../../custom_layers/base/BaseCustomAlertLayer.hpp"
 #include "../../custom_layers/RLConfirmationAlertLayer.hpp"
-#include "../../custom_layers/RLDemonSelectLayer.hpp"
+#include "../../custom_layers/RLDifficultySelectLayer.hpp"
 
 #include <Geode/Bindings.hpp>
 
@@ -17,7 +17,7 @@ private:
 	LoadingCircle* m_loading_circle{};
 	RLRouletteInfoLayer* m_roulette_info_layer{};
 	RLConfirmationAlertLayer* m_confirmation_layer{};
-	RLDemonSelectLayer* m_demon_select_layer{};
+	RLDifficultySelectLayer* m_demon_select_layer{};
 
 	GJDifficulty m_selected_difficulty;
 	GJDifficulty m_selected_demon_difficulty;
@@ -51,7 +51,7 @@ public:
 	void finishLevelRoulette();
 	void onNextLevel(bool = false, bool = false, float = -175.f);
 
-	void onEnter() override;
+	void registerWithTouchDispatcher() override;
 	CCMenuItemSpriteExtra* getDifficultyButton(GJDifficulty);
 	void setDifficultyButtonColor(GJDifficulty, const ccColor3B&);
 
