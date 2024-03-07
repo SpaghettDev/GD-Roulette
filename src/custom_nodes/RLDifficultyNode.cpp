@@ -18,7 +18,7 @@ RLDifficultyNode* RLDifficultyNode::create(GJDifficulty difficulty, bool feature
 
 bool RLDifficultyNode::init(GJDifficulty difficulty, bool featured, bool epic)
 {
-	if (!CCNode::init()) return false;
+	if (!CCNodeRGBA::init()) return false;
 
 	m_difficulty_info = { difficulty, featured, epic };
 	m_color = { 255, 255, 255 };
@@ -55,6 +55,7 @@ bool RLDifficultyNode::init(GJDifficulty difficulty, bool featured, bool epic)
 
 void RLDifficultyNode::setColor(const ccColor3B& color)
 {
+	log::debug("called with r:{} g:{} b:{}", color.r, color.g, color.b);
 	m_difficulty_sprite->setColor(color);
 	if (m_featured_sprite)
 		m_featured_sprite->setColor(color);
@@ -64,7 +65,7 @@ void RLDifficultyNode::setColor(const ccColor3B& color)
 	m_color = color;
 }
 
-// basically RLDifficultyNode::init but without the call to CCNode::init and some extra checks
+// basically RLDifficultyNode::init but without the call to CCNodeRGBA::init and some extra checks
 void RLDifficultyNode::setDifficulty(GJDifficulty difficulty, bool featured, bool epic)
 {
 	if (m_difficulty_info == DifficultyInfo{ difficulty, featured, epic }) return;

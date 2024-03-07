@@ -19,7 +19,7 @@ std::string RLRouletteLayer::m_list_fetcher_error;
 
 RLRouletteLayer* RLRouletteLayer::create()
 {
-	auto ret = new RLRouletteLayer();
+	auto* ret = new RLRouletteLayer();
 	m_list_fetcher.init();
 
 	if (ret && ret->init())

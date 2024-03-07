@@ -52,6 +52,7 @@ public:
 	void onNextLevel(bool = false, bool = false, float = -175.f);
 
 	void registerWithTouchDispatcher() override;
+
 	CCMenuItemSpriteExtra* getDifficultyButton(GJDifficulty);
 	void setDifficultyButtonColor(GJDifficulty, const ccColor3B&);
 

@@ -1,11 +1,12 @@
 #pragma once
-
-#include <Geode/Bindings.hpp>
+// #include <Geode/cocos/base_nodes/CCNode.h>
+// #include <Geode/cocos/sprite_nodes/CCSprite.h>
+// #include <Geode/cocos/include/ccTypes.h>
+#include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
-// TODO: mfw CCNodeRGBA
-class RLDifficultyNode : public CCNode
+class RLDifficultyNode : public CCNodeRGBA
 {
 private:
 	struct DifficultyInfo
@@ -26,8 +27,9 @@ public:
 	static RLDifficultyNode* create(GJDifficulty, bool = false, bool = false);
 	bool init(GJDifficulty, bool = false, bool = false);
 
-	void setColor(const ccColor3B&);
+	// TODO: fix this setColor fuckery
+	void setColor(const ccColor3B&) override;
 
 	void setDifficulty(GJDifficulty, bool = false, bool = false);
-	DifficultyInfo getDifficultyInfo() const { return m_difficulty_info; };
+	const DifficultyInfo& getDifficultyInfo() const { return m_difficulty_info; };
 };

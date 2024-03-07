@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Made the difficulty buttons in RLDifficultySelectLayer in another menu
 - Refactored RLDifficultySelectLayer.cpp
 - Use structured bindings (i forgor they existed)
+- `RLDifficultyNode` now inherits from CCNodeRGBA (rookie mistake)
 
 ### Fixed
 
