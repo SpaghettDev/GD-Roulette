@@ -103,8 +103,8 @@ void RLIntegerInputLayer::onClose(CCObject*)
 	
 	m_iili.onFinish(this);
 
-	setKeypadEnabled(false);
-	removeFromParentAndCleanup(true);
+	this->setKeypadEnabled(false);
+	this->removeFromParentAndCleanup(true);
 }
 
 void RLIntegerInputLayer::keyDown(enumKeyCodes key)

@@ -76,8 +76,8 @@ bool RLConfirmationAlertLayer::init(const ConfirmationAlertInfo& cli)
 
 void RLConfirmationAlertLayer::onClose(CCObject*)
 {
-	setKeypadEnabled(false);
-	removeFromParentAndCleanup(true);
+	this->setKeypadEnabled(false);
+	this->removeFromParentAndCleanup(true);
 }
 
 void RLConfirmationAlertLayer::onYesButton(CCObject*)

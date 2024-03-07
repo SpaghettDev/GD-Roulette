@@ -109,8 +109,8 @@ bool RLRouletteInfoLayer::init()
 
 void RLRouletteInfoLayer::onClose(CCObject*)
 {
-	setKeypadEnabled(false);
-	removeFromParentAndCleanup(true);
+	this->setKeypadEnabled(false);
+	this->removeFromParentAndCleanup(true);
 }
 
 // TODO: save the buttons' colors' states

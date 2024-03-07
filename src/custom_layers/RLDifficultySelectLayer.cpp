@@ -29,20 +29,6 @@ bool RLDifficultySelectLayer::init(const RLDifficultySelectInfo& dsi)
 	m_mainLayer->addChild(difficulty_buttons_menu, 11);
 
 
-	auto title = CCLabelBMFont::create(m_dsi.title.data(), "bigFont.fnt");
-	title->setPosition({ .0f, 70.f });
-	m_buttonMenu->addChild(title);
-
-	auto okButton = CCMenuItemSpriteExtra::create(
-		ButtonSprite::create("OK", 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
-		this,
-		menu_selector(RLDifficultySelectLayer::onClose)
-	);
-	okButton->setPosition({ .0f, -65.f });
-	m_buttonMenu->addChild(okButton);
-
-
-	// yeah...
 	for (int i = 0; i < m_dsi.difficulties.size(); i++)
 	{
 		const auto difficulty = m_dsi.difficulties.at(i);
@@ -63,7 +49,18 @@ bool RLDifficultySelectLayer::init(const RLDifficultySelectInfo& dsi)
 		difficulty_buttons_menu->addChild(difficultyButton);
 	}
 
-	// difficulty_buttons_menu->addChild(CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("difficulty_10_btn2_001.png"), m_buttonMenu, nullptr));
+
+	auto title = CCLabelBMFont::create(m_dsi.title.data(), "bigFont.fnt");
+	title->setPosition({ .0f, 70.f });
+	m_buttonMenu->addChild(title);
+
+	auto okButton = CCMenuItemSpriteExtra::create(
+		ButtonSprite::create("OK", 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1.f),
+		this,
+		menu_selector(RLDifficultySelectLayer::onClose)
+	);
+	okButton->setPosition({ .0f, -65.f });
+	m_buttonMenu->addChild(okButton);
 
 
 	return true;
@@ -73,8 +70,9 @@ void RLDifficultySelectLayer::onClose(CCObject*)
 {
 	if (m_dsi.onOk)
 		m_dsi.onOk(this);
-	setKeypadEnabled(false);
-	removeFromParentAndCleanup(true);
+
+	this->setKeypadEnabled(false);
+	this->removeFromParentAndCleanup(true);
 }
 
 void RLDifficultySelectLayer::onDemonButton(CCObject* sender)
