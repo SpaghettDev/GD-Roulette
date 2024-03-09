@@ -19,7 +19,6 @@ class $modify(PauseLayer)
 			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-progress-label"));
 			float goalOffset = 24.f;
 
-			// TODO: fix this because it only happens on platformer levels, which only happens in GD List
 			if (!normalPercentageLabel) return;
 
 			if (playLayer->m_level->m_normalPercent < 10)

@@ -37,6 +37,10 @@ Then open the generated solution in Visual Studio.
 
 **Make sure to compile in Release Mode! Otherwise the solution will not compile.**
 
+## Contact
+
+You can contact me through my personal [Discord server](https://discord.gg/WPcqK3Yt) to get instant™️ support and other stuff ig.
+
 ## Credits
 
 - SpaghettDev ([@SpaghettDev](https://github.com/SpaghettDev)): Creator & maintainer.

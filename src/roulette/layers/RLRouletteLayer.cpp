@@ -6,6 +6,7 @@
 #include "RLRouletteInfoLayer.hpp"
 #include "../manager/RouletteManager.hpp"
 #include "../../custom_nodes/RLDifficultyNode.hpp"
+#include "../../custom_layers/RLDifficultySelectLayer.hpp"
 #include "../../utils.hpp"
 
 #include <Geode/Geode.hpp>
@@ -386,8 +387,7 @@ void RLRouletteLayer::onInfoButton(CCObject*)
 			m_roulette_info_layer->show();
 	}
 	else
-		// this->addChild(TextAlertPopup::create("You are currently in a game of roulette!", 1.2f, .8f, 1, "bigFont.fnt"));
-		Notification::create("You are currently in a game of roulette!", NotificationIcon::Error, .7f)->show();
+		rl::utils::createNotificationToast(this, "You are currently in a game of roulette!", .5f, 85.f);
 }
 
 void RLRouletteLayer::onDifficultyButton(CCObject* sender)
@@ -475,8 +475,7 @@ void RLRouletteLayer::onLevelInfo(CCObject* sender)
 	}
 
 	clipboard::write(text);
-	// this->addChild(TextAlertPopup::create("Copied to Clipboard", .5f, .6f, 1, "bigFont.fnt"));
-	Notification::create("Copied to Clipboard", NotificationIcon::Success)->show();
+	rl::utils::createNotificationToast(this, "Copied to Clipboard", .5f, 85.f);
 }
 
 void RLRouletteLayer::onPlayButton(CCObject*)
@@ -535,16 +534,7 @@ void RLRouletteLayer::onNextButton(CCObject*)
 		);
 	}
 	else
-		// this->addChild(TextAlertPopup::create(
-		// 	std::format(
-		// 		"You need to get at least {}%!", static_cast<int>(g_rouletteManager.levelPercentageGoal)
-		// 	), 1.2f, .8f, 1, "bigFont.fnt"
-		// ));
-		Notification::create(
-			fmt::format("You need to get at least {}%!", g_rouletteManager.levelPercentageGoal),
-			NotificationIcon::Error,
-			.7f
-		)->show();
+		rl::utils::createNotificationToast(this, fmt::format("You need to get at least {}%!", g_rouletteManager.levelPercentageGoal), .5f, 85.f);
 }
 
 void RLRouletteLayer::onResetButton(CCObject*)
@@ -599,12 +589,7 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 		);
 	}
 	else
-		// this->addChild(
-		// 	TextAlertPopup::create(
-		// 		"You don't have any skips left!", 1.2f, .8f, 1, "bigFont.fnt"
-		// 	)
-		// );
-		Notification::create("You don't have any skips left!", NotificationIcon::Error, .7f)->show();
+		rl::utils::createNotificationToast(this, "You don't have any skips left!", .5f, 85.f);
 }
 
 void RLRouletteLayer::finishLevelRoulette()

@@ -1,0 +1,17 @@
+name: Feature Suggestion
+description: Suggest a feature
+title: "[Feature]: "
+labels: ["enhancement"]
+projects: "SpaghettDev/4"
+assignees:
+  - SpaghettDev
+body:
+  - type: textarea
+    id: feature-text
+    attributes:
+      label: What is your suggested feature?
+      description: Provide a detailed explanation of what you would want to see added to this project.
+      placeholder: Tell us what you want!
+      value: "I would like ..."
+    validations:
+      required: true

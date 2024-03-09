@@ -8,8 +8,6 @@
 
 using namespace geode::prelude;
 
-std::list<int> levelIDs{};
-
 class $modify(LevelInfoLayer)
 {
 	bool init(GJGameLevel* level, bool p1)
@@ -18,12 +16,9 @@ class $modify(LevelInfoLayer)
 
 		if (g_rouletteManager.isPlaying && level->m_levelID.value() == g_rouletteManager.currentLevelID)
 		{
-			levelIDs.push_back(level->m_levelID);
-
 			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
 			float goalOffset = .0f;
 
-			// TODO: fix this because it only happens on platformer levels, which only happens in GD List
 			if (!normalPercentageLabel) return true;
 
 			// wtf v2
@@ -51,18 +46,14 @@ class $modify(LevelInfoLayer)
 
 	void onBack(CCObject* sender)
 	{
-		if (g_rouletteManager.isPlaying)
-		{
-			if (levelIDs.size() != 0)
-				levelIDs.pop_back();
-
-			if (g_rouletteManager.rouletteLayer && levelIDs.back() == g_rouletteManager.currentLevelID)
-			{
-				static_cast<CCLabelBMFont*>(
-					g_rouletteManager.rouletteLayer->playing_menu->getChildByID("percentage-text")
-				)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
-			}
-		}
+		if (
+			g_rouletteManager.isPlaying &&
+			g_rouletteManager.rouletteLayer &&
+			this->m_level->m_levelID.value() == g_rouletteManager.currentLevelID
+		)
+			static_cast<CCLabelBMFont*>(
+				g_rouletteManager.rouletteLayer->playing_menu->getChildByID("percentage-text")
+			)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
 
 		LevelInfoLayer::onBack(sender);
 	}
