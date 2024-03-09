@@ -6,30 +6,36 @@
 
 using namespace geode::prelude;
 
+enum class RL_FEATURE_STATE
+{
+	NONE = -1,
+	FEATURED,
+	EPIC,
+	LEGENDARY,
+	MYTHIC
+};
+
 class RLDifficultyNode : public CCNodeRGBA
 {
 private:
 	struct DifficultyInfo
 	{
 		GJDifficulty difficulty;
-		bool featured;
-		bool epic;
+		RL_FEATURE_STATE feature_state = RL_FEATURE_STATE::NONE;
 
 		bool operator==(const DifficultyInfo&) const = default;
 	} m_difficulty_info;
 
 	CCSprite* m_difficulty_sprite;
-	CCSprite* m_featured_sprite;
-	CCSprite* m_epic_sprite;
-	ccColor3B m_color;
+	CCSprite* m_feature_sprite;
 
 public:
-	static RLDifficultyNode* create(GJDifficulty, bool = false, bool = false);
-	bool init(GJDifficulty, bool = false, bool = false);
+	static RLDifficultyNode* create(const DifficultyInfo&);
+	static RLDifficultyNode* create(GJDifficulty);
+	bool init(const DifficultyInfo&);
 
-	// TODO: fix this setColor fuckery
-	void setColor(const ccColor3B&) override;
+	void setDifficulty(const DifficultyInfo&);
+	void setDifficulty(GJDifficulty);
 
-	void setDifficulty(GJDifficulty, bool = false, bool = false);
 	const DifficultyInfo& getDifficultyInfo() const { return m_difficulty_info; };
 };

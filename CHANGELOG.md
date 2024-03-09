@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - `#include` directives to the `/custom_layers`
+- Platform name to `RLRouletteInfoLayer`
+- `RLDifficultyNode` supports epic, legendary and mythic now
+- `rl::utils::getFeatureStateFromResponse`
 
 ### Changed
 
@@ -25,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Empty list id crash on Android (probably)
 - Show options sprite being set even if the info icon was never clicked
+- `RLDifficultyNode::setColor` being weird
+- Difficulty not being highlighted when changing the list multiple times
 
 ## [2.0.1] - 2024-03-03
 

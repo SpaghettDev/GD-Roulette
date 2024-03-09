@@ -112,8 +112,9 @@ bool RLRouletteLayer::init()
 	createDifficultyButton(
 		GJDifficulty::Demon,
 		RLDifficultyNode::create(
-			m_selected_difficulty >= GJDifficulty::Demon ? m_selected_demon_difficulty : static_cast<GJDifficulty>(-2),
-			false, false
+			m_selected_difficulty >= GJDifficulty::Demon
+				? m_selected_demon_difficulty
+				: static_cast<GJDifficulty>(-2)
 		),
 		{ 90.f, -25.f }, 1.2f
 	);
@@ -200,7 +201,7 @@ bool RLRouletteLayer::init()
 	levelPlayButtonItem->setTag(4);
 	playing_menu->addChild(levelPlayButtonItem);
 
-	auto difficultyNode = RLDifficultyNode::create(GJDifficulty::Normal, false, true);
+	auto difficultyNode = RLDifficultyNode::create({ GJDifficulty::Normal, RL_FEATURE_STATE::MYTHIC });
 	difficultyNode->setPosition({ -110.f, 40.f });
 	difficultyNode->setScale(1.5f);
 	difficultyNode->setID("difficulty-node");
@@ -397,21 +398,24 @@ void RLRouletteLayer::onDifficultyButton(CCObject* sender)
 	auto button = static_cast<CCMenuItemSpriteExtra*>(sender);
 	auto difficulty = static_cast<GJDifficulty>(sender->getTag());
 	auto& array = g_rouletteManager.getFromSaveContainer("difficulty-array").as_array();
-	int idx = rl::utils::getIndexOf(array, true);
+	int prevIdx = rl::utils::getIndexOf(array, true);
 
-	array.at(idx) = false;
+	array.at(prevIdx) = false;
 	array.at(rl::constants::diff_to_idx.at(difficulty)) = true;
 	g_rouletteManager.previousDifficulty = difficulty;
 	m_selected_difficulty = difficulty;
 
-	setDifficultyButtonColor(rl::constants::idx_to_diff.at(idx), { 125, 125, 125 });
+	static_cast<RLDifficultyNode*>(
+		getDifficultyButton(GJDifficulty::Demon)->getChildByID("sprite-node")
+	)->setDifficulty(
+		m_selected_difficulty == GJDifficulty::Demon
+			? g_rouletteManager.previousDemonDifficulty
+			: static_cast<GJDifficulty>(-2)
+	);
+	setDifficultyButtonColor(rl::constants::idx_to_diff.at(prevIdx), { 125, 125, 125 });
 	setDifficultyButtonColor(difficulty, { 255, 255, 255 });
 
 	main_menu->getChildByID("demon-plus-button")->setVisible(m_selected_difficulty >= GJDifficulty::Demon);
-
-	static_cast<RLDifficultyNode*>(
-		g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Demon)->getNormalImage()
-	)->setDifficulty(m_selected_difficulty == GJDifficulty::Demon ? g_rouletteManager.previousDemonDifficulty : static_cast<GJDifficulty>(-2));
 }
 
 void RLRouletteLayer::onStartButton(CCObject*)
@@ -446,7 +450,7 @@ void RLRouletteLayer::onPlusButton(CCObject*)
 			g_rouletteManager.previousDemonDifficulty = currentDifficulty;
 
 			static_cast<RLDifficultyNode*>(
-				g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Demon)->getChildByID("sprite-node")
+				getDifficultyButton(GJDifficulty::Demon)->getChildByID("sprite-node")
 			)->setDifficulty(currentDifficulty);
 		}
 	});
@@ -622,26 +626,27 @@ void RLRouletteLayer::finishLevelRoulette()
 	main_menu->setVisible(false);
 
 	g_rouletteManager.currentLevelID = m_level.first.levelID;
+	const auto& [level, creator] = m_level;
 
 	static_cast<CCLabelBMFont*>(
 		playing_menu->getChildByID("level-name-button")->getChildByID("button-label")
-	)->setString(m_level.first.name.c_str());
+	)->setString(level.name.c_str());
 	static_cast<CCLabelBMFont*>(
 		playing_menu->getChildByID("level-creator-button")->getChildByID("button-label")
-	)->setString(fmt::format("by {}", m_level.second.name).c_str());
+	)->setString(fmt::format("by {}", creator.name).c_str());
 	static_cast<CCLabelBMFont*>(
 		playing_menu->getChildByID("level-id-button")->getChildByID("button-label")
-	)->setString(fmt::format("ID: {}", m_level.first.levelID).c_str());
+	)->setString(fmt::format("ID: {}", level.levelID).c_str());
 
-	static_cast<RLDifficultyNode*>(playing_menu->getChildByID("difficulty-node"))->setDifficulty(
-		rl::utils::getDifficultyFromResponse(m_level.first), m_level.first.extras.featured, m_level.first.extras.epic
-	);
+	static_cast<RLDifficultyNode*>(playing_menu->getChildByID("difficulty-node"))->setDifficulty({
+		rl::utils::getDifficultyFromResponse(level), rl::utils::getFeatureStateFromResponse(level)
+	});
 	playing_menu->getChildByID("difficulty-node")->setVisible(true);
 
-	if (int coins = m_level.first.coins; coins > 0)
+	if (int coins = level.coins; coins > 0)
 	{
-		auto difficulty = rl::utils::getDifficultyFromResponse(m_level.first);
-		if (m_level.first.extras.featured || m_level.first.extras.epic)
+		auto difficulty = rl::utils::getDifficultyFromResponse(level);
+		if (level.extras.featured || level.extras.epic)
 			playing_menu->getChildByID("difficulty-node")->setPositionY(50.f);
 		else
 			playing_menu->getChildByID("difficulty-node")->setPositionY(55.f);
@@ -692,12 +697,7 @@ CCMenuItemSpriteExtra* RLRouletteLayer::getDifficultyButton(GJDifficulty difficu
 
 void RLRouletteLayer::setDifficultyButtonColor(GJDifficulty difficulty, const ccColor3B& color)
 {
-	const auto button = getDifficultyButton(difficulty);
-
-	if (auto difficultyNode = typeinfo_cast<RLDifficultyNode*>(button->getNormalImage()))
-		difficultyNode->setColor(color);
-	else
-		button->setColor(color);
+	getDifficultyButton(difficulty)->setColor(color);
 }
 
 
@@ -754,15 +754,8 @@ CCMenuItemSpriteExtra* RLRouletteLayer::createDifficultyButton(
 		this,
 		menu_selector(RLRouletteLayer::onDifficultyButton)
 	);
-	if (!g_rouletteManager.getArrayState(
-			g_rouletteManager.getFromSaveContainer("difficulty-array"),
-			rl::constants::diff_to_idx.at(difficulty)
-	)) {
-		if (auto diff = typeinfo_cast<RLDifficultyNode*>(sprite))
-			diff->setColor({ 125, 125, 125 });
-		else
-			button->setColor({ 125, 125, 125 });
-	}
+	if (m_selected_difficulty != difficulty)
+		button->setColor({ 125, 125, 125 });
 	button->setPosition(point);
 	button->setTag(static_cast<int>(difficulty));
 	button->setVisible(visible);

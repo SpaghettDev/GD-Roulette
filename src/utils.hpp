@@ -10,6 +10,7 @@
 #include <Geode/binding/GJGameLevel.hpp>
 
 #include "custom_layers/base/BaseCustomAlertLayer.hpp"
+#include "custom_nodes/RLDifficultyNode.hpp"
 #include "listfetcher/ListFetcher.hpp"
 
 namespace rl
@@ -134,6 +135,13 @@ namespace rl
 			return static_cast<GJDifficulty>(level.difficultyNumerator / level.difficultyDenominator);
 		}
 
+		inline RL_FEATURE_STATE getFeatureStateFromResponse(const rtrp::objects::LevelObject& level)
+		{
+			return level.featureIdx == 0
+				? RL_FEATURE_STATE::NONE
+				: static_cast<RL_FEATURE_STATE>(level.epic);
+		}
+
 		inline CCLabelBMFont* createTextLabel(
 			const char* text,
 			const CCPoint& position,
@@ -207,11 +215,21 @@ namespace rl
 			{ GJDifficulty::DemonExtreme, "difficulty_10_btn2_001.png" }
 		};
 
+
+		inline const std::map<RL_FEATURE_STATE, std::string_view> feature_state_to_sprite{
+			{ RL_FEATURE_STATE::FEATURED, "GJ_featuredCoin_001.png" },
+			{ RL_FEATURE_STATE::EPIC, "GJ_epicCoin_001.png" },
+			{ RL_FEATURE_STATE::LEGENDARY, "GJ_epicCoin2_001.png" },
+			{ RL_FEATURE_STATE::MYTHIC, "GJ_epicCoin3_001.png" },
+		};
+
+
 		inline const std::array<std::array<float, 3>, 3> coins_x_pos{
 			std::array<float, 3>{ .0f, -110.f, .0f },
 			std::array<float, 3>{ -115.f, -105.f, .0f },
 			std::array<float, 3>{ -120.f, -110.f, -100.f }
 		};
+
 
 		inline const std::array<GJDifficulty, 6> idx_to_diff{
 			GJDifficulty::Easy,

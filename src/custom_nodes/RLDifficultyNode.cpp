@@ -1,11 +1,11 @@
 #include "RLDifficultyNode.hpp"
 #include "../utils.hpp"
 
-RLDifficultyNode* RLDifficultyNode::create(GJDifficulty difficulty, bool featured, bool epic)
+RLDifficultyNode* RLDifficultyNode::create(const DifficultyInfo& di)
 {
-	auto ret = new RLDifficultyNode();
+	auto* ret = new RLDifficultyNode();
 
-	if (ret && ret->init(difficulty, featured, epic))
+	if (ret && ret->init(di))
 		ret->autorelease();
 	else
 	{
@@ -16,15 +16,33 @@ RLDifficultyNode* RLDifficultyNode::create(GJDifficulty difficulty, bool feature
 	return ret;
 }
 
-bool RLDifficultyNode::init(GJDifficulty difficulty, bool featured, bool epic)
+RLDifficultyNode* RLDifficultyNode::create(GJDifficulty difficulty)
+{
+	auto* ret = new RLDifficultyNode();
+
+	if (ret && ret->init({ difficulty, RL_FEATURE_STATE::NONE }))
+		ret->autorelease();
+	else
+	{
+		delete ret;
+		ret = nullptr;
+	}
+
+	return ret;
+}
+
+bool RLDifficultyNode::init(const DifficultyInfo& di)
 {
 	if (!CCNodeRGBA::init()) return false;
+	
+	m_difficulty_info = di;
 
-	m_difficulty_info = { difficulty, featured, epic };
-	m_color = { 255, 255, 255 };
+	this->setCascadeColorEnabled(true);
+	this->setCascadeOpacityEnabled(true);
+
 
 	m_difficulty_sprite = CCSprite::createWithSpriteFrameName(
-		rl::constants::difficulty_to_sprite.at(difficulty).data()
+		rl::constants::difficulty_to_sprite.at(m_difficulty_info.difficulty).data()
 	);
 	m_difficulty_sprite->setID("difficulty-sprite");
 	this->addChild(m_difficulty_sprite);
@@ -34,74 +52,85 @@ bool RLDifficultyNode::init(GJDifficulty difficulty, bool featured, bool epic)
 	this->setContentSize(targetContentSize);
 	m_difficulty_sprite->setPosition(targetContentSize / 2);
 
-	if (featured)
+	switch (m_difficulty_info.feature_state)
 	{
-		m_featured_sprite = CCSprite::createWithSpriteFrameName("GJ_featuredCoin_001.png");
-		m_featured_sprite->setPosition(m_difficulty_sprite->getPosition());
-		m_featured_sprite->setID("featured-sprite");
-		this->addChild(m_featured_sprite, -1);
+		case RL_FEATURE_STATE::FEATURED:
+		case RL_FEATURE_STATE::EPIC:
+		case RL_FEATURE_STATE::LEGENDARY:
+		case RL_FEATURE_STATE::MYTHIC:
+			m_feature_sprite = CCSprite::createWithSpriteFrameName(
+				rl::constants::feature_state_to_sprite.at(m_difficulty_info.feature_state).data()
+			);
+		break;
+
+		default:
+			m_feature_sprite = nullptr;
+		break;
 	}
 
-	if (epic)
+	if (m_feature_sprite)
 	{
-		m_epic_sprite = CCSprite::createWithSpriteFrameName("GJ_epicCoin_001.png");
-		m_epic_sprite->setPosition(m_difficulty_sprite->getPosition());
-		m_epic_sprite->setID("epic-sprite");
-		this->addChild(m_epic_sprite, -1);
+		m_feature_sprite->setPosition(m_difficulty_sprite->getPosition());
+		m_feature_sprite->setID("feature-sprite");
+		this->addChild(m_feature_sprite, -1);
 	}
 
 	return true;
 }
 
-void RLDifficultyNode::setColor(const ccColor3B& color)
-{
-	log::debug("called with r:{} g:{} b:{}", color.r, color.g, color.b);
-	m_difficulty_sprite->setColor(color);
-	if (m_featured_sprite)
-		m_featured_sprite->setColor(color);
-	if (m_epic_sprite)
-		m_epic_sprite->setColor(color);
-
-	m_color = color;
-}
-
 // basically RLDifficultyNode::init but without the call to CCNodeRGBA::init and some extra checks
-void RLDifficultyNode::setDifficulty(GJDifficulty difficulty, bool featured, bool epic)
+void RLDifficultyNode::setDifficulty(const DifficultyInfo& di)
 {
-	if (m_difficulty_info == DifficultyInfo{ difficulty, featured, epic }) return;
+	if (m_difficulty_info == di) return;
 
-	for (auto* node : CCArrayExt<CCSprite*>(this->getChildren()))
-		node->removeFromParent();
+	if (m_difficulty_info.difficulty != di.difficulty)
+	{
+		m_difficulty_sprite->removeFromParent();
 
-	m_difficulty_sprite = CCSprite::createWithSpriteFrameName(
-		rl::constants::difficulty_to_sprite.at(difficulty).data()
-	);
-	m_difficulty_sprite->setColor(m_color);
-	m_difficulty_sprite->setID("difficulty-sprite");
-	this->addChild(m_difficulty_sprite);
+		m_difficulty_sprite = CCSprite::createWithSpriteFrameName(
+			rl::constants::difficulty_to_sprite.at(di.difficulty).data()
+		);
+		m_difficulty_sprite->setID("difficulty-sprite");
+		this->addChild(m_difficulty_sprite);
+	}
 
 	// man this codebase is getting worse by the minute
 	// TODO: find a better way :despair:
 	if (this->getParent() && typeinfo_cast<CCMenuItemSpriteExtra*>(this->getParent()))
 		m_difficulty_sprite->setPosition(this->getContentSize() / 2);
 
-	if (featured)
+	if (m_difficulty_info.feature_state != di.feature_state)
 	{
-		m_featured_sprite = CCSprite::createWithSpriteFrameName("GJ_featuredCoin_001.png");
-		m_featured_sprite->setColor(m_color);
-		m_featured_sprite->setPosition(m_difficulty_sprite->getPosition());
-		m_featured_sprite->setID("featured-sprite");
-		this->addChild(m_featured_sprite, -1);
+		if (m_feature_sprite)
+			m_feature_sprite->removeFromParent();
+
+		switch (di.feature_state)
+		{
+			case RL_FEATURE_STATE::FEATURED:
+			case RL_FEATURE_STATE::EPIC:
+			case RL_FEATURE_STATE::LEGENDARY:
+			case RL_FEATURE_STATE::MYTHIC:
+				m_feature_sprite = CCSprite::createWithSpriteFrameName(
+					rl::constants::feature_state_to_sprite.at(di.feature_state).data()
+				);
+			break;
+
+			default:
+				m_feature_sprite = nullptr;
+			break;
+		}
+
+		if (m_feature_sprite)
+		{
+			m_feature_sprite->setID("feature-sprite");
+			this->addChild(m_feature_sprite, -1);
+		}
 	}
 
-	if (epic)
-	{
-		m_epic_sprite = CCSprite::createWithSpriteFrameName("GJ_epicCoin_001.png");
-		m_epic_sprite->setColor(m_color);
-		m_epic_sprite->setPosition(m_difficulty_sprite->getPosition());
-		m_epic_sprite->setID("epic-sprite");
-		this->addChild(m_epic_sprite, -1);
-	}
+	m_difficulty_info = di;
+}
 
-	m_difficulty_info = { difficulty, featured, epic };
+void RLDifficultyNode::setDifficulty(GJDifficulty difficulty)
+{
+	setDifficulty({ difficulty, RL_FEATURE_STATE::NONE });
 }

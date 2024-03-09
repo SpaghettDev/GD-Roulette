@@ -10,6 +10,8 @@
 
 using namespace geode::prelude;
 
+GJDifficulty RLRouletteInfoLayer::m_previous_roulette_difficulty = static_cast<GJDifficulty>(-3);
+
 RLRouletteInfoLayer* RLRouletteInfoLayer::create()
 {
 	auto ret = new RLRouletteInfoLayer();
@@ -92,11 +94,13 @@ bool RLRouletteInfoLayer::init()
 
 
 	auto versionText = CCLabelBMFont::create(
-#ifdef RWDI_MODE
-		("Version " + Mod::get()->getVersion().toString(true) + " dev").c_str(),
+#if defined(RWDI_MODE) && defined(GEODE_PLATFORM_SHORT_IDENTIFIER)
+		fmt::format("Version: {} ({} dev)", Mod::get()->getVersion().toString(true), GEODE_PLATFORM_SHORT_IDENTIFIER).c_str(),
+#elif defined(GEODE_PLATFORM_SHORT_IDENTIFIER)
+		fmt::format("Version: {} ({})", Mod::get()->getVersion().toString(true), GEODE_PLATFORM_SHORT_IDENTIFIER).c_str(),
 #else
-		("Version " + Mod::get()->getVersion().toString(true)).c_str(),
-#endif // RWDI_MODE
+		fmt::format("Version: {} (how)", Mod::get()->getVersion().toString(true)).c_str(),
+#endif
 		"bigFont.fnt"
 	);
 	versionText->setPosition({ .0f, -94.f });
@@ -113,14 +117,26 @@ void RLRouletteInfoLayer::onClose(CCObject*)
 	this->removeFromParentAndCleanup(true);
 }
 
-// TODO: save the buttons' colors' states
 void RLRouletteInfoLayer::onToggleButton(CCObject* sender)
 {
 	auto button = static_cast<CCMenuItemToggler*>(sender);
 	auto prevIdx = rl::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
 	const auto demonDifficultyButton = static_cast<RLDifficultyNode*>(
-		g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Demon)->getNormalImage()
+		g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Demon)->getChildByID("sprite-node")
 	);
+
+	// yeah...
+	auto changeListWrapper = [&](const std::function<void()>& f) {
+		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = false;
+		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(prevIdx) = false;
+		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(0) = true;
+
+		f();
+
+		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(0) = false;
+		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(prevIdx) = false;
+		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = true;
+	};
 
 	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(prevIdx) = false;
 	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = true;
@@ -130,46 +146,60 @@ void RLRouletteInfoLayer::onToggleButton(CCObject* sender)
 	for (int i = 0; i < 4; i++)
 		static_cast<CCMenuItemToggler*>(m_buttonMenu->getChildByTag(i))->toggle(false);
 
+	if (m_previous_roulette_difficulty == static_cast<GJDifficulty>(-3))
+		m_previous_roulette_difficulty = g_rouletteManager.previousDifficulty;
+
 	// purely visual, "toggles" the difficulty face based on the selected list
 	// (demon for demon list, insane for challenge list, and previous difficulty for normal list, easy for gd list because 🔥)
 	if (button->getID() == "normal-list")
 	{
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Insane, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Demon, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(g_rouletteManager.previousDifficulty, { 255, 255, 255 });
+		changeListWrapper([&] {
+			g_rouletteManager.rouletteLayer->onDifficultyButton(
+				g_rouletteManager.rouletteLayer->getDifficultyButton(m_previous_roulette_difficulty)
+			);
+		});
+
+		m_previous_roulette_difficulty = static_cast<GJDifficulty>(-3);
 	}
 	else if (button->getID() == "demon-list")
 	{
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(g_rouletteManager.previousDifficulty, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Insane, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Demon, { 255, 255, 255 });
+		changeListWrapper([&] {
+			g_rouletteManager.rouletteLayer->onDifficultyButton(
+				g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Demon)
+			);
+		});
 		demonDifficultyButton->setDifficulty(GJDifficulty::DemonExtreme);
 	}
 	else if (button->getID() == "challenge-list")
 	{
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(g_rouletteManager.previousDifficulty, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Insane, { 255, 255, 255 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Demon, { 125, 125, 125 });
+		changeListWrapper([&] {
+			g_rouletteManager.rouletteLayer->onDifficultyButton(
+				g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Insane)
+			);
+		});
 		demonDifficultyButton->setDifficulty(static_cast<GJDifficulty>(-2));
 	}
 	else if (button->getID() == "gd-list")
 	{
 		// TODO: set the list's difficulty ... somehow?
 
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(g_rouletteManager.previousDifficulty, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Insane, { 125, 125, 125 });
-		g_rouletteManager.rouletteLayer->setDifficultyButtonColor(GJDifficulty::Demon, { 125, 125, 125 });
+		changeListWrapper([&] {
+			g_rouletteManager.rouletteLayer->onDifficultyButton(
+				g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Easy)
+			);
+			g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Easy)->setColor({ 125, 125, 125 });
+		});
 		demonDifficultyButton->setDifficulty(static_cast<GJDifficulty>(-2));
 	}
 
 	if (button->getID() != "normal-list")
 		g_rouletteManager.rouletteLayer->main_menu->getChildByID("demon-plus-button")->setVisible(false);
-	else if (g_rouletteManager.previousDifficulty == GJDifficulty::Demon)
+	else if (m_previous_roulette_difficulty == GJDifficulty::Demon)
 		g_rouletteManager.rouletteLayer->main_menu->getChildByID("demon-plus-button")->setVisible(true);
 
 	if (button->getID() == "normal-list")
 		demonDifficultyButton->setDifficulty(
-			g_rouletteManager.previousDifficulty == GJDifficulty::Demon
+			m_previous_roulette_difficulty == GJDifficulty::Demon
 				? g_rouletteManager.previousDemonDifficulty
 				: static_cast<GJDifficulty>(-2)
 			);

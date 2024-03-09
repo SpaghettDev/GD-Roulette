@@ -10,6 +10,8 @@ class RLRouletteInfoLayer : public BaseCustomAlertLayer
 private:
 	RLIntegerInputLayer* m_integer_input_layer{};
 
+	static GJDifficulty m_previous_roulette_difficulty;
+
 public:
 	static RLRouletteInfoLayer* create();
 	bool init();

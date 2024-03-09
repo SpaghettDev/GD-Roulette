@@ -22,6 +22,7 @@ private:
 	inline static constexpr std::string_view DEMONLIST_URL = "https://pointercrate.com/api/v2/demons/listed";
 	inline static constexpr std::string_view CHALLENGELIST_URL = "https://challengelist.gd/api/v1/demons";
 
+	// TODO: move to rl::constants
 	inline static const std::map<GJDifficulty, int> m_cDemonDiffToFilter{
 		{ GJDifficulty::DemonEasy, 1 },
 		{ GJDifficulty::DemonMedium, 2 },
