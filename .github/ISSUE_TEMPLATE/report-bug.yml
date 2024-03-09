@@ -44,6 +44,8 @@ body:
         - Android (64-bit)
         - Android (32-bit)
         - MacOS
+    validations:
+      required: true
   - type: textarea
     id: logs
     attributes:
