@@ -32,7 +32,6 @@ body:
         - 2.0.0
         - 2.0.1
         - 2.0.2
-      default: 10 # Manually increment
     validations:
       required: true
   - type: dropdown
