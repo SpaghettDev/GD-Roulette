@@ -184,8 +184,7 @@ namespace rl
 
 		inline void createNotificationToast(CCLayer* layer, const std::string& str, float time, float yPosition)
 		{
-			// yeah don't ask me what this is, ask IDA 👍
-			auto tap = TextAlertPopup::create(str, time, .6f, 0x96, "\x00\x00\x00\x00");
+			auto tap = TextAlertPopup::create(str, time, .6f, 0x96, "bigFont.fnt");
 			tap->setPositionY(yPosition);
 
 			layer->addChild(tap);

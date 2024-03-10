@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - No longer use `geode::Notification`, now use `rl::utils::createNotificationToast`
+- How levelIDs are stored when in LevelInfoLayer
+
+### Fixed
+
+- Weird 5th arg in `TextAlertPopup::create`
 
 ## [2.0.2] - 2024-03-06
 
