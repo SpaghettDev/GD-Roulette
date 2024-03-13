@@ -4,8 +4,7 @@
 #include "../../custom_layers/base/BaseCustomAlertLayer.hpp"
 #include "../../custom_layers/RLConfirmationAlertLayer.hpp"
 #include "../../custom_layers/RLDifficultySelectLayer.hpp"
-
-#include <Geode/Bindings.hpp>
+#include "../../custom_nodes/RLLoadingCircle.hpp"
 
 #include <rtrp/objects/LevelObject.hpp>
 
@@ -14,7 +13,7 @@ using namespace geode::prelude;
 class RLRouletteLayer : public BaseCustomAlertLayer
 {
 private:
-	LoadingCircle* m_loading_circle{};
+	RLLoadingCircle* m_loading_circle{};
 	RLRouletteInfoLayer* m_roulette_info_layer{};
 	RLConfirmationAlertLayer* m_confirmation_layer{};
 	RLDifficultySelectLayer* m_demon_select_layer{};
@@ -49,7 +48,7 @@ public:
 	void onResetButton(CCObject*);
 
 	void finishLevelRoulette();
-	void onNextLevel(bool = false, bool = false, float = -175.f);
+	void onNextLevel(bool = false, bool = false, float = .0f);
 
 	void registerWithTouchDispatcher() override;
 

@@ -1,7 +1,6 @@
 #include "../roulette/manager/RouletteManager.hpp"
 #include "../roulette/layers/RLRouletteLayer.hpp"
 
-#include <Geode/Geode.hpp>
 #include <Geode/modify/PauseLayer.hpp>
 
 using namespace geode::prelude;

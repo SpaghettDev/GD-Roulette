@@ -5,8 +5,9 @@
 #include "RLRouletteLayer.hpp"
 #include "RLRouletteInfoLayer.hpp"
 #include "../manager/RouletteManager.hpp"
-#include "../../custom_nodes/RLDifficultyNode.hpp"
 #include "../../custom_layers/RLDifficultySelectLayer.hpp"
+#include "../../custom_nodes/RLDifficultyNode.hpp"
+#include "../../custom_nodes/RLLoadingCircle.hpp"
 #include "../../utils.hpp"
 
 #include <Geode/Geode.hpp>
@@ -144,10 +145,10 @@ bool RLRouletteLayer::init()
 	main_menu->addChild(startButton);
 
 
-	m_loading_circle = LoadingCircle::create();
-	m_loading_circle->setPosition({ -285.f, -170.f });
-	m_loading_circle->setVisible(false);
-	m_buttonMenu->addChild(m_loading_circle);
+	m_loading_circle = RLLoadingCircle::create();
+	m_loading_circle->positionCenter();
+	m_loading_circle->fadeOut();
+	m_mainLayer->addChild(m_loading_circle);
 
 
 	auto levelNameButtonLabel = CCLabelBMFont::create("LevelName", "bigFont.fnt");
@@ -505,7 +506,7 @@ void RLRouletteLayer::onNextButton(CCObject*)
 
 	if (g_rouletteManager.currentLevelPercentage == 100)
 	{
-		onNextLevel(false, false);
+		onNextLevel();
 
 		static_cast<CCLabelBMFont*>(finished_menu->getChildByID("skips-label"))->setString(
 			fmt::format("Skips Used: {}", g_rouletteManager.skipsUsed).c_str()
@@ -521,7 +522,7 @@ void RLRouletteLayer::onNextButton(CCObject*)
 	{
 		g_rouletteManager.hasFinishedPreviousLevel = false;
 
-		onNextLevel(false, true, -125.f);
+		onNextLevel(false, true, 40.f);
 
 		static_cast<CCLabelBMFont*>(
 			playing_menu->getChildByID("percentage-text")
@@ -561,7 +562,7 @@ void RLRouletteLayer::onResetButton(CCObject*)
 	main_menu->getChildByID("start-button")->setVisible(true);
 	main_menu->getChildByID("start-button")->setPositionY(-85.f);
 
-	m_loading_circle->setPositionY(-170.f);
+	m_loading_circle->positionCenter();
 }
 
 void RLRouletteLayer::onSkipButton(CCObject*)
@@ -580,7 +581,7 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 		g_rouletteManager.skipsUsed++;
 		g_rouletteManager.hasFinishedPreviousLevel = false;
 
-		onNextLevel(false, true, -125.f);
+		onNextLevel(false, true, 40.f);
 
 		getRandomListLevel(
 			m_selected_difficulty == GJDifficulty::Demon ? m_selected_demon_difficulty : m_selected_difficulty,
@@ -594,8 +595,7 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 
 void RLRouletteLayer::finishLevelRoulette()
 {
-	m_loading_circle->stopAllActions();
-	m_loading_circle->setVisible(false);
+	onNextLevel(false, false, 40.f);
 
 	if (!m_list_fetcher_error.empty())
 	{
@@ -607,7 +607,7 @@ void RLRouletteLayer::finishLevelRoulette()
 		return;
 	}
 
-	onNextLevel(true);
+	onNextLevel(true, false, 40.f);
 	main_menu->setVisible(false);
 
 	g_rouletteManager.currentLevelID = m_level.first.levelID;
@@ -654,7 +654,7 @@ void RLRouletteLayer::finishLevelRoulette()
 	playing_menu->setVisible(true);
 }
 
-void RLRouletteLayer::onNextLevel(bool levelTextVisible, bool enableLoadingCircle, float loadingCirclePosY)
+void RLRouletteLayer::onNextLevel(bool levelTextVisible, bool enableLoadingCircle, float loadingCirclePosYOffset)
 {
 	// hides PlayingMenu's RLDifficultyNode, coins and level text
 	for (int i = 1; i < 4; i++)
@@ -662,12 +662,11 @@ void RLRouletteLayer::onNextLevel(bool levelTextVisible, bool enableLoadingCircl
 	for (int i = 5; i < 9; i++)
 		playing_menu->getChildByTag(i)->setVisible(false);
 
-	m_loading_circle->setPositionY(loadingCirclePosY);
 	if (enableLoadingCircle)
-	{
-		m_loading_circle->setVisible(true);
-		m_loading_circle->runAction(CCRepeatForever::create(CCRotateBy::create(1.f, 360)));
-	}
+		m_loading_circle->show();
+	else
+		m_loading_circle->stopAndHide();
+	m_loading_circle->setPositionY(CCDirector::sharedDirector()->getWinSize().height / 2.f + loadingCirclePosYOffset);
 }
 
 void RLRouletteLayer::registerWithTouchDispatcher()

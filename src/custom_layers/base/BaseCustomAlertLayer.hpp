@@ -1,7 +1,10 @@
 #pragma once
 #include <limits>
+#include <string>
 
-#include <Geode/Bindings.hpp>
+#include <Geode/cocos/include/ccTypes.h>
+#include <Geode/cocos/cocoa/CCObject.h>
+#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 
 using namespace geode::prelude;
 

@@ -1,8 +1,7 @@
 #pragma once
-// #include <Geode/cocos/base_nodes/CCNode.h>
-// #include <Geode/cocos/sprite_nodes/CCSprite.h>
-// #include <Geode/cocos/include/ccTypes.h>
-#include <Geode/Geode.hpp>
+#include <Geode/cocos/base_nodes/CCNode.h>
+#include <Geode/cocos/sprite_nodes/CCSprite.h>
+#include <Geode/cocos/include/ccTypes.h>
 
 using namespace geode::prelude;
 

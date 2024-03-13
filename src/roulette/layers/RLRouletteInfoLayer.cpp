@@ -209,7 +209,8 @@ void RLRouletteInfoLayer::onNumSkipsButton(CCObject*)
 {
 	m_integer_input_layer = RLIntegerInputLayer::create({
 		"Number Of Skips", "Skips", 0, 3, 9999,
-		static_cast<int>(Mod::get()->getSettingValue<int64_t>("max-skips")), true,
+		static_cast<int>(Mod::get()->getSettingValue<int64_t>("max-skips")),
+		4, true,
 		[&](auto iil) {
 			Mod::get()->setSettingValue<int64_t>("max-skips", iil->m_integer);
 		}
@@ -268,7 +269,8 @@ void RLRouletteInfoLayer::onIDButton(CCObject*)
 {
 	m_integer_input_layer = RLIntegerInputLayer::create({
 		"List ID", "ID", 0, 0, INT_MAX,
-		g_rouletteManager.gdListID == 0 ? std::nullopt : std::optional<int>(g_rouletteManager.gdListID), false,
+		g_rouletteManager.gdListID == 0 ? std::nullopt : std::optional<int>(g_rouletteManager.gdListID),
+		10, false,
 		[&](auto iil) {
 			g_rouletteManager.gdListID = iil->m_integer;
 			Mod::get()->setSavedValue<uint64_t>("gdListID", static_cast<uint64_t>(iil->m_integer));

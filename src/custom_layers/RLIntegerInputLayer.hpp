@@ -15,6 +15,7 @@ struct IntegerInputInfo
 	int fallback_value;
 	int max_value; // inclusive
 	std::optional<int> starting_value;
+	int max_length;
 	bool show_arrows;
 	std::function<void(RLIntegerInputLayer*)> onFinish;
 };

@@ -1,7 +1,6 @@
 #pragma once
 #include "../../custom_layers/base/BaseCustomAlertLayer.hpp"
 #include "../../custom_layers/RLIntegerInputLayer.hpp"
-#include <Geode/Bindings.hpp>
 
 using namespace geode::prelude;
 

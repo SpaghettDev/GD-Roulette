@@ -70,7 +70,7 @@ bool RLIntegerInputLayer::init(const IntegerInputInfo& iili)
 		input_node->setString(fmt::format("{}", m_iili.starting_value.value()).c_str());
 	input_node->setAllowedChars("0123456789");
 	input_node->setMaxLabelScale(.5f);
-	input_node->setMaxLabelLength(5);
+	input_node->setMaxLabelLength(m_iili.max_length);
 	input_node->setPosition({ .0f, 5.f });
 	input_node->setID("input-node");
 	m_buttonMenu->addChild(input_node);
@@ -100,7 +100,7 @@ void RLIntegerInputLayer::onClose(CCObject*)
 	{
 		m_integer = m_iili.starting_value.value_or(0);
 	}
-	
+
 	m_iili.onFinish(this);
 
 	this->setKeypadEnabled(false);
