@@ -1,5 +1,5 @@
 {
-	"geode": "3.0.0-beta.1",
+	"geode": "3.0.0-beta.4",
 	"gd": {
 		"win": "2.206",
 		"android": "2.206",
@@ -55,6 +55,12 @@
 			"description": "Enable or disable auto pausing after getting the goal percentage during a round of roulette.",
 			"type": "bool",
 			"default": true
+		},
+		"use-big-button": {
+			"name": "Use big button",
+			"description": "Use a big button rather than the small circle button. Only works with Pages API installed.",
+			"type": "bool",
+			"default": false
 		}
 	}
 }
