@@ -68,7 +68,7 @@ bool RLRouletteInfoLayer::init()
 	);
 	idButton->setVisible(
 		rl::utils::getIndexOf(
-			g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true
+			DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().asVector(), true
 		) == 3
 	);
 	{
@@ -121,24 +121,26 @@ void RLRouletteInfoLayer::onClose(CCObject*)
 void RLRouletteInfoLayer::onToggleButton(CCObject* sender)
 {
 	auto button = static_cast<CCMenuItemToggler*>(sender);
-	auto prevIdx = rl::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
+	auto prevIdx = rl::utils::getIndexOf(
+		DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().asVector(), true
+	);
 	const auto demonDifficultyButton = static_cast<RLDifficultyNode*>(
 		g_rouletteManager.rouletteLayer->getDifficultyButton(GJDifficulty::Demon)->getChildByID("sprite-node")
 	);
 
 	// yeah...
 	auto changeListWrapper = [&](const std::function<void()>& f) {
-		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = false;
-		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(0) = true;
+		DataManager::set<DMArrayKey::SELECTED_LIST_ARRAY>(button->getTag(), false);
+		DataManager::set<DMArrayKey::SELECTED_LIST_ARRAY>(0, true);
 
 		f();
 
-		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(0) = false;
-		g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = true;
+		DataManager::set<DMArrayKey::SELECTED_LIST_ARRAY>(0, false);
+		DataManager::set<DMArrayKey::SELECTED_LIST_ARRAY>(button->getTag(), true);
 	};
 
-	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(prevIdx) = false;
-	g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(button->getTag()) = true;
+	DataManager::set<DMArrayKey::SELECTED_LIST_ARRAY>(prevIdx, false);
+	DataManager::set<DMArrayKey::SELECTED_LIST_ARRAY>(button->getTag(), true);
 
 	m_buttonMenu->getChildByID("list-id-button")->setVisible(button->getTag() == 3);
 
@@ -297,7 +299,7 @@ CCMenuItemToggler* RLRouletteInfoLayer::createToggler(int tag, const std::string
 	button->setSizeMult(1.2f);
 	button->setTag(tag);
 	button->setVisible(visible);
-	button->toggle(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array().at(tag).as<bool>());
+	button->toggle(DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().at<bool>(tag));
 	button->setID(nodeID);
 	m_buttonMenu->addChild(button);
 

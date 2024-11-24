@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+
 #include <random>
 #include <vector>
 #include <map>
@@ -29,7 +29,7 @@ namespace rl
 		inline std::ptrdiff_t getIndexOf(const std::vector<matjson::Value>& vec, T to_find)
 		{
 			auto it = std::find_if(vec.cbegin(), vec.cend(), [&](const matjson::Value& value) {
-				return value.as<T>() == to_find;
+				return value.as<T>().unwrapOr(T{}) == to_find;
 			});
 
 			return it != vec.cend() ? (it - vec.cbegin()) : -1;
@@ -49,7 +49,7 @@ namespace rl
 		inline std::size_t getCountOf(const std::vector<matjson::Value>& vec, T to_find)
 		{
 			return std::count_if(vec.cbegin(), vec.cend(), [&](const matjson::Value arr) {
-				return arr.as<T>() == to_find;
+				return arr.as<T>().unwrapOr(T{}) == to_find;
 			});
 		}
 
@@ -181,9 +181,9 @@ namespace rl
 			return button;
 		}
 
-		inline void createNotificationToast(CCLayer* layer, const std::string& str, float time, float yPosition)
+		inline void createNotificationToast(CCLayer* layer, const std::string_view str, float time, float yPosition)
 		{
-			auto tap = TextAlertPopup::create(str, time, .6f, 0x96, "bigFont.fnt");
+			auto tap = TextAlertPopup::create(str.data(), time, .6f, 0x96, "bigFont.fnt");
 			tap->setPositionY(yPosition);
 
 			layer->addChild(tap, 420);

@@ -10,9 +10,9 @@ class $modify(PauseLayer)
 	{
 		PauseLayer::customSetup();
 
-		const PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
+		const auto* playLayer = GameManager::sharedState()->getPlayLayer();
 
-		if (g_rouletteManager.isPlaying && playLayer->m_level->m_levelID.value() == g_rouletteManager.currentLevelID)
+		if (g_rouletteManager.isPlaying && playLayer->m_level->m_levelID.value() == g_rouletteManager.gameState.levelID)
 		{
 			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-progress-label"));
 
@@ -21,7 +21,7 @@ class $modify(PauseLayer)
 			float goalOffset = normalPercentageLabel->getContentWidth() / 2 + 7.f;
 
 			auto goalPercentage = CCLabelBMFont::create(
-				fmt::format("({}%)", g_rouletteManager.levelPercentageGoal).c_str(),
+				fmt::format("({}%)", g_rouletteManager.currentPercentageGoal).c_str(),
 				"bigFont.fnt"
 			);
 			goalPercentage->setPosition({ normalPercentageLabel->getPositionX() + goalOffset, normalPercentageLabel->getPositionY() });

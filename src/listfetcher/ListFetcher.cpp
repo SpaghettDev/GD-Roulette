@@ -102,19 +102,29 @@ void ListFetcher::getRandomDemonListLevel(level_pair_t& level, std::string& erro
 
 			const auto& jsonResp = resp.unwrap();
 
-			if (jsonResp.is_null())
+			if (jsonResp.isNull() || !jsonResp.isArray())
 			{
-				error = "Pointercrate API returned null. Try again later.";
+				error = "Pointercrate API returned null or non-array. Try again later.";
 				is_fetching = false;
 				return;
 			}
 
+			const auto array = jsonResp.asArray().unwrap();
+
 			int randomIndex;
 			do {
-				randomIndex = rl::utils::randomInt(0, jsonResp.as_array().size() - 1);
-			} while (jsonResp[randomIndex]["level_id"].is_null());
+				randomIndex = rl::utils::randomInt(0, array.size() - 1);
+			} while (array[randomIndex]["level_id"].isNull());
 
-			int levelId = jsonResp[randomIndex].template get<int>("level_id");
+			int levelId = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
+
+			if (levelId == -1)
+			{
+				error = "Pointercrate API returned non-number 'level_id'. Contact developer to fix this.";
+				is_fetching = false;
+				return;
+			}
+
 			getLevelInfo(levelId, level, error);
 		}
 		else if (e->isCancelled())
@@ -150,19 +160,29 @@ void ListFetcher::getRandomChallengeListLevel(level_pair_t& level, std::string& 
 
 			const auto& jsonResp = resp.unwrap();
 
-			if (jsonResp.is_null() || !jsonResp.is_array())
+			if (jsonResp.isNull() || !jsonResp.isArray())
 			{
-				error = "Challenge List API returned null. Try again later.";
+				error = "Challenge List API returned null or non-array. Try again later.";
 				is_fetching = false;
 				return;
 			}
 
+			const auto& array = jsonResp.asArray().unwrap();
+
 			int randomIndex;
 			do {
-				randomIndex = rl::utils::randomInt(0, jsonResp.as_array().size() - 1);
-			} while (jsonResp[randomIndex]["level_id"].is_null());
+				randomIndex = rl::utils::randomInt(0, array.size() - 1);
+			} while (array[randomIndex]["level_id"].isNull());
 
-			int levelId = jsonResp[randomIndex].template get<int>("level_id");
+			int levelId = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
+
+			if (levelId == -1)
+			{
+				error = "Challenge List API returned non-number 'level_id'. Contact developer to fix this.";
+				is_fetching = false;
+				return;
+			}
+
 			getLevelInfo(levelId, level, error);
 		}
 		else if (e->isCancelled())
@@ -253,6 +273,8 @@ void ListFetcher::getRandomGDListLevel(int listID, level_pair_t& level, std::str
 
 void ListFetcher::getLevelInfo(int levelID, level_pair_t& level, std::string& error)
 {
+	is_fetching = true;
+
 	m_listener2.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{

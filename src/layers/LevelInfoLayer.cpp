@@ -11,7 +11,7 @@ class $modify(LevelInfoLayer)
 	{
 		if (!LevelInfoLayer::init(level, p1)) return false;
 
-		if (g_rouletteManager.isPlaying && level->m_levelID.value() == g_rouletteManager.currentLevelID)
+		if (g_rouletteManager.isPlaying && level->m_levelID.value() == g_rouletteManager.gameState.levelID)
 		{
 			CCLabelBMFont* normalPercentageLabel = static_cast<CCLabelBMFont*>(this->getChildByID("normal-mode-percentage"));
 
@@ -20,7 +20,7 @@ class $modify(LevelInfoLayer)
 			float goalOffset = normalPercentageLabel->getContentWidth() / 2;
 
 			auto goalPercentage = CCLabelBMFont::create(
-				fmt::format("({}%)", g_rouletteManager.levelPercentageGoal).c_str(),
+				fmt::format("({}%)", g_rouletteManager.currentPercentageGoal).c_str(),
 				"bigFont.fnt"
 			);
 			goalPercentage->setPosition({ normalPercentageLabel->getPositionX() + goalOffset, normalPercentageLabel->getPositionY() });
@@ -39,11 +39,11 @@ class $modify(LevelInfoLayer)
 		if (
 			g_rouletteManager.isPlaying &&
 			g_rouletteManager.rouletteLayer &&
-			this->m_level->m_levelID.value() == g_rouletteManager.currentLevelID
+			this->m_level->m_levelID.value() == g_rouletteManager.gameState.levelID
 		)
 			static_cast<CCLabelBMFont*>(
 				g_rouletteManager.rouletteLayer->playing_menu->getChildByID("percentage-text")
-			)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
+			)->setString(fmt::format("{}%", g_rouletteManager.currentPercentageGoal).c_str());
 
 		LevelInfoLayer::onBack(sender);
 	}

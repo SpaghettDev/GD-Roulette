@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2024-11-24
+
+### Added
+
+- Resuming round of roulette after game shutdown
+- Exclamation Mark when a round of roulette is paused
+
+### Changed
+
+- Target Geode v4.0.1
+- How target percentage is displayed: it is now always the current goal, not the current percentage + 1
+
 ## [2.1.0] - 2024-06-15
 
 ### Changed

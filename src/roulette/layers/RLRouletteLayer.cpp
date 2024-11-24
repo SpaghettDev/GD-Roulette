@@ -128,7 +128,9 @@ bool RLRouletteLayer::init()
 	plusButton->setSizeMult(1.2f);
 	plusButton->setID("demon-plus-button");
 	plusButton->setVisible(
-		rl::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true) != 0 ||
+		rl::utils::getIndexOf(
+			DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().asVector(), true
+		) != 0 ||
 		m_selected_difficulty >= GJDifficulty::Demon
 	);
 	main_menu->addChild(plusButton);
@@ -226,7 +228,7 @@ bool RLRouletteLayer::init()
 	}
 
 	auto percentageText = CCLabelBMFont::create(
-		fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str(),
+		fmt::format("{}%", g_rouletteManager.currentPercentageGoal).c_str(),
 		"goldFont.fnt"
 	);
 	percentageText->setPosition({ 50.f, -20.f });
@@ -327,6 +329,17 @@ bool RLRouletteLayer::init()
 		g_rouletteManager.isPlaying = true;
 		g_rouletteManager.isPaused = false;
 		finishLevelRoulette();
+	} else if (g_rouletteManager.gameState.levelID != 0)
+	{
+		g_rouletteManager.isPlaying = true;
+
+		main_menu->setVisible(false);
+		onNextLevel(false, true);
+
+		rl::utils::createNotificationToast(this, "Resuming round of Roulette...", 1.f, 85.f);
+
+		m_list_fetcher.getLevelInfo(g_rouletteManager.gameState.levelID, m_level, m_list_fetcher_error);
+		this->scheduleUpdate();
 	}
 
 	return true;
@@ -350,6 +363,8 @@ void RLRouletteLayer::onClose(CCObject*)
 			"Woah there!",
 			"Would you like to <cr>quit</c> or <co>pause</c> the roulette?",
 			[&](auto cl) {
+				g_rouletteManager.addExclamationMark();
+
 				this->setKeypadEnabled(false);
 				this->removeFromParentAndCleanup(true);
 				g_rouletteManager.isPlaying = false;
@@ -395,16 +410,16 @@ void RLRouletteLayer::onInfoButton(CCObject*)
 
 void RLRouletteLayer::onDifficultyButton(CCObject* sender)
 {
-	if (rl::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true) != 0)
+	if (rl::utils::getIndexOf(DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().asVector(), true) != 0)
 		return;
 
 	auto button = static_cast<CCMenuItemSpriteExtra*>(sender);
 	auto difficulty = static_cast<GJDifficulty>(sender->getTag());
-	auto& array = g_rouletteManager.getFromSaveContainer("difficulty-array").as_array();
-	int prevIdx = rl::utils::getIndexOf(array, true);
+	auto array = DataManager::get<DMArrayKey::DIFFICULTY_ARRAY>();
+	int prevIdx = rl::utils::getIndexOf(array.asVector(), true);
 
-	array.at(prevIdx) = false;
-	array.at(rl::constants::diff_to_idx.at(difficulty)) = true;
+	array.set(prevIdx, false);
+	array.set(rl::constants::diff_to_idx.at(difficulty), true);
 	g_rouletteManager.previousDifficulty = difficulty;
 	m_selected_difficulty = difficulty;
 
@@ -444,12 +459,12 @@ void RLRouletteLayer::onPlusButton(CCObject*)
 		m_selected_demon_difficulty,
 		[&](GJDifficulty currentDifficulty, GJDifficulty previousDifficulty)
 		{
-			auto& array = g_rouletteManager.getFromSaveContainer("demon-difficulty-array").as_array();
+			auto array = DataManager::get<DMArrayKey::DEMON_DIFFICULTY_ARRAY>();
 
 			m_selected_demon_difficulty = currentDifficulty;
 
-			array.at(rl::constants::demon_diff_to_idx.at(previousDifficulty)) = false;
-			array.at(rl::constants::demon_diff_to_idx.at(currentDifficulty)) = true;
+			array.set(rl::constants::demon_diff_to_idx.at(previousDifficulty), false);
+			array.set(rl::constants::demon_diff_to_idx.at(currentDifficulty), true);
 			g_rouletteManager.previousDemonDifficulty = currentDifficulty;
 
 			static_cast<RLDifficultyNode*>(
@@ -506,29 +521,31 @@ void RLRouletteLayer::onNextButton(CCObject*)
 	if (m_list_fetcher.is_fetching)
 		return;
 
-	if (g_rouletteManager.currentLevelPercentage == 100)
+	if (g_rouletteManager.gameState.levelPercentage == 100)
 	{
 		onNextLevel();
 
 		static_cast<CCLabelBMFont*>(finished_menu->getChildByID("skips-label"))->setString(
-			fmt::format("Skips Used: {}", g_rouletteManager.skipsUsed).c_str()
+			fmt::format("Skips Used: {}", g_rouletteManager.gameState.skipsUsed).c_str()
 		);
 		static_cast<CCLabelBMFont*>(finished_menu->getChildByID("levels-played-label"))->setString(
-			fmt::format("Levels Played: {}", g_rouletteManager.numLevels).c_str()
+			fmt::format("Levels Played: {}", g_rouletteManager.gameState.numLevels).c_str()
 		);
 
 		playing_menu->setVisible(false);
 		finished_menu->setVisible(true);
 	}
-	else if (g_rouletteManager.currentLevelPercentage != 0 && g_rouletteManager.hasFinishedPreviousLevel)
+	else if (g_rouletteManager.gameState.hasReachedGoal)
 	{
-		g_rouletteManager.hasFinishedPreviousLevel = false;
+		g_rouletteManager.gameState.hasReachedGoal = false;
+		g_rouletteManager.gameState.levelPercentage = 0;
+		g_rouletteManager.currentPercentageGoal = g_rouletteManager.gameState.levelPercentageGoal;
 
 		onNextLevel(false, true, 40.f);
 
 		static_cast<CCLabelBMFont*>(
 			playing_menu->getChildByID("percentage-text")
-		)->setString(fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str());
+		)->setString(fmt::format("{}%", g_rouletteManager.currentPercentageGoal).c_str());
 
 		getRandomListLevel(
 			m_selected_difficulty == GJDifficulty::Demon ? m_selected_demon_difficulty : m_selected_difficulty,
@@ -537,7 +554,7 @@ void RLRouletteLayer::onNextButton(CCObject*)
 		);
 	}
 	else
-		rl::utils::createNotificationToast(this, fmt::format("You need to get at least {}%!", g_rouletteManager.levelPercentageGoal), .5f, 85.f);
+		rl::utils::createNotificationToast(this, fmt::format("You need to get at least {}%!", g_rouletteManager.currentPercentageGoal), .5f, 85.f);
 }
 
 void RLRouletteLayer::onResetButton(CCObject*)
@@ -557,7 +574,7 @@ void RLRouletteLayer::onResetButton(CCObject*)
 	error_menu->setVisible(false);
 
 	static_cast<CCLabelBMFont*>(playing_menu->getChildByID("percentage-text"))->setString(
-		fmt::format("{}%", g_rouletteManager.levelPercentageGoal).c_str()
+		fmt::format("{}%", g_rouletteManager.currentPercentageGoal).c_str()
 	);
 
 	main_menu->getChildByID("demon-plus-button")->setPositionY(-20.f);
@@ -572,16 +589,17 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 	if (m_list_fetcher.is_fetching)
 		return;
 
-	if (g_rouletteManager.currentLevelPercentage == 100)
+	if (g_rouletteManager.gameState.levelPercentage == 100)
 	{
 		onNextButton(nullptr);
 		return;
 	}
 
-	if (g_rouletteManager.skipsUsed < Mod::get()->getSettingValue<int64_t>("max-skips"))
+	if (g_rouletteManager.gameState.skipsUsed < Mod::get()->getSettingValue<int64_t>("max-skips"))
 	{
-		g_rouletteManager.skipsUsed++;
-		g_rouletteManager.hasFinishedPreviousLevel = false;
+		g_rouletteManager.gameState.skipsUsed++;
+		g_rouletteManager.gameState.hasReachedGoal = false;
+		g_rouletteManager.currentPercentageGoal = g_rouletteManager.gameState.levelPercentageGoal;
 
 		onNextLevel(false, true, 40.f);
 
@@ -605,14 +623,15 @@ void RLRouletteLayer::finishLevelRoulette()
 
 		playing_menu->setVisible(false);
 		error_menu->setVisible(true);
-		g_rouletteManager.isPlaying = false;
+		g_rouletteManager.reset();
+
 		return;
 	}
 
 	onNextLevel(true, false, 40.f);
 	main_menu->setVisible(false);
 
-	g_rouletteManager.currentLevelID = m_level.first.levelID;
+	g_rouletteManager.gameState.levelID = m_level.first.levelID;
 	const auto& [level, creator] = m_level;
 
 	static_cast<CCLabelBMFont*>(
@@ -654,6 +673,8 @@ void RLRouletteLayer::finishLevelRoulette()
 		playing_menu->getChildByID("difficulty-node")->setPositionY(40.f);
 
 	playing_menu->setVisible(true);
+
+	g_rouletteManager.saveState();
 }
 
 void RLRouletteLayer::onNextLevel(bool levelTextVisible, bool enableLoadingCircle, float loadingCirclePosYOffset)
@@ -684,7 +705,7 @@ CCMenuItemSpriteExtra* RLRouletteLayer::getDifficultyButton(GJDifficulty difficu
 
 void RLRouletteLayer::getRandomListLevel(GJDifficulty difficulty, ListFetcher::level_pair_t& level, std::string& error)
 {
-	int listType = rl::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true);
+	int listType = rl::utils::getIndexOf(DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().asVector(), true);
 
 	switch (listType)
 	{
@@ -724,7 +745,7 @@ CCMenuItemSpriteExtra* RLRouletteLayer::createDifficultyButton(
 		menu_selector(RLRouletteLayer::onDifficultyButton)
 	);
 	if (
-		rl::utils::getIndexOf(g_rouletteManager.getFromSaveContainer("selected-list-array").as_array(), true) != 0 ||
+		rl::utils::getIndexOf(DataManager::get<DMArrayKey::SELECTED_LIST_ARRAY>().asVector(), true) != 0 ||
 		m_selected_difficulty != difficulty
 		)
 		button->setColor({ 125, 125, 125 });

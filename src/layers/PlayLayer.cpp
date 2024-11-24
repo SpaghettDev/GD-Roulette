@@ -64,16 +64,16 @@ class $modify(PlayLayerPause, PlayLayer)
 #endif // GEODE_IS_MACOS
 		if (
 			g_rouletteManager.isPlaying &&
-			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
+			this->m_level->m_levelID == g_rouletteManager.gameState.levelID &&
 			!this->m_isPracticeMode &&
-			percentage >= g_rouletteManager.levelPercentageGoal
+			percentage >= g_rouletteManager.gameState.levelPercentageGoal
 			) {
 			if (currentDelta > .2f/* && !this->m_player1->m_isDead*/)
 			{
-				g_rouletteManager.hasFinishedPreviousLevel = true;
-				g_rouletteManager.currentLevelPercentage = percentage;
-				g_rouletteManager.levelPercentageGoal = percentage + 1;
-				g_rouletteManager.numLevels++;
+				g_rouletteManager.gameState.hasReachedGoal = true;
+				g_rouletteManager.gameState.levelPercentage = percentage;
+				g_rouletteManager.gameState.levelPercentageGoal = percentage + 1;
+				g_rouletteManager.gameState.numLevels++;
 
 				if (Mod::get()->getSettingValue<bool>("auto-pause"))
 				{
@@ -99,13 +99,13 @@ class $modify(PlayLayerPause, PlayLayer)
 	{
 		if (
 			g_rouletteManager.isPlaying &&
-			this->m_level->m_levelID == g_rouletteManager.currentLevelID &&
+			this->m_level->m_levelID == g_rouletteManager.gameState.levelID &&
 			!this->m_isPracticeMode
 			) {
-			g_rouletteManager.hasFinishedPreviousLevel = true;
-			g_rouletteManager.currentLevelPercentage = 100;
-			g_rouletteManager.levelPercentageGoal = 100;
-			g_rouletteManager.numLevels++;
+			g_rouletteManager.gameState.hasReachedGoal = true;
+			g_rouletteManager.gameState.levelPercentage = 100;
+			g_rouletteManager.gameState.levelPercentageGoal = 100;
+			g_rouletteManager.gameState.numLevels++;
 		}
 
 		PlayLayer::levelComplete();
