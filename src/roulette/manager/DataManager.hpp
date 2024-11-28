@@ -61,11 +61,18 @@ namespace DataManager
 			{}
 		};
 
-		const std::unordered_map<DMArrayKey, const SavedArrayInfo> ARRAY_TO_SAI{
-			{ DMArrayKey::DIFFICULTY_ARRAY, { 6, { true, false, false, false, false, false } } },
-			{ DMArrayKey::DEMON_DIFFICULTY_ARRAY, { 5, { true, false, false, false, false, false }} },
-			{ DMArrayKey::SELECTED_LIST_ARRAY, { 4, { true, false, false, false }} }
-		};
+		template <DMArrayKey key>
+		const SavedArrayInfo getSAI()
+		{
+			if constexpr (key == DMArrayKey::DIFFICULTY_ARRAY)
+				return { 6, { true, false, false, false, false, false } };
+			else if constexpr (key == DMArrayKey::DEMON_DIFFICULTY_ARRAY)
+				return { 5, { true, false, false, false, false, false } };
+			else if constexpr (key == DMArrayKey::SELECTED_LIST_ARRAY)
+				return { 4, { true, false, false, false } };
+
+			std::unreachable();
+		}
 	}
 
 	namespace
@@ -239,12 +246,12 @@ namespace DataManager
 
 		if (auto res = container.get(values::getKeyString<key>()); res.isOk())
 			if (auto resv = res.unwrap().asArray(); resv.isOkAnd([](auto&& vec) {
-					return vec.size() == values::ARRAY_TO_SAI.at(key).size &&
+					return vec.size() == values::getSAI<key>().size &&
 						std::all_of(vec.begin(), vec.end(), [](auto& v) { return v.asBool().isOk(); });
 			}))
 				return resv.unwrap();
 
-		container.set(values::getKeyString<key>(), values::ARRAY_TO_SAI.at(key).default_value);
+		container.set(values::getKeyString<key>(), values::getSAI<key>().default_value);
 
 		return container.get(values::getKeyString<key>()).unwrap().asArray().unwrap();
 	}
