@@ -19,8 +19,10 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of our software are you running?
+      description: What version of GD-Roulette are you running?
       options:
+        - 3.0.1
+        - 3.0.0-beta.1
         - 2.1.0
         - 2.0.5
         - 2.0.4
