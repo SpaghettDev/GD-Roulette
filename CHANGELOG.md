@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0-beta.1] - 2024-11-28
+
+### Changed
+
+- Target Windows and Mac only, until I find a fix for Android later
+- Renamed GD List ID key to "gd-list-id"
+
+### Fixed
+
+- Integer input layer crash on android
+
 ## [3.0.0] - 2024-11-24
 
 ### Added

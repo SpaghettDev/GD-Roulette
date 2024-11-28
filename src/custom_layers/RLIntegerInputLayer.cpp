@@ -94,7 +94,7 @@ void RLIntegerInputLayer::onClose(CCObject*)
 {
 	try
 	{
-		m_integer = std::stoi(input_node->getString());
+		m_integer = numFromString<int>(input_node->getString()).unwrapOr(m_iili.fallback_value);
 	}
 	catch (...)
 	{
@@ -117,7 +117,7 @@ void RLIntegerInputLayer::onLeftButton(CCObject*)
 {
 	try
 	{
-		m_integer = std::stoi(input_node->getString()) - 1;
+		m_integer = numFromString<int>(input_node->getString()).unwrapOr(m_iili.fallback_value) - 1;
 	}
 	catch (...)
 	{
@@ -135,7 +135,7 @@ void RLIntegerInputLayer::onRightButton(CCObject*)
 {
 	try
 	{
-		m_integer = std::stoi(input_node->getString()) + 1;
+		m_integer = numFromString<int>(input_node->getString()).unwrapOr(m_iili.fallback_value) + 1;
 	}
 	catch (...)
 	{

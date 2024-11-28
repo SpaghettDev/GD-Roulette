@@ -36,7 +36,7 @@ namespace DataManager
 		};
 
 		const std::unordered_map<DMMiscKey, std::string_view> MISC_KEY_TO_NAME{
-			{ DMMiscKey::GD_LIST_ID, "gdListID" },
+			{ DMMiscKey::GD_LIST_ID, "gd-list-id" },
 		};
 
 		struct SavedArrayInfo
@@ -54,6 +54,52 @@ namespace DataManager
 			{ DMArrayKey::DEMON_DIFFICULTY_ARRAY, { 5, { true, false, false, false, false, false }} },
 			{ DMArrayKey::SELECTED_LIST_ARRAY, { 4, { true, false, false, false }} }
 		};
+	}
+
+	namespace
+	{
+		const auto saveDataPath = geode::Mod::get()->getSaveDir() / "save_data";
+
+		GameState readGameState()
+		{
+			GameState fromDisk;
+			std::ifstream saveDataFile(saveDataPath, std::ios::binary);
+			saveDataFile.read(reinterpret_cast<char*>(&fromDisk), sizeof(GameState));
+
+			// TODO: Add checksum and integrity check here or something
+
+			return fromDisk;
+		}
+
+		GameState writeGameStateSafe(bool force_clean = false)
+		{
+			std::ifstream saveDataFileIn(saveDataPath, std::ios::binary);
+			saveDataFileIn.seekg(0, std::ios::end);
+
+			if (force_clean || saveDataFileIn.fail() || saveDataFileIn.tellg() != sizeof(GameState))
+			{
+				GameState defaultValue;
+
+				std::ofstream saveDataFileOut(saveDataPath, std::ios::binary);
+				saveDataFileOut.write(reinterpret_cast<char*>(&defaultValue), sizeof(GameState));
+
+				return defaultValue;
+			}
+
+			GameState fromDisk;
+			saveDataFileIn.seekg(0);
+			saveDataFileIn.read(reinterpret_cast<char*>(&fromDisk), sizeof(GameState));
+
+			return fromDisk;
+		}
+
+		void writeGameState(const GameState& value)
+		{
+			std::ofstream(saveDataPath, std::ios::binary).write(
+				reinterpret_cast<const char*>(&value),
+				sizeof(GameState)
+			);
+		}
 	}
 
 	namespace traits
@@ -122,17 +168,6 @@ namespace DataManager
 	template <DMMiscKey key>
 	[[nodiscard]] traits::KeyTrait<key>::type get()
 	{
-		using value_t = typename traits::KeyTrait<key>::type;
-
-		if constexpr (key == DMMiscKey::SAVE_DATA)
-		{
-			value_t fromDisk;
-			std::ifstream saveDataFile(geode::Mod::get()->getSaveDir() / "save_data", std::ios::binary);
-			saveDataFile.read(reinterpret_cast<char*>(&fromDisk), sizeof(value_t));
-
-			return fromDisk;
-		}
-
 		return setDefaultSafe<key>();
 	}
 
@@ -173,17 +208,9 @@ namespace DataManager
 	void set(const typename traits::KeyTrait<key>::type& value)
 	{
 		if constexpr (key == DMMiscKey::SAVE_DATA)
-		{
-			std::ofstream saveDataFile(geode::Mod::get()->getSaveDir() / "save_data");
-			saveDataFile.write(
-				reinterpret_cast<const char*>(&value),
-				sizeof(typename traits::KeyTrait<key>::type)
-			);
-		}
+			writeGameState(value);
 		else
-		{
 			geode::Mod::get()->setSavedValue(values::MISC_KEY_TO_NAME.at(key), value);
-		}
 	}
 
 
@@ -223,26 +250,7 @@ namespace DataManager
 		using save_container_t = std::conditional_t<std::is_same_v<value_t, int>, uint64_t, value_t>;
 
 		if constexpr (key == DMMiscKey::SAVE_DATA)
-		{
-			std::ifstream saveDataFileIn(geode::Mod::get()->getSaveDir() / "save_data", std::ios::binary);
-			saveDataFileIn.seekg(0, std::ios::end);
-
-			if (saveDataFileIn.fail() || saveDataFileIn.tellg() != sizeof(value_t))
-			{
-				value_t defaultValue;
-
-				std::ofstream saveDataFileOut(geode::Mod::get()->getSaveDir() / "save_data", std::ios::binary);
-				saveDataFileOut.write(reinterpret_cast<char*>(&defaultValue), sizeof(value_t));
-
-				return defaultValue;
-			}
-
-			value_t fromDisk;
-			saveDataFileIn.seekg(0);
-			saveDataFileIn.read(reinterpret_cast<char*>(&fromDisk), sizeof(value_t));
-
-			return fromDisk;
-		}
+			return writeGameStateSafe();
 		else
 		{
 			auto& container = geode::Mod::get()->getSaveContainer();
