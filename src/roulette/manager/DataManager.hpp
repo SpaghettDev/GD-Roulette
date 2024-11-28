@@ -95,6 +95,7 @@ namespace DataManager
 			std::ifstream saveDataFileIn(saveDataPath, std::ios::binary);
 			saveDataFileIn.seekg(0, std::ios::end);
 
+			// TODO: this check always fails on Android :D
 			if (force_clean || saveDataFileIn.fail() || saveDataFileIn.tellg() != sizeof(GameState))
 			{
 				GameState defaultValue;

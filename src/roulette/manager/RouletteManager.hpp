@@ -45,7 +45,7 @@ public:
 			gameState = DataManager::setDefaultSafe<DMMiscKey::SAVE_DATA>();
 
 			if (gameState.levelID != 0)
-				currentPercentageGoal = gameState.levelPercentage;
+				currentPercentageGoal = gameState.levelPercentageGoal;
 
 			previousDifficulty = getDifficultyFromSaveContainer<DMArrayKey::DIFFICULTY_ARRAY>();
 			previousDemonDifficulty = getDifficultyFromSaveContainer<DMArrayKey::DEMON_DIFFICULTY_ARRAY>();
