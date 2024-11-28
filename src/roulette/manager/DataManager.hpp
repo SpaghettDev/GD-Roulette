@@ -29,15 +29,27 @@ namespace DataManager
 {
 	namespace values
 	{
-		const std::unordered_map<DMArrayKey, std::string_view> ARRAY_KEY_TO_NAME{
-			{ DMArrayKey::DIFFICULTY_ARRAY, "difficulty-array" },
-			{ DMArrayKey::DEMON_DIFFICULTY_ARRAY, "demon-difficulty-array" },
-			{ DMArrayKey::SELECTED_LIST_ARRAY, "selected-list-array" },
-		};
+		template <DMArrayKey key>
+		std::string_view getKeyString()
+		{
+			if constexpr (key == DMArrayKey::DIFFICULTY_ARRAY)
+				return "difficulty-array";
+			else if constexpr (key == DMArrayKey::DEMON_DIFFICULTY_ARRAY)
+				return "demon-difficulty-array";
+			else if constexpr (key == DMArrayKey::SELECTED_LIST_ARRAY)
+				return "selected-list-array";
 
-		const std::unordered_map<DMMiscKey, std::string_view> MISC_KEY_TO_NAME{
-			{ DMMiscKey::GD_LIST_ID, "gd-list-id" },
-		};
+			std::unreachable();
+		}
+
+		template <DMMiscKey key>
+		std::string_view getKeyString()
+		{
+			if constexpr (key == DMMiscKey::GD_LIST_ID)
+				return "gd-list-id";
+
+			std::unreachable();
+		}
 
 		struct SavedArrayInfo
 		{
@@ -180,7 +192,7 @@ namespace DataManager
 	template <DMArrayKey key>
 	void set(const std::vector<matjson::Value>& value)
 	{
-		geode::Mod::get()->setSavedValue(values::ARRAY_KEY_TO_NAME.at(key), value);
+		geode::Mod::get()->setSavedValue(values::getKeyString<key>(), value);
 	}
 
 	/**
@@ -194,7 +206,7 @@ namespace DataManager
 	void set(std::size_t idx, bool value)
 	{
 		geode::Mod::get()->getSaveContainer().get(
-			values::ARRAY_KEY_TO_NAME.at(key)
+			values::getKeyString<key>()
 		).unwrap().asArray().unwrap().at(idx) = value;
 	}
 
@@ -210,7 +222,7 @@ namespace DataManager
 		if constexpr (key == DMMiscKey::SAVE_DATA)
 			writeGameState(value);
 		else
-			geode::Mod::get()->setSavedValue(values::MISC_KEY_TO_NAME.at(key), value);
+			geode::Mod::get()->setSavedValue(values::getKeyString<key>(), value);
 	}
 
 
@@ -225,16 +237,16 @@ namespace DataManager
 	{
 		auto& container = geode::Mod::get()->getSaveContainer();
 
-		if (auto res = container.get(values::ARRAY_KEY_TO_NAME.at(key)); res.isOk())
+		if (auto res = container.get(values::getKeyString<key>()); res.isOk())
 			if (auto resv = res.unwrap().asArray(); resv.isOkAnd([](auto&& vec) {
 					return vec.size() == values::ARRAY_TO_SAI.at(key).size &&
 						std::all_of(vec.begin(), vec.end(), [](auto& v) { return v.asBool().isOk(); });
 			}))
 				return resv.unwrap();
 
-		container.set(values::ARRAY_KEY_TO_NAME.at(key), values::ARRAY_TO_SAI.at(key).default_value);
+		container.set(values::getKeyString<key>(), values::ARRAY_TO_SAI.at(key).default_value);
 
-		return container.get(values::ARRAY_KEY_TO_NAME.at(key)).unwrap().asArray().unwrap();
+		return container.get(values::getKeyString<key>()).unwrap().asArray().unwrap();
 	}
 
 	/**
@@ -255,11 +267,11 @@ namespace DataManager
 		{
 			auto& container = geode::Mod::get()->getSaveContainer();
 
-			if (auto res = container.get(values::MISC_KEY_TO_NAME.at(key)); res.isOk())
-				if (auto resv = res.unwrap().as<save_container_t>(); resv.isOk())
+			if (auto res = container.get(values::getKeyString<key>()); res.isOk())
+				if (auto resv = res.unwrap().template as<save_container_t>(); resv.isOk())
 					return resv.unwrap();
 
-			container.set(values::MISC_KEY_TO_NAME.at(key), value_t{});
+			container.set(values::getKeyString<key>(), value_t{});
 
 			return value_t{};
 		}

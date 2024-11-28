@@ -202,6 +202,17 @@ namespace rl
 
 			~ScopedVar() { V = m_dtor_val; }
 		};
+
+		template <typename T>
+		bool verifyChecksum(const T& value, unsigned int checksum)
+		{
+			unsigned int sum = 0;
+
+			for (int i = 0; i < sizeof(T); i++)
+				sum += reinterpret_cast<unsigned char*>(value)[i];
+
+			return sum == checksum;
+		}
 	}
 
 	namespace constants

@@ -1,6 +1,6 @@
 #pragma once
+
 #include <atomic>
-#include <matjson/stl_serialize.hpp>
 
 #include <Geode/loader/Mod.hpp>
 #include <Geode/Enums.hpp>
@@ -37,8 +37,6 @@ public:
 	{
 		if (!m_hasInitManager)
 		{
-			auto& saveContainer = Mod::get()->getSaveContainer();
-
 			static_cast<void>(DataManager::setDefaultSafe<DMArrayKey::DIFFICULTY_ARRAY>());
 			static_cast<void>(DataManager::setDefaultSafe<DMArrayKey::DEMON_DIFFICULTY_ARRAY>());
 			static_cast<void>(DataManager::setDefaultSafe<DMArrayKey::SELECTED_LIST_ARRAY>());
