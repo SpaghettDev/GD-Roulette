@@ -56,19 +56,19 @@ public:
 
 	void addExclamationMark(CCMenuItemSpriteExtra* button = nullptr)
 	{
+		auto parent = button
+			? button
+			: rouletteLayer->getParent()->getChildByIDRecursive("roulette-button"_spr);
+
 		auto exclamationSprite = CCSprite::createWithSpriteFrameName(
 			"exMark_001.png"
 		);
 		exclamationSprite->setScale(.6f);
-		exclamationSprite->setID("exclamation-mark");
-		(button
-			? button
-			: rouletteLayer
-				->getParent()
-				->getChildByType<CreatorLayer>(0)
-				->getChildByID("center-left-menu"_spr)
-				->getChildByID("roulette-button"_spr)
-		)->addChild(exclamationSprite);
+		exclamationSprite->setID("exclamation-mark"_spr);
+		parent->addChild(exclamationSprite);
+
+		if (Loader::get()->isModLoaded("ninxout.redash") && !parent->getLayout())
+			exclamationSprite->getParent()->setLayout(AnchorLayout::create());
 
 		exclamationSprite->setLayoutOptions(
 			AnchorLayoutOptions::create()

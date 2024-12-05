@@ -12,7 +12,7 @@ class $modify(RouletteButton, CreatorLayer)
 		if (g_rouletteManager.rouletteLayer = RLRouletteLayer::create(); g_rouletteManager.rouletteLayer)
 			g_rouletteManager.rouletteLayer->show();
 
-		if (auto exMark = this->getChildByID("center-left-menu"_spr)->getChildByID("roulette-button"_spr)->getChildByID("exclamation-mark"))
+		if (auto exMark = this->getChildByIDRecursive("exclamation-mark"_spr))
 			exMark->removeFromParent();
 	}
 

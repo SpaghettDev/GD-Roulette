@@ -10,6 +10,7 @@ A Geometry Dash Level Roulette.
 - GD List
 - Skip levels you can't beat
 - Auto pause after reaching the goal percentage (can be disabled)
+- Resume playing after leaving the game
 
 ## How To Play
 
