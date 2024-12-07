@@ -45,6 +45,7 @@ public:
 	void onPlayButton(CCObject*);
 	void onSkipButton(CCObject*);
 	void onNextButton(CCObject*);
+	void onRefreshButton(CCObject*);
 	void onResetButton(CCObject*);
 
 	void finishLevelRoulette();

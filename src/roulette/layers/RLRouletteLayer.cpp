@@ -314,6 +314,15 @@ bool RLRouletteLayer::init()
 	errorReasonText->setID("reason-label");
 	error_menu->addChild(errorReasonText);
 
+	auto refreshButton = CCMenuItemSpriteExtra::create(
+		ButtonSprite::create("Refresh", 50, true, "bigFont.fnt", "GJ_button_01.png", .0f, .9f),
+		this,
+		menu_selector(RLRouletteLayer::onRefreshButton)
+	);
+	refreshButton->setPosition({ 50.f, -70.f });
+	refreshButton->setID("refresh-button");
+	error_menu->addChild(refreshButton);
+
 	auto errorResetButton = CCMenuItemSpriteExtra::create(
 		ButtonSprite::create("Reset", 50, true, "bigFont.fnt", "GJ_button_06.png", .0f, .8f),
 		this,
@@ -557,6 +566,13 @@ void RLRouletteLayer::onNextButton(CCObject*)
 		rl::utils::createNotificationToast(this, fmt::format("You need to get at least {}%!", g_rouletteManager.currentPercentageGoal), .5f, 85.f);
 }
 
+void RLRouletteLayer::onRefreshButton(CCObject*)
+{
+	g_rouletteManager.gameState.hasReachedGoal = true;
+	error_menu->setVisible(false);
+	onNextButton(nullptr);
+}
+
 void RLRouletteLayer::onResetButton(CCObject*)
 {
 	if (m_list_fetcher.is_fetching)
@@ -589,9 +605,12 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 	if (m_list_fetcher.is_fetching)
 		return;
 
-	if (g_rouletteManager.gameState.levelPercentage == 100)
+	if (g_rouletteManager.gameState.levelPercentage == 100 || g_rouletteManager.gameState.hasReachedGoal)
 	{
+		rl::utils::createNotificationToast(this, "Skip not used, you have already reached the goal!", .5f, 85.f);
+
 		onNextButton(nullptr);
+
 		return;
 	}
 
@@ -623,7 +642,6 @@ void RLRouletteLayer::finishLevelRoulette()
 
 		playing_menu->setVisible(false);
 		error_menu->setVisible(true);
-		g_rouletteManager.reset();
 
 		return;
 	}
