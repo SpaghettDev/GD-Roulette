@@ -74,7 +74,12 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, level_pair_t
 		.bodyString(
 			fmt::format("secret={}&type={}&star={}&page={}&len={}{}",
 				GJ_SECRET, 0, 1,
-				rl::utils::randomInt(1, m_cNormalListMaxPage[static_cast<int>(difficulty) - 1]),
+				rl::utils::randomInt(
+					1,
+					difficulty == static_cast<GJDifficulty>(-2)
+						? m_cNormalListMaxPage[5]
+						: m_cNormalListMaxPage[static_cast<int>(difficulty) - 1]
+				),
 				GJ_LEN_QUERY, getDifficultyQuery(difficulty)
 			)
 		)

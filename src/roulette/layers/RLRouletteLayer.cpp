@@ -455,7 +455,7 @@ void RLRouletteLayer::onPlusButton(CCObject*)
 {
 	m_demon_select_layer = RLDifficultySelectLayer::create({
 		"Demon Filter",
-		{ GJDifficulty::DemonEasy, GJDifficulty::DemonMedium, GJDifficulty::Demon, GJDifficulty::DemonInsane, GJDifficulty::DemonExtreme },
+		{ static_cast<GJDifficulty>(-2), GJDifficulty::DemonEasy, GJDifficulty::DemonMedium, GJDifficulty::Demon, GJDifficulty::DemonInsane, GJDifficulty::DemonExtreme },
 		m_selected_demon_difficulty,
 		[&](GJDifficulty currentDifficulty, GJDifficulty previousDifficulty)
 		{

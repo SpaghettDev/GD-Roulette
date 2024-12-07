@@ -67,7 +67,7 @@ namespace DataManager
 			if constexpr (key == DMArrayKey::DIFFICULTY_ARRAY)
 				return { 6, { true, false, false, false, false, false } };
 			else if constexpr (key == DMArrayKey::DEMON_DIFFICULTY_ARRAY)
-				return { 5, { true, false, false, false, false, false } };
+				return { 6, { false, true, false, false, false, false, false } };
 			else if constexpr (key == DMArrayKey::SELECTED_LIST_ARRAY)
 				return { 4, { true, false, false, false } };
 

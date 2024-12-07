@@ -1,6 +1,6 @@
 #pragma once
 #include <string_view>
-#include <array>
+#include <vector>
 #include <functional>
 
 #include <Geode/Enums.hpp>
@@ -12,7 +12,7 @@ class RLDifficultySelectLayer;
 struct RLDifficultySelectInfo
 {
 	std::string_view title;
-	std::array<GJDifficulty, 5> difficulties;
+	std::vector<GJDifficulty> difficulties;
 	GJDifficulty selectedDifficulty;
 	std::function<void(GJDifficulty, GJDifficulty)> onSelectDifficulty;
 	std::function<void(RLDifficultySelectLayer*)> onOk = nullptr;

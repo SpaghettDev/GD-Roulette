@@ -267,7 +267,8 @@ namespace rl
 			{ GJDifficulty::Demon, 5 }
 		};
 
-		inline const std::array<GJDifficulty, 5> idx_to_demon_diff{
+		inline const std::array<GJDifficulty, 6> idx_to_demon_diff{
+			static_cast<GJDifficulty>(-2),
 			GJDifficulty::DemonEasy,
 			GJDifficulty::DemonMedium,
 			GJDifficulty::Demon,
@@ -276,11 +277,12 @@ namespace rl
 		};
 
 		inline const std::map<GJDifficulty, int> demon_diff_to_idx{
-			{ GJDifficulty::DemonEasy, 0 },
-			{ GJDifficulty::DemonMedium, 1 },
-			{ GJDifficulty::Demon, 2 },
-			{ GJDifficulty::DemonInsane, 3 },
-			{ GJDifficulty::DemonExtreme, 4 }
+			{ static_cast<GJDifficulty>(-2), 0 },
+			{ GJDifficulty::DemonEasy, 1 },
+			{ GJDifficulty::DemonMedium, 2 },
+			{ GJDifficulty::Demon, 3 },
+			{ GJDifficulty::DemonInsane, 4 },
+			{ GJDifficulty::DemonExtreme, 5 }
 		};
 	}
 }

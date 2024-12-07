@@ -28,6 +28,7 @@ private:
 
 	// TODO: move to rl::constants
 	inline static const std::map<GJDifficulty, int> m_cDemonDiffToFilter{
+		{ static_cast<GJDifficulty>(-2), 0 },
 		{ GJDifficulty::DemonEasy, 1 },
 		{ GJDifficulty::DemonMedium, 2 },
 		{ GJDifficulty::Demon, 3 },
@@ -35,18 +36,21 @@ private:
 		{ GJDifficulty::DemonExtreme, 5 }
 	};
 	// these are only for rated Tiny to XL levels
-	inline static const std::array<int, 10> m_cNormalListMaxPage{
-		74, // Easy
-		173, // Normal
-		1031, // Hard
-		1308, // Harder
-		543, // Insane
+	// TODO: fetch dynamically
+	inline static const std::array<int, 11> m_cNormalListMaxPage{
+		84, // Easy
+		189, // Normal
+		1156, // Hard
+		1497, // Harder
+		634, // Insane
 
-		142, // Hard Demon
-		187, // Easy Demon
-		205, // Medium Demon
-		99, // Insane Demon
-		90 // Extreme Demon
+		803, // Demon
+
+		148, // Hard Demon
+		210, // Easy Demon
+		229, // Medium Demon
+		109, // Insane Demon
+		108 // Extreme Demon
 	};
 	inline static const int m_cDemonListMaxPage = 490;
 

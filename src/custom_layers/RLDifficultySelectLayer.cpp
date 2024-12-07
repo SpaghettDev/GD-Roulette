@@ -1,4 +1,5 @@
 #include "RLDifficultySelectLayer.hpp"
+#include "../utils.hpp"
 
 RLDifficultySelectLayer* RLDifficultySelectLayer::create(const RLDifficultySelectInfo& dsi)
 {
@@ -26,15 +27,19 @@ bool RLDifficultySelectLayer::init(const RLDifficultySelectInfo& dsi)
 
 	difficulty_buttons_menu = CCMenu::create();
 	difficulty_buttons_menu->setID("difficulty-buttons");
+	difficulty_buttons_menu->setContentSize({ 380.f, 180.f });
+	difficulty_buttons_menu->setLayout(
+		AxisLayout::create()
+			->setGap(15.f)
+			->setGrowCrossAxis(true)
+	);
 	m_mainLayer->addChild(difficulty_buttons_menu, 11);
 
 
-	for (int i = 0; i < m_dsi.difficulties.size(); i++)
+	for (const auto& difficulty : m_dsi.difficulties)
 	{
-		const auto difficulty = m_dsi.difficulties.at(i);
-
 		auto difficultySprite = CCSprite::createWithSpriteFrameName(
-			fmt::format("difficulty_{0:0{1}}_btn2_001.png", static_cast<int>(difficulty), 2).c_str()
+			rl::constants::difficulty_to_sprite.at(difficulty).data()
 		);
 		difficultySprite->setScale(1.2f);
 		auto difficultyButton = CCMenuItemSpriteExtra::create(
@@ -44,10 +49,13 @@ bool RLDifficultySelectLayer::init(const RLDifficultySelectInfo& dsi)
 		);
 		if (m_dsi.selectedDifficulty != difficulty)
 			difficultyButton->setColor({ 125, 125, 125 });
-		difficultyButton->setPosition({ -125.f + i * 60.f, 7.f });
+		difficultyButton->setLayoutOptions(AxisLayoutOptions::create());
 		difficultyButton->setTag(static_cast<int>(difficulty));
 		difficulty_buttons_menu->addChild(difficultyButton);
 	}
+
+
+	difficulty_buttons_menu->updateLayout();
 
 
 	auto title = CCLabelBMFont::create(m_dsi.title.data(), "bigFont.fnt");
