@@ -20,7 +20,7 @@ enum DMArrayKey
 
 enum DMMiscKey
 {
-	SAVE_DATA,
+	SAVE_DATA = 1000,
 	GD_LIST_ID,
 };
 
