@@ -71,7 +71,8 @@ void RLProgressBar::updateClipper(float progress)
 
 	m_stencil->clear();
 	m_stencil->drawRect(
-		{ 2.f, .0f, (this->getContentSize().width - 4.f) / 100.f * progress, this->getContentSize().height },
+		{ 2.f, .0f, },
+		{ (this->getContentSize().width - 4.f) / 100.f * progress, this->getContentSize().height },
 		{ 1.f, 1.f, 1.f, 1.f },
 		0,
 		{ 1.f, 1.f, 1.f, 1.f }
