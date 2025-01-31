@@ -33,11 +33,17 @@ namespace rl
 		 *
 		 * @tparam T type of number, floating type or integer type
 		 */
-		template <typename T>
-		inline T randomNumber(T min, T max) requires (std::is_arithmetic_v<T>)
+		template <typename T1, typename T2>
+		inline T2 randomNumber(T1 min, T2 max) requires (std::is_arithmetic_v<T1> && std::is_arithmetic_v<T2> && std::is_convertible_v<T1, T2>)
 		{
+			static_assert(
+				(std::is_integral_v<T1> && std::is_integral_v<T2>) ||
+				(std::is_floating_point_v<T1> && std::is_floating_point_v<T2>),
+				"Both min and max should be either floating type or integer type!"
+			);
+
 			return std::conditional_t<
-				std::is_integral_v<T>, std::uniform_int_distribution<T>, std::uniform_real_distribution<T>
+				std::is_integral_v<T2>, std::uniform_int_distribution<T2>, std::uniform_real_distribution<T2>
 			>(min, max)(impl::rand_generator);
 		}
 

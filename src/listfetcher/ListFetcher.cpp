@@ -103,7 +103,7 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Resul
 				);
 			}
 
-			auto randomIdx = rl::utils::randomNumber<std::size_t>(0, response.levels.size() - 1);
+			auto randomIdx = rl::utils::randomNumber(0, response.levels.size() - 1);
 			result = geode::Ok(level_pair_t{
 				response.levels[randomIdx],
 				rl::utils::getCreatorFromLevelResponse(response.creators, response.levels[randomIdx])
@@ -127,7 +127,7 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Resul
 		.bodyString(
 			fmt::format("secret={}&type={}&star={}&page={}&len={}{}",
 				GJ_SECRET, 0, 1,
-				rl::utils::randomNumber<std::uint16_t>(
+				rl::utils::randomNumber(
 					1,
 					CacheManager::get().getValue<CMKey::NORMAL_LIST_MAX_PAGES, int>(difficulty, 1)
 				),
@@ -170,7 +170,7 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 
 			std::size_t randomIndex;
 			do {
-				randomIndex = rl::utils::randomNumber<std::size_t>(0, array.size() - 1);
+				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
 			} while (array[randomIndex]["level_id"].isNull());
 
 			int levelId = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
@@ -203,7 +203,7 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 				"{}/?limit=100&after={}",
 				DEMONLIST_URL,
 				rl::utils::randomNumber(
-					static_cast<unsigned short>(0),
+					0,
 					rl::constants::list_fetcher::DEMON_LIST_MAX_PAGE
 				)
 			)
@@ -243,7 +243,7 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 
 			std::uint16_t randomIndex;
 			do {
-				randomIndex = rl::utils::randomNumber<std::uint16_t>(0, array.size() - 1);
+				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
 			} while (array[randomIndex]["level_id"].isNull());
 
 			int levelId = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
@@ -276,7 +276,7 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 				"{}/?limit=100&after={}",
 				CHALLENGELIST_URL,
 				rl::utils::randomNumber(
-					static_cast<unsigned short>(0),
+					0,
 					rl::constants::list_fetcher::CHALLENGE_LIST_MAX_PAGE
 				)
 			)
