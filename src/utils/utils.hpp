@@ -11,6 +11,11 @@
 #include <rtrp/objects/LevelObject.hpp>
 #include <rtrp/objects/CreatorObject.hpp>
 
+#ifndef GEODE_IS_WINDOWS
+#include <chrono>
+#include <sstream>
+#endif
+
 namespace rl
 {
 	namespace impl
@@ -56,6 +61,7 @@ namespace rl
 		 */
 		inline std::string formatUnixTimestamp(std::uint64_t time)
 		{
+#ifdef GEODE_IS_WINDOWS
 			auto strTime = fmt::format(
 				"{:%Y-%m-%d %H:%M:%S}",
 				std::chrono::zoned_time{
@@ -66,6 +72,15 @@ namespace rl
 
 			// remove miliseconds
 			return strTime.substr(0, strTime.find_last_of("."));
+#else
+			std::time_t t = static_cast<std::time_t>(time);
+			std::tm tm = *std::localtime(&t);
+
+			std::ostringstream oss;
+			oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
+
+			return oss.str();
+#endif
 		}
 
 		/**

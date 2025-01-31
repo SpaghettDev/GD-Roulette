@@ -35,7 +35,10 @@ cmake ..
 
 Then open the generated solution in Visual Studio.
 
-**Make sure to compile in Release Mode! Otherwise the solution will not compile.**
+## Donate
+
+This mod has taken a lot of time to make and refine, so your donation would be much appreciated!
+You can help fuel the next 50 hours I spend on this mod and my other mods by [donating through Ko-fi](https://ko-fi.com/spaghettdev)!
 
 ## Contact
 
