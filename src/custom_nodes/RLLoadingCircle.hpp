@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Geode/cocos/sprite_nodes/CCSprite.h>
 #include <Geode/cocos/actions/CCActionInterval.h>
 
@@ -6,8 +7,7 @@ class RLLoadingCircle : public cocos2d::CCSprite
 {
 public:
 	static RLLoadingCircle* create();
-
-	bool init() override;
+	virtual bool init() override;
 
 	void positionCenter();
 

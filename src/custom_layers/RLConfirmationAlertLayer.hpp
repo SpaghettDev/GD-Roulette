@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string_view>
 #include <functional>
 
@@ -6,29 +7,29 @@
 
 class RLConfirmationAlertLayer;
 
-struct ConfirmationAlertInfo
+struct RLConfirmationData
 {
 	std::string_view title;
 	std::string_view text;
 	std::function<void(RLConfirmationAlertLayer*)> onBtn1;
 	std::function<void(RLConfirmationAlertLayer*)> onBtn2 = nullptr;
-	std::string_view yesText = "YES";
-	std::string_view noText = "NO";
+	std::string_view btn1Text = "YES";
+	std::string_view btn2Text = "NO";
 };
 
 
 class RLConfirmationAlertLayer : public BaseCustomAlertLayer
 {
 public:
-	static RLConfirmationAlertLayer* create(const ConfirmationAlertInfo&);
-	bool init(const ConfirmationAlertInfo&);
+	static RLConfirmationAlertLayer* create(const RLConfirmationData&);
+	bool init(const RLConfirmationData&);
 
-	void onClose(CCObject*) override;
-	void onYesButton(CCObject*);
-	void onNoButton(CCObject*);
+	void onClose(cocos2d::CCObject*) override;
+	void onYesButton(cocos2d::CCObject*);
+	void onNoButton(cocos2d::CCObject*);
 
-	void keyDown(enumKeyCodes) override {};
+	void keyDown(cocos2d::enumKeyCodes) override {};
 
 private:
-	ConfirmationAlertInfo m_cli;
+	RLConfirmationData m_cli;
 };

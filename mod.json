@@ -1,11 +1,11 @@
 {
-	"geode": "4.0.1",
+	"geode": "4.2.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
 		"mac": "2.2074"
 	},
-	"version": "v3.1.0",
+	"version": "v4.0.0",
 	"id": "spaghettdev.gd-roulette",
 	"name": "GD-Roulette",
 	"developer": "SpaghettDev",
@@ -20,18 +20,26 @@
 	},
 	"resources": {
 		"sprites": [
-			"resources/*.png"
-		]
+			"resources/buttons/*.png",
+			"resources/game/*.png",
+			"resources/misc/*.png"
+		],
+		"spritesheets": {
+			"ListBorder": ["resources/misc/ListBorder/*.png"]
+		}
 	},
-	"dependencies": [
-		{
-			"id": "geode.node-ids",
+	"dependencies": {
+		"geode.node-ids": {
 			"version": ">=v1.17.0",
 			"importance": "required"
+		},
+		"alphalaneous.pages_api": {
+			"version": ">=v1.4.1",
+			"importance": "suggested"
 		}
-	],
+	},
 	"tags": [
-		"interface", "online"
+		"interface", "online", "content"
 	],
 	"settings": {
 		"max-skips": {
@@ -49,9 +57,9 @@
 			"max": 9999,
 			"min": 0
 		},
-		"auto-pause": {
-			"name": "Auto Pause",
-			"description": "Enable or disable auto pausing after getting the goal percentage during a round of roulette.",
+		"hide-goal-reached": {
+			"name": "Hide Goal Reached",
+			"description": "Hide the 'Goal Reached!' popup after a short while after reaching the goal.",
 			"type": "bool",
 			"default": true
 		},

@@ -8,3 +8,6 @@ FetchContent_Declare(
 )
 message("Fetching RTRP")
 FetchContent_MakeAvailable(RTRP)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${RTRP_SOURCE_DIR}/include)
+target_link_libraries(${PROJECT_NAME} RTRP)

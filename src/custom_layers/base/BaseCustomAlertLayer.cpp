@@ -1,11 +1,12 @@
-#include <limits>
 #include "BaseCustomAlertLayer.hpp"
 
-bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onClose, float closeBtnScale, const ccColor4B& color, int prio)
-{
-	if (!CCLayerColor::initWithColor(color)) return false;
+using namespace geode::prelude;
 
-	alertSize = contentSize;
+bool BaseCustomAlertLayer::createBasics(const BaseCustomAlertData& alertData)
+{
+	if (!CCLayerColor::initWithColor(alertData.color)) return false;
+
+	alertSize = alertData.contentSize;
 
 	CCDirector* director = CCDirector::sharedDirector();
 
@@ -15,15 +16,15 @@ bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onC
 	m_mainLayer = CCLayer::create();
 	this->addChild(m_mainLayer);
 
-	if (prio == std::numeric_limits<int>::max())
+	if (alertData.priority == std::numeric_limits<int>::max())
 		m_mainLayer->setTouchPriority(director->getTouchDispatcher()->getTargetPrio());
 	else
-		m_mainLayer->setTouchPriority(prio);
+		m_mainLayer->setTouchPriority(alertData.priority);
 	// this is what FLAlertLayer::incrementForcePrio does
 	director->getTouchDispatcher()->registerForcePrio(this, 2);
 
 	CCSize winSize = director->getWinSize();
-	extension::CCScale9Sprite* bg = extension::CCScale9Sprite::create("GJ_square01.png", { .0f, .0f, 80.f, 80.f });
+	bg = cocos2d::extension::CCScale9Sprite::create(alertData.bgTextureName, alertData.bgRect);
 	bg->setContentSize(alertSize);
 	bg->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
 	m_mainLayer->addChild(bg, -1);
@@ -32,7 +33,7 @@ bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onC
 	m_buttonMenu->setID("button-menu");
 	m_mainLayer->addChild(m_buttonMenu, 10);
 
-	closeBtn = createButton("GJ_closeBtn_001.png", { -((alertSize.x) / 2) + 9.5f, (alertSize.y / 2) - 10.f }, onClose, -1, closeBtnScale);
+	closeBtn = createButton("GJ_closeBtn_001.png", { -((alertSize.x) / 2.f) + 9.5f, (alertSize.y / 2.f) - 10.f }, alertData.onClose, -1, alertData.closeBtnScale);
 
 	return true;
 }
@@ -40,7 +41,7 @@ bool BaseCustomAlertLayer::createBasics(CCPoint contentSize, SEL_MenuHandler onC
 void BaseCustomAlertLayer::createTitle(std::string text, float separatorScale, float usernameScale)
 {
 	auto userName = CCLabelBMFont::create(text.c_str(), "bigFont.fnt");
-	userName->setPosition({ .0f, (alertSize.y / 2.f) - 22.f });
+	userName->setPosition({ .0f, (alertSize.y / 2.f) - 25.f });
 	userName->setScale(usernameScale);
 	m_buttonMenu->addChild(userName);
 

@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+# [4.0.0] - 2025-01-31
+
+The GD-Roulette UI update, featuring new UI, new UI and even more new UI!
+This update took a lot of time, so if you like it and would like more, consider donating by clicking the gift box icon below :D
+I will omit coding related changes from now on in CHANGELOG.md
+
+### Added
+
+- New UI! Main Roulette menu was completely overhauled, and new UI when playing as well!
+- View statistics while playing and after finishing a round
+  - When the round started
+  - How many skips were used
+  - Current and total level attempts
+  - How many levels played
+  - Total playtime
+  - View played levels
+- Percentage is colored when the goal is reached
+- Big button option again
+- Caching of max pages of normal list difficulties every 7 days
+- peggy
+
+### Changed
+
+- Target Geode v4.2.0 (green)
+- A lot of the internals and how stuff is managed
+- Demon List now fetches all pages
+- Challenge List now fetches all pages
+
+### Fixed
+
+- A lot of bugs
+- Android crash/invalid list ID bug
+- Roulette resetting to easy demon difficulty after pausing and resuming a demon round
+
 ## [3.1.0] - 2024-12-07
 
 ### Added

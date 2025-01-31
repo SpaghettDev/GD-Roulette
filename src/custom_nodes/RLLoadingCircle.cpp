@@ -29,7 +29,7 @@ bool RLLoadingCircle::init()
 
 void RLLoadingCircle::positionCenter()
 {
-	this->setPosition(cocos2d::CCDirector::sharedDirector()->getWinSize() / 2);
+	this->setPosition(cocos2d::CCDirector::sharedDirector()->getWinSize() / 2.f);
 }
 
 void RLLoadingCircle::fadeIn()

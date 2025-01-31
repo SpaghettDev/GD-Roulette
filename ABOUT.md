@@ -9,7 +9,6 @@ A Geometry Dash Level Roulette.
 - Challenge List
 - GD List
 - Skip levels you can't beat
-- Auto pause after reaching the goal percentage (can be disabled)
 - Resume playing after leaving the game
 
 ## How To Play
@@ -27,6 +26,11 @@ You can currently select 1 of 4 options: Normal List, Demon List, Challenge List
 Info about these lists can be found by clicking the corresponding info icon next to the list's button.
 
 And that's pretty much it! Have fun rouletting!
+
+## Donate
+
+This mod has taken a lot of time to make and refine, so your donation would be much appreciated!
+You can help fuel the next 50 hours I spend on this mod and my other mods by [donating through Ko-fi](https://ko-fi.com/spaghettdev)!
 
 ## Contact
 
