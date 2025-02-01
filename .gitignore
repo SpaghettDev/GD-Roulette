@@ -1,9 +1,7 @@
 /.vs
 /.vscode
 /build
-/build-msvc
-/build-ninja
-/build-clang
+/build-*
 
 # clangd stuff
 /.cache

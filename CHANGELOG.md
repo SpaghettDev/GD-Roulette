@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Android crash
+- Android not saving cache.json
 - Roulette would only show the same levels from page 1
 - Weird blink transition when exiting Roulette layer
 
