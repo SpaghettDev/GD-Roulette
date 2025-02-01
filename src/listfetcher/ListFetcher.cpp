@@ -67,6 +67,8 @@ matjson::Value ListFetcher::normalListCacheFunction()
 
 void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Result<level_pair_t>& result)
 {
+	is_fetching = true;
+
 	m_main_listener.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{

@@ -37,7 +37,7 @@ class $modify(RLPlayLayer, PlayLayer)
 	{
 		PlayLayer::updateProgressbar();
 
-		auto& rlm = RouletteManager::get();
+		const auto& rlm = RouletteManager::get();
 
 		if (!this->m_percentageLabel || !rlm.isPlaying || m_fields->m_has_set_progress_color)
 			return;
@@ -141,7 +141,7 @@ class $modify(RLPlayLayer, PlayLayer)
 	{
 		PlayLayer::showCompleteText();
 
-		if (!RouletteManager::get().isPlaying || !RouletteManager::get().gameState.hasReachedGoal)
+		if (!RouletteManager::get().isPlaying || this->m_isPracticeMode || !RouletteManager::get().gameState.hasReachedGoal)
 			return;
 
 		auto levelCompleteSprite = this->getChildByType<CCSprite>(1);

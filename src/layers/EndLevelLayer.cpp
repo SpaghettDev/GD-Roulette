@@ -8,7 +8,10 @@ class $modify(RLEndLevelLayer, EndLevelLayer)
 	{
 		EndLevelLayer::customSetup();
 
-		if (!RouletteManager::get().isPlaying || !RouletteManager::get().gameState.hasReachedGoal)
+		const auto& rlm = RouletteManager::get();
+		const auto pl = GameManager::sharedState()->getPlayLayer();
+
+		if (!rlm.isPlaying || !pl || pl->m_isPracticeMode || !rlm.gameState.hasReachedGoal)
 			return;
 
 		auto levelCompleteSprite = this->m_mainLayer->getChildByID("level-complete-text");

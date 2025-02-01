@@ -202,12 +202,14 @@ void RLRouletteInfoAlertLayer::onInfoIcon(CCObject* sender)
 
 void RLRouletteInfoAlertLayer::onIDButton(CCObject*)
 {
+	auto& rlm = RouletteManager::get();
+
 	m_integer_input_layer = RLIntegerInputAlertLayer::create({
 		"List ID", "ID", 0, 0, INT_MAX,
-		RouletteManager::get().gdListID == 0 ? std::nullopt : std::optional<int>(RouletteManager::get().gdListID),
+		rlm.gdListID == 0 ? std::nullopt : std::optional<int>(rlm.gdListID),
 		10, false,
 		[&](auto iil) {
-			RouletteManager::get().gdListID = iil->m_integer;
+			rlm.gdListID = iil->m_integer;
 			Mod::get()->setSavedValue<uint64_t>(
 				DataManager::values::getKeyString<DMMiscKey::GD_LIST_ID>(),
 				static_cast<uint64_t>(iil->m_integer)

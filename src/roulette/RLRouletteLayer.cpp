@@ -58,10 +58,11 @@ bool RLRouletteLayer::init()
 {
 	if (!BaseCustomLayer::init("RL_sideArt_001.png"_spr)) return false;
 
+	auto& rlm = RouletteManager::get();
 	auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-	m_selected_difficulty = RouletteManager::get().previousDifficulty;
-	m_selected_demon_difficulty = RouletteManager::get().previousDemonDifficulty;
+	m_selected_difficulty = rlm.previousDifficulty;
+	m_selected_demon_difficulty = rlm.previousDemonDifficulty;
 
 	this->setID("RLRouletteLayer");
 
@@ -370,7 +371,7 @@ bool RLRouletteLayer::init()
 	playing_menu->addChild(difficultyNode);
 
 	auto attemptText = CCLabelBMFont::create(
-		fmt::format("Attempt {}", RouletteManager::get().gameState.levelAttempts).c_str(),
+		fmt::format("Attempt {}", rlm.gameState.levelAttempts).c_str(),
 		"goldFont.fnt"
 	);
 	attemptText->setPosition({ 50.f, -27.f });
@@ -379,7 +380,7 @@ bool RLRouletteLayer::init()
 	playing_menu->addChild(attemptText);
 
 	auto percentageText = CCLabelBMFont::create(
-		fmt::format("{}%", RouletteManager::get().currentPercentageGoal).c_str(),
+		fmt::format("{}%", rlm.currentPercentageGoal).c_str(),
 		"goldFont.fnt"
 	);
 	percentageText->setPosition({ 50.f, -60.f });
@@ -396,7 +397,7 @@ bool RLRouletteLayer::init()
 	percentageBg->setID("percentage-bg");
 	playing_menu->addChild(percentageBg, -1);
 
-	auto progressBar = RLProgressBar::create(RouletteManager::get().gameState.levelPercentage, false);
+	auto progressBar = RLProgressBar::create(rlm.gameState.levelPercentage, false);
 	progressBar->setPosition({ .0f, 102.f });
 	progressBar->setColor({ 255, 255, 0 });
 	progressBar->setScale(.9f);
@@ -509,7 +510,7 @@ bool RLRouletteLayer::init()
 	onListChanged();
 
 
-	if (RouletteManager::get().gameState.levelPercentage == 100 && RouletteManager::get().gameState.hasReachedGoal)
+	if (rlm.gameState.levelPercentage == 100 && rlm.gameState.hasReachedGoal)
 	{
 		main_bg->getChildByID("border-title")->setVisible(false);
 		main_bg->getChildByID("background-1")->setVisible(false);
@@ -518,10 +519,8 @@ bool RLRouletteLayer::init()
 
 		onNextButton(nullptr);
 	}
-	else if (RouletteManager::get().isPaused)
+	else if (rlm.isPaused)
 	{
-		auto& rlm = RouletteManager::get();
-
 		rlm.isPlaying = true;
 		rlm.isPaused = false;
 
@@ -549,7 +548,7 @@ void RLRouletteLayer::onClose(CCObject*)
 {
 	auto& rlm = RouletteManager::get();
 
-	if (RouletteManager::get().isPlaying)
+	if (rlm.isPlaying)
 	{
 		m_confirmation_layer = RLConfirmationAlertLayer::create({
 			"Woah there!",
@@ -603,9 +602,11 @@ void RLRouletteLayer::onInfoButton(CCObject*)
 
 void RLRouletteLayer::onStatsButton(CCObject*)
 {
-	RouletteManager::get().gameState.playTime = RouletteManager::get().gameTimer.getElapsedTime();
+	auto& rlm = RouletteManager::get();
 
-	if ((m_stats_layer = RLStatsAlertLayer::create(RouletteManager::get().gameState)))
+	rlm.gameState.playTime = rlm.gameTimer.getElapsedTime();
+
+	if ((m_stats_layer = RLStatsAlertLayer::create(rlm.gameState)))
 		m_stats_layer->show();
 }
 
@@ -641,19 +642,20 @@ void RLRouletteLayer::onDifficultyButton(CCObject* sender)
 
 void RLRouletteLayer::onStartButton(CCObject*)
 {
+	auto& rlm = RouletteManager::get();
+
 	main_menu->setVisible(false);
 	main_bg->getChildByID("border-title")->setVisible(false);
 	main_bg->getChildByID("background-1")->setVisible(false);
 	main_bg->getChildByID("background-2")->setVisible(true);
 
-	RouletteManager::get().gameState.startTime = rl::utils::getUnixEpoch();
-	RouletteManager::get().gameTimer.start();
+	rlm.gameState.startTime = rl::utils::getUnixEpoch();
+	rlm.gameTimer.start();
 
 	getRandomListLevel();
-
 	setupForNextLevel(false, true);
 
-	RouletteManager::get().isPlaying = true;
+	rlm.isPlaying = true;
 }
 
 void RLRouletteLayer::onPlusButton(CCObject*)
@@ -732,22 +734,24 @@ void RLRouletteLayer::onNextButton(CCObject*)
 	if (ListFetcher::get().is_fetching)
 		return;
 
-	if (RouletteManager::get().gameState.levelPercentage == 100)
+	auto& rlm = RouletteManager::get();
+
+	if (rlm.gameState.levelPercentage == 100)
 	{
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-		RouletteManager::get().gameTimer.pause();
+		rlm.gameTimer.pause();
 
 		setupForNextLevel();
 
 		static_cast<CCLabelBMFont*>(finished_menu->getChildByID("skips-label"))->setString(
-			fmt::format("Skips Used: {}", RouletteManager::get().gameState.skipsUsed).c_str()
+			fmt::format("Skips Used: {}", rlm.gameState.skipsUsed).c_str()
 		);
 		static_cast<CCLabelBMFont*>(finished_menu->getChildByID("levels-played-label"))->setString(
-			fmt::format("Levels Played: {}", RouletteManager::get().gameState.numLevels).c_str()
+			fmt::format("Levels Played: {}", rlm.gameState.numLevels).c_str()
 		);
 		static_cast<CCLabelBMFont*>(finished_menu->getChildByID("total-attempts-label"))->setString(
-			fmt::format("Total Attempts: {}", RouletteManager::get().gameState.totalAttempts).c_str()
+			fmt::format("Total Attempts: {}", rlm.gameState.totalAttempts).c_str()
 		);
 
 		info_menu->getChildByID("stats-button")->setVisible(true);
@@ -763,29 +767,29 @@ void RLRouletteLayer::onNextButton(CCObject*)
 		playing_menu->setVisible(false);
 		finished_menu->setVisible(true);
 	}
-	else if (RouletteManager::get().gameState.hasReachedGoal)
+	else if (rlm.gameState.hasReachedGoal)
 	{
-		RouletteManager::get().gameState.hasReachedGoal = false;
-		RouletteManager::get().currentPercentageGoal = RouletteManager::get().gameState.levelPercentageGoal;
-		RouletteManager::get().gameState.levelPercentage = 0;
-		RouletteManager::get().gameState.levelAttempts = 0;
+		rlm.gameState.hasReachedGoal = false;
+		rlm.currentPercentageGoal = rlm.gameState.levelPercentageGoal;
+		rlm.gameState.levelPercentage = 0;
+		rlm.gameState.levelAttempts = 0;
 
 		setupForNextLevel(false, true, 40.f);
 
 		static_cast<CCLabelBMFont*>(
 			playing_menu->getChildByID("percentage-text")
-		)->setString(fmt::format("{}%", RouletteManager::get().currentPercentageGoal).c_str());
+		)->setString(fmt::format("{}%", rlm.currentPercentageGoal).c_str());
 		static_cast<CCLabelBMFont*>(
 			playing_menu->getChildByID("attempt-count-label")
-		)->setString(fmt::format("Attempt {}", RouletteManager::get().gameState.levelAttempts).c_str());
+		)->setString(fmt::format("Attempt {}", rlm.gameState.levelAttempts).c_str());
 
 		if (m_level.isOkAnd([](auto&& level) { return level.first.levelID != 0; }))
-			RouletteManager::get().gameState.playedLevels.emplace_back(m_level.unwrap().first.levelID);
+			rlm.gameState.playedLevels.emplace_back(m_level.unwrap().first.levelID);
 
 		getRandomListLevel();
 	}
 	else
-		rl::utils::createNotificationToast(this, fmt::format("You need to get at least {}%!", RouletteManager::get().currentPercentageGoal), .5f, 85.f);
+		rl::utils::createNotificationToast(this, fmt::format("You need to get at least {}%!", rlm.currentPercentageGoal), .5f, 85.f);
 }
 
 void RLRouletteLayer::onRefreshButton(CCObject*)
@@ -883,7 +887,9 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 	if (ListFetcher::get().is_fetching)
 		return;
 
-	if (RouletteManager::get().gameState.levelPercentage == 100 || RouletteManager::get().gameState.hasReachedGoal)
+	auto& rlm = RouletteManager::get();
+
+	if (rlm.gameState.levelPercentage == 100 || rlm.gameState.hasReachedGoal)
 	{
 		rl::utils::createNotificationToast(this, "Skip not used, you have already reached the goal!", .5f, 85.f);
 
@@ -892,11 +898,11 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 		return;
 	}
 
-	if (RouletteManager::get().gameState.skipsUsed < Mod::get()->getSettingValue<int64_t>("max-skips"))
+	if (rlm.gameState.skipsUsed < Mod::get()->getSettingValue<int64_t>("max-skips"))
 	{
-		RouletteManager::get().gameState.skipsUsed++;
-		RouletteManager::get().gameState.hasReachedGoal = false;
-		RouletteManager::get().currentPercentageGoal = RouletteManager::get().gameState.levelPercentageGoal;
+		rlm.gameState.skipsUsed++;
+		rlm.gameState.hasReachedGoal = false;
+		rlm.currentPercentageGoal = rlm.gameState.levelPercentageGoal;
 
 		setupForNextLevel(false, true, 40.f);
 
@@ -904,8 +910,8 @@ void RLRouletteLayer::onSkipButton(CCObject*)
 			playing_menu->getChildByID("attempt-count-label")
 		)->setString("Attempt 0");
 
-		if (RouletteManager::get().gameState.playedLevels.size())
-			RouletteManager::get().gameState.playedLevels.pop_back();
+		if (rlm.gameState.playedLevels.size())
+			rlm.gameState.playedLevels.pop_back();
 
 		getRandomListLevel();
 	}
