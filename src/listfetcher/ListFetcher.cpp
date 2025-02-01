@@ -18,12 +18,16 @@ ListFetcher::ListFetcher()
 
 matjson::Value ListFetcher::normalListCacheFunction()
 {
+	matjson::Value defaultObj{};
+
 	for (const auto& difficulty : {
 		GJDifficulty::Easy, GJDifficulty::Normal, GJDifficulty::Hard,
 		GJDifficulty::Harder, GJDifficulty::Insane, static_cast<GJDifficulty>(-2),
 		GJDifficulty::DemonEasy, GJDifficulty::DemonMedium, GJDifficulty::Demon,
 		GJDifficulty::DemonInsane, GJDifficulty::DemonExtreme
 	}) {
+		defaultObj[fmt::format("{}", static_cast<int>(difficulty))] = 100;
+
 		WebRequestQueue::get().enqueue(WebRequestQueue::Request{
 			web::WebRequest()
 				.userAgent("")
@@ -58,7 +62,7 @@ matjson::Value ListFetcher::normalListCacheFunction()
 
 	WebRequestQueue::get().flush();
 
-	return {};
+	return defaultObj;
 }
 
 void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Result<level_pair_t>& result)

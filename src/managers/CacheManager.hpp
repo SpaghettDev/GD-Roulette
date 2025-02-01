@@ -53,9 +53,9 @@ public:
 	void save();
 
 	template <CMKey key>
-	[[nodiscard]] const CMKeyTrait<key>::type& getValue()
+	[[nodiscard]] CMKeyTrait<key>::type getValue()
 	{
-		if (auto cached = m_cache.get<matjson::Value>(getKeyString<key>()); cached.isOk())
+		if (auto cached = m_cache.get<matjson::Value>(getKeyString<key>()); cached.isOkAnd([](const matjson::Value& v) { return v.contains("time") && v.contains("value"); }))
 		{
 			auto time = cached.unwrap().template get<std::uint64_t>("time").unwrapOr(0);
 
@@ -65,22 +65,20 @@ public:
 		else
 			setValue<key>(callCacheFunction<key>());
 
-		if (auto res = m_cache[getKeyString<key>()]["value"].template as<typename CMKeyTrait<key>::type>())
-			return res.unwrap();
-		else
-		{
-			setValue<key>(callCacheFunction<key>());
-			return m_cache[getKeyString<key>()]["value"].template as<typename CMKeyTrait<key>::type>().unwrap();
-		}
+		return std::move(
+			m_cache[getKeyString<key>()]["value"].template as<typename CMKeyTrait<key>::type>().unwrap()
+		);
 	}
 
 	template <CMKey key, typename R, typename P>
 	[[nodiscard]] R getValue(P keyName, R defaultValue = {}) requires(std::is_same_v<typename CMKeyTrait<key>::type, matjson::Value> && std::is_default_constructible_v<R>)
 	{
-		if constexpr (std::is_enum_v<P>)
-			return getValue<key>()[fmt::format("{}", static_cast<int>(keyName))].template as<R>().unwrapOr(defaultValue);
+		using result_t = std::conditional_t<std::is_same_v<R, int>, std::uint64_t, R>;
+
+		if constexpr (std::is_enum_v<P> || std::is_integral_v<P>)
+			return getValue<key>()[fmt::format("{}", static_cast<int>(keyName))].template as<result_t>().unwrapOr(defaultValue);
 		else
-			return getValue<key>()[keyName].template as<R>().unwrapOr(defaultValue);
+			return getValue<key>()[keyName].template as<result_t>().unwrapOr(defaultValue);
 	}
 
 	template <CMKey key>
@@ -102,9 +100,8 @@ public:
 	}
 
 	template <CMKey key>
-	void appendValue(const std::string& keyName, const CMKeyTrait<key>::type& value) requires(
-			std::is_same_v<typename CMKeyTrait<key>::type, matjson::Value>
-		)
+	void appendValue(const std::string& keyName, const CMKeyTrait<key>::type& value)
+		requires(std::is_same_v<typename CMKeyTrait<key>::type, matjson::Value>)
 	{
 		m_cache[getKeyString<key>()]["time"] = rl::utils::getUnixEpoch();
 		m_cache[getKeyString<key>()]["value"][keyName] = value;

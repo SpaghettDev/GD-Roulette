@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-# [4.0.0] - 2025-01-31
+## [4.0.1] - 2025-01-31
+
+### Fixed
+
+- Android crash
+- Roulette would only show the same levels from page 1
+- Weird blink transition when exiting Roulette layer
+
+## [4.0.0] - 2025-01-31
 
 The GD-Roulette UI update, featuring new UI, new UI and even more new UI!
 This update took a lot of time, so if you like it and would like more, consider donating by clicking the gift box icon below :D

@@ -547,21 +547,23 @@ bool RLRouletteLayer::init()
 
 void RLRouletteLayer::onClose(CCObject*)
 {
+	auto& rlm = RouletteManager::get();
+
 	if (RouletteManager::get().isPlaying)
 	{
 		m_confirmation_layer = RLConfirmationAlertLayer::create({
 			"Woah there!",
 			"Would you like to <cr>quit</c> or <co>pause</c> the roulette?",
 			[&](auto cl) {
-				RouletteManager::get().gameTimer.pause();
-				RouletteManager::get().saveState();
-				RouletteManager::get().isPlaying = false;
-				RouletteManager::get().isPaused = true;
+				rlm.gameTimer.pause();
+				rlm.saveState();
+				rlm.isPlaying = false;
+				rlm.isPaused = true;
 
 				onClose(nullptr);
 			},
 			[&](auto cl) {
-				RouletteManager::get().reset();
+				rlm.reset();
 
 				onClose(nullptr);
 			},
@@ -573,8 +575,8 @@ void RLRouletteLayer::onClose(CCObject*)
 	else
 	{
 		this->setKeypadEnabled(false);
-		this->removeFromParentAndCleanup(true);
-		RouletteManager::get().rouletteLayer = nullptr;
+		this->setKeyboardEnabled(false);
+		rlm.rouletteLayer = nullptr;
 
 		CCDirector::sharedDirector()->popSceneWithTransition(
 			.5f, PopTransition::kPopTransitionFade
@@ -706,11 +708,12 @@ void RLRouletteLayer::onPlayButton(CCObject*)
 		return;
 
 	LevelInfoLayer* layer;
-	const auto& level = m_level.unwrap();
 
-	if (level.first.levelID != 0)
+	if (m_level.isOkAnd([](const auto& lvl) { return lvl.first.levelID != 0; }))
 	{
-		layer = LevelInfoLayer::create(rl::utils::createLevelFromResponse(level), false);
+		const auto& lvl = m_level.unwrap();
+
+		layer = LevelInfoLayer::create(rl::utils::createLevelFromResponse(lvl), false);
 		layer->downloadLevel();
 	}
 	else
@@ -1032,6 +1035,8 @@ void RLRouletteLayer::onListChanged()
 // set roulette button exclamation mark
 void RLRouletteLayer::onExitTransitionDidStart()
 {
+	BaseCustomLayer::onExitTransitionDidStart();
+
 	if (auto nextScene = static_cast<CCScene*>(CCDirector::sharedDirector()->m_pobScenesStack->firstObject()))
 	{
 		CCMenuItemSpriteExtra* rouletteButton = nullptr;
@@ -1073,6 +1078,8 @@ void RLRouletteLayer::onExitTransitionDidStart()
 
 void RLRouletteLayer::onEnterTransitionDidFinish()
 {
+	BaseCustomLayer::onEnterTransitionDidFinish();
+
 	auto& rlm = RouletteManager::get();
 
 	if (!rlm.isPlaying || !rlm.hasEnteredPlayLayer)

@@ -20,7 +20,7 @@ namespace rl
 {
 	namespace impl
 	{
-		inline static std::random_device rand_device;
+		inline static std::random_device rand_device{};
 		inline static std::mt19937 rand_generator(rand_device());
 	}
 
@@ -34,7 +34,8 @@ namespace rl
 		 * @tparam T type of number, floating type or integer type
 		 */
 		template <typename T1, typename T2>
-		inline T2 randomNumber(T1 min, T2 max) requires (std::is_arithmetic_v<T1> && std::is_arithmetic_v<T2> && std::is_convertible_v<T1, T2>)
+		inline T2 randomNumber(T1 min, T2 max)
+			requires(std::is_arithmetic_v<T1> && std::is_arithmetic_v<T2> && std::is_convertible_v<T1, T2>)
 		{
 			static_assert(
 				(std::is_integral_v<T1> && std::is_integral_v<T2>) ||
