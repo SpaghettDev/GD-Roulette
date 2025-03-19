@@ -39,6 +39,7 @@ jobs:
       - name: Build the mod
         uses: geode-catgirls/build-geode-mod@test
         with:
+          cli: 'nightly'
           gh-pat: ${{ secrets.GH_PAT }}
           combine: true
           target: ${{ matrix.config.target }}
