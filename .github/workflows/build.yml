@@ -43,6 +43,7 @@ jobs:
           combine: true
           target: ${{ matrix.config.target }}
           build-args: '--parallel 16'
+          gh-pat: ${{ secrets.GH_PAT }}
 
   package:
     name: Package builds
