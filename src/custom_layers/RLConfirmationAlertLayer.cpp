@@ -1,5 +1,8 @@
 #include "RLConfirmationAlertLayer.hpp"
 
+#include <Geode/binding/TextArea.hpp>
+#include <Geode/binding/ButtonSprite.hpp>
+
 using namespace geode::prelude;
 
 RLConfirmationAlertLayer* RLConfirmationAlertLayer::create(const RLConfirmationData& cli)

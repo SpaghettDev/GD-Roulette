@@ -1,6 +1,8 @@
 #include "RLDifficultyNode.hpp"
 #include "constants.hpp"
 
+#include <Geode/binding/GameToolbox.hpp>
+
 using namespace geode::prelude;
 
 RLDifficultyNode* RLDifficultyNode::create(const DifficultyInfo& di)

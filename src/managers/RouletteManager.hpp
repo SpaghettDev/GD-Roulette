@@ -3,6 +3,7 @@
 #include <atomic>
 
 #include <Geode/Enums.hpp>
+#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 
 #include "SingletonBase.hpp"
 

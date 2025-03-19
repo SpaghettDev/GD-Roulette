@@ -1,6 +1,12 @@
 #include "RLStatsAlertLayer.hpp"
 
+#include <fmt/format.h>
+
+#include <Geode/loader/Mod.hpp>
 #include <Geode/binding/LevelCell.hpp>
+#include <Geode/binding/ButtonSprite.hpp>
+#include <Geode/binding/GJLevelList.hpp>
+#include <Geode/binding/LevelListLayer.hpp>
 
 #include "RouletteManager.hpp"
 #include "utils.hpp"

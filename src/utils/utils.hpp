@@ -5,6 +5,7 @@
 #include <chrono>
 
 #include <Geode/binding/GJGameLevel.hpp>
+#include <Geode/binding/TextAlertPopup.hpp>
 
 #include <matjson.hpp>
 

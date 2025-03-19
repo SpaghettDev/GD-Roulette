@@ -2,6 +2,7 @@
 #include "../roulette/RLRouletteLayer.hpp"
 
 #include <Geode/modify/CreatorLayer.hpp>
+#include <Geode/ui/BasedButtonSprite.hpp>
 
 using namespace geode::prelude;
 

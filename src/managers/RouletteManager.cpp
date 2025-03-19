@@ -4,6 +4,8 @@
 #include "utils.hpp"
 #include "constants.hpp"
 
+#include <Geode/binding/GameManager.hpp>
+
 template <DMArrayKey key>
 static GJDifficulty getDifficultyFromSaveContainer()
 {

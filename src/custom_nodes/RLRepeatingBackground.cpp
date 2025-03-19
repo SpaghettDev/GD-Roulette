@@ -1,5 +1,9 @@
 #include "RLRepeatingBackground.hpp"
 
+#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
+
+#include <fmt/format.h>
+
 #ifndef ROULETTE_DEBUG_BUILD
 #include "utils.hpp"
 #endif

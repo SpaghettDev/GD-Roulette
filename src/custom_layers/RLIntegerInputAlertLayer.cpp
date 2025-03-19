@@ -1,5 +1,7 @@
 #include "RLIntegerInputAlertLayer.hpp"
 
+#include <Geode/binding/ButtonSprite.hpp>
+
 using namespace geode::prelude;
 
 RLIntegerInputAlertLayer* RLIntegerInputAlertLayer::create(const RLIntegerInputData& iili)

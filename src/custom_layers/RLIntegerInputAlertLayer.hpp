@@ -4,6 +4,8 @@
 #include <optional>
 #include <functional>
 
+#include <Geode/binding/CCTextInputNode.hpp>
+
 #include "base/BaseCustomAlertLayer.hpp"
 
 class RLIntegerInputAlertLayer;

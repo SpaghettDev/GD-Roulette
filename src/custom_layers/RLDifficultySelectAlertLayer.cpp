@@ -1,6 +1,12 @@
 #include "RLDifficultySelectAlertLayer.hpp"
 #include "constants.hpp"
 
+#include <Geode/loader/Mod.hpp>
+#include <Geode/ui/Layout.hpp>
+#include <Geode/utils/cocos.hpp>
+
+#include <Geode/binding/ButtonSprite.hpp>
+
 using namespace geode::prelude;
 
 RLDifficultySelectAlertLayer* RLDifficultySelectAlertLayer::create(const RLDifficultySelectData& dsi)
