@@ -39,11 +39,10 @@ jobs:
       - name: Build the mod
         uses: geode-catgirls/build-geode-mod@test
         with:
-          sdk: 'nightly'
+          gh-pat: ${{ secrets.GH_PAT }}
           combine: true
           target: ${{ matrix.config.target }}
           build-args: '--parallel 16'
-          gh-pat: ${{ secrets.GH_PAT }}
 
   package:
     name: Package builds
