@@ -3,6 +3,7 @@
 #include <Geode/modify/PauseLayer.hpp>
 #include <Geode/binding/GameManager.hpp>
 #include <Geode/binding/PlayLayer.hpp>
+#include <Geode/binding/GJGameLevel.hpp>
 #include <Geode/loader/Mod.hpp>
 
 #include <fmt/format.h>

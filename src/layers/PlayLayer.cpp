@@ -1,7 +1,11 @@
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
+#include <Geode/binding/GameManager.hpp>
 #include <Geode/binding/GJGameLevel.hpp>
+#include <Geode/binding/FMODAudioEngine.hpp>
+#include <Geode/binding/CurrencyRewardLayer.hpp>
+#include <Geode/binding/PlayerObject.hpp>
 
 #include "../custom_nodes/RLProgressBar.hpp"
 #include "RouletteManager.hpp"
