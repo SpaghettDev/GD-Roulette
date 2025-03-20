@@ -2,6 +2,7 @@
 
 #include <Geode/modify/EndLevelLayer.hpp>
 #include <Geode/binding/GameManager.hpp>
+#include <Geode/binding/PlayLayer.hpp>
 #include <Geode/loader/Mod.hpp>
 
 class $modify(RLEndLevelLayer, EndLevelLayer)

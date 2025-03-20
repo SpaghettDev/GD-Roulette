@@ -1,6 +1,8 @@
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
+#include <Geode/binding/GJGameLevel.hpp>
+
 #include "../custom_nodes/RLProgressBar.hpp"
 #include "RouletteManager.hpp"
 

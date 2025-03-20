@@ -40,6 +40,8 @@ jobs:
         uses: geode-catgirls/build-geode-mod@test
         with:
           cli: 'nightly'
+          bindings: geode-sdk/bindings
+          bindings-ref: sapphire-sdk
           gh-pat: ${{ secrets.GH_PAT }}
           combine: true
           target: ${{ matrix.config.target }}

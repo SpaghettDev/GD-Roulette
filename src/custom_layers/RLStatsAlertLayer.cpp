@@ -9,6 +9,7 @@
 #include <Geode/binding/LevelListLayer.hpp>
 #include <Geode/binding/LoadingCircle.hpp>
 #include <Geode/binding/GJListLayer.hpp>
+#include <Geode/binding/BoomListView.hpp>
 #include <Geode/binding/TextArea.hpp>
 
 #include "RouletteManager.hpp"
