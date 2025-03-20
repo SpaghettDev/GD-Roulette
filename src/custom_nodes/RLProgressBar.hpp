@@ -3,6 +3,9 @@
 #include <cmath>
 
 #include <Geode/cocos/sprite_nodes/CCSprite.h>
+#include <Geode/cocos/misc_nodes/CCClippingNode.h>
+#include <Geode/cocos/draw_nodes/CCDrawNode.h>
+#include <Geode/cocos/label_nodes/CCLabelBMFont.h>
 
 class RLProgressBar : public cocos2d::CCSprite
 {

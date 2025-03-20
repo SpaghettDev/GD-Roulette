@@ -1,6 +1,8 @@
 #include "RouletteManager.hpp"
 
 #include <Geode/modify/EndLevelLayer.hpp>
+#include <Geode/binding/GameManager.hpp>
+#include <Geode/loader/Mod.hpp>
 
 class $modify(RLEndLevelLayer, EndLevelLayer)
 {

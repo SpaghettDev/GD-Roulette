@@ -1,6 +1,10 @@
 #include "RouletteManager.hpp"
 
 #include <Geode/modify/PauseLayer.hpp>
+#include <Geode/binding/GameManager.hpp>
+#include <Geode/loader/Mod.hpp>
+
+#include <fmt/format.h>
 
 using namespace geode::prelude;
 

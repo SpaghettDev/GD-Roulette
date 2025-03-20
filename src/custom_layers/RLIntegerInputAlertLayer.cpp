@@ -1,6 +1,10 @@
 #include "RLIntegerInputAlertLayer.hpp"
 
 #include <Geode/binding/ButtonSprite.hpp>
+#include <Geode/loader/Mod.hpp>
+#include <Geode/utils/general.hpp>
+
+#include <fmt/format.h>
 
 using namespace geode::prelude;
 

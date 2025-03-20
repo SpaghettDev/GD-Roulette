@@ -1,6 +1,7 @@
 #include "RLRepeatingBackground.hpp"
 
 #include <Geode/binding/CCMenuItemSpriteExtra.hpp>
+#include <Geode/loader/Mod.hpp>
 
 #include <fmt/format.h>
 

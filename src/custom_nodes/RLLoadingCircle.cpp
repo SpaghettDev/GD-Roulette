@@ -1,6 +1,8 @@
 // not taken from https://github.com/acaruso-xx/slope-geode/blob/main/src/plate/LoadingCircle.cpp :D
 #include "RLLoadingCircle.hpp"
 
+#include <Geode/cocos/CCDirector.h>
+
 RLLoadingCircle* RLLoadingCircle::create()
 {
 	auto ret = new RLLoadingCircle();

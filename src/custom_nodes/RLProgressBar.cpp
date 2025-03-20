@@ -1,6 +1,8 @@
 // progress bars are not my forté https://github.com/adafcaefc/Geome3Dash/blob/master/Geome3Dash/src/game/component/G3DProgressBar.cpp
 #include "RLProgressBar.hpp"
 
+#include <fmt/format.h>
+
 using namespace geode::prelude;
 
 RLProgressBar* RLProgressBar::create(float progress, bool willAnimate)
