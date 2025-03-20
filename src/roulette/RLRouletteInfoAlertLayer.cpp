@@ -1,5 +1,7 @@
 #include "RLRouletteInfoAlertLayer.hpp"
 
+#include <Geode/binding/TextArea.hpp>
+
 #include "../custom_layers/RLIntegerInputAlertLayer.hpp"
 #include "../roulette/RLRouletteLayer.hpp"
 #include "RouletteManager.hpp"
