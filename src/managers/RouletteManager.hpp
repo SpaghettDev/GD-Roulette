@@ -40,4 +40,6 @@ public:
 	GJDifficulty previousDemonDifficulty = GJDifficulty::Demon;
 
 	bool hasEnteredPlayLayer = false;
+
+	bool hasFinishedARound = false;
 };

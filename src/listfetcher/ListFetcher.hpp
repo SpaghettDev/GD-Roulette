@@ -30,7 +30,7 @@ public:
 
 	void getLevelInfo(int, geode::Result<level_pair_t>&);
 
-	void setFinishedFetchingCallback(std::function<void()> cb) { m_finished_fetching_cb = cb; }
+	void setFinishedFetchingCallback(std::function<void()>&& cb) { m_finished_fetching_cb = std::move(cb); }
 
 	static matjson::Value normalListCacheFunction();
 

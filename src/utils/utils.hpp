@@ -61,6 +61,16 @@ namespace rl
 			).count();
 		}
 
+		inline bool isAprilFools()
+		{
+			return true;
+			auto now = std::chrono::system_clock::now();
+			auto timeNow = std::chrono::system_clock::to_time_t(now);
+			auto tm_local = fmt::localtime(timeNow);
+
+			return tm_local.tm_mon == 3 && tm_local.tm_mday == 1;
+		}
+
 		/**
 		 * @brief Formats a Unix timestamp to a human-readable date-time string
 		 *
@@ -336,31 +346,6 @@ namespace rl
 					: GJFeatureState::Featured;
 		}
 
-		inline CCMenuItemSpriteExtra* createButton(
-			cocos2d::CCLayer* self,
-			const char* texture,
-			const cocos2d::CCPoint& position,
-			cocos2d::SEL_MenuHandler callback,
-			int tag = -1,
-			float textureScale = 1.f,
-			float sizeMult = 1.2f
-		) {
-			auto buttonSprite = cocos2d::CCSprite::createWithSpriteFrameName(texture);
-			buttonSprite->setScale(textureScale);
-			auto button = CCMenuItemSpriteExtra::create(
-				buttonSprite,
-				self,
-				callback
-			);
-			button->setPosition(position);
-			button->setSizeMult(sizeMult);
-			if (tag != -1)
-				button->setTag(tag);
-			self->addChild(button);
-
-			return button;
-		}
-
 		/**
 		 * @brief Create a Notification Toast object and adds it to @param layer
 		 *
@@ -402,6 +387,27 @@ namespace rl
 
 		template <typename V, typename T = V>
 		ScopedVar(V, std::atomic<V>) -> ScopedVar<V, std::atomic<V>>;
+
+		template <typename R, typename ...Args>
+		struct ScopedFunc
+		{
+		public:
+			ScopedFunc(std::function<R(Args...)>&& function)
+				: m_function{ std::move(function) }, m_engaged{ true }
+			{}
+
+			ScopedFunc(const std::function<R(Args...)>& function)
+				: m_function{ function }, m_engaged{ true }
+			{}
+
+			~ScopedFunc() { if (m_engaged) m_function(); }
+
+			void engage(bool engaged) { m_engaged = engaged; }
+
+		private:
+			std::function<R(Args...)> m_function;
+			bool m_engaged;
+		};
 
 		template <typename X>
 		unsigned int calcChecksum(const X& v)

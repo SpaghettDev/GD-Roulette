@@ -111,7 +111,7 @@ public:
 	void addCacheFunction(CacheFunction<key> function)
 	{
 		m_cache_functions.emplace(key, std::make_unique<CacheFunction<key>>(function));
-		static_cast<void>(getValue<CMKey::NORMAL_LIST_MAX_PAGES>());
+		static_cast<void>(getValue<key>());
 	}
 
 private:

@@ -13,11 +13,12 @@
 using namespace geode::prelude;
 
 ListFetcher::ListFetcher()
-	: m_cached_gd_list_id(-1), m_cached_gd_list_level_ids({})
+	: m_cached_gd_list_id(-1), m_cached_gd_list_level_ids({}), m_finished_fetching_cb([] {})
 {}
 
 matjson::Value ListFetcher::normalListCacheFunction()
 {
+	// in case something fails, all difficulties have at least 100 pages
 	matjson::Value defaultObj{};
 
 	for (const auto& difficulty : {
@@ -44,12 +45,12 @@ matjson::Value ListFetcher::normalListCacheFunction()
 					return;
 
 				const auto& unwrappedResp = resp.unwrap();
-				const auto parsedResponse = rtrp::RtResponseParser::parseLevelResponse(unwrappedResp);
+				auto&& parsedResponse = rtrp::RtResponseParser::parseLevelResponse(unwrappedResp);
 
-				if (parsedResponse.isError())
+				if (parsedResponse.isErr())
 					return;
 
-				auto response = parsedResponse.unwrap();
+				auto&& response = std::move(parsedResponse.unwrap());
 				int maxPageCount = std::ceil(response.page.pages / response.page.countPerPage);
 
 				CacheManager::get().appendValue<CMKey::NORMAL_LIST_MAX_PAGES>(
@@ -72,38 +73,42 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Resul
 	m_main_listener.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{
-			rl::utils::ScopedVar _(is_fetching, false);
+			rl::utils::ScopedVar v(is_fetching, false);
+			rl::utils::ScopedFunc f(m_finished_fetching_cb);
 
-			const auto& resp = res->string();
+			const auto& respStr = res->string();
 
-			if (resp.isErr())
+			if (respStr.isErr())
 			{
-				result = geode::Err(fmt::format("Servers returned an invalid response ({}). Try again later. (getGJLevels21.php, 2)", resp.unwrapErr()));
+				result = geode::Err(fmt::format("Servers returned an invalid response ({}). Try again later. (getGJLevels21.php, 2)", respStr.unwrapErr()));
 
 				return;
 			}
 
-			const auto& unwrappedResp = resp.unwrap();
-			const auto parsedResponse = rtrp::RtResponseParser::parseLevelResponse(unwrappedResp);
+			const auto& unwrappedResp = respStr.unwrap();
+			auto&& parsedResponse = rtrp::RtResponseParser::parseLevelResponse(unwrappedResp);
 
-			if (parsedResponse.isError())
+			if (parsedResponse.isErr())
 			{
 				if (unwrappedResp.starts_with("error code"))
 					result = geode::Err(fmt::format("Server returned error code {}. Try again later. (getGJLevels21.php, 2)", unwrappedResp.substr(12)));
 				else
-					result = geode::Err("Error parsing response from servers. Try again later. (getGJLevels21.php, 2)");
+					result = geode::Err(fmt::format(
+						"Error parsing response from servers. Try again later. (getGJLevels21.php, 2)\n({})",
+						parsedResponse.unwrapErr()
+					));
 
 				return;
 			}
 
-			auto response = parsedResponse.unwrap();
+			auto&& response = parsedResponse.unwrap();
 
 			if (difficulty == GJDifficulty::Easy)
 			{
 				response.levels.erase(
 					std::remove_if(
 						response.levels.begin(), response.levels.end(),
-						[=](const auto& level) { return level.stars == 1; }
+						[](const auto& level) { return level.stars == 1; }
 					),
 					response.levels.end()
 				);
@@ -114,17 +119,13 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Resul
 				response.levels[randomIdx],
 				rl::utils::getCreatorFromLevelResponse(response.creators, response.levels[randomIdx])
 			});
-
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
 		}
 		else if (e->isCancelled())
 		{
 			result = geode::Err("Request was cancelled. (getGJLevels21.php, 2)");
 			is_fetching = false;
 
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
+			m_finished_fetching_cb();
 		}
 	});
 
@@ -152,18 +153,19 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 	m_main_listener.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{
-			rl::utils::ScopedVar _(is_fetching, false);
+			rl::utils::ScopedVar v(is_fetching, false);
+			rl::utils::ScopedFunc f(m_finished_fetching_cb);
 
-			const auto& resp = res->json();
+			const auto& respStr = res->json();
 
-			if (resp.isErr())
+			if (respStr.isErr())
 			{
-				result = geode::Err(fmt::format("Pointercrate API returned an invalid response ({}). Try again later.", resp.unwrapErr()));
+				result = geode::Err(fmt::format("Pointercrate API returned an invalid response ({}). Try again later.", respStr.unwrapErr()));
 
 				return;
 			}
 
-			const auto& jsonResp = resp.unwrap();
+			const auto& jsonResp = respStr.unwrap();
 
 			if (jsonResp.isNull() || !jsonResp.isArray())
 			{
@@ -174,7 +176,7 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 
 			const auto array = jsonResp.asArray().unwrap();
 
-			std::size_t randomIndex;
+			std::uint16_t randomIndex;
 			do {
 				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
 			} while (array[randomIndex]["level_id"].isNull());
@@ -189,7 +191,8 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 			}
 
 			// prevent is_fetching to be set to false
-			_.engage(false);
+			v.engage(false);
+			f.engage(false);
 
 			getLevelInfo(levelId, result);
 		}
@@ -198,8 +201,7 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 			result = geode::Err("Request was cancelled. (Pointercrate)");
 			is_fetching = false;
 
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
+			m_finished_fetching_cb();
 		}
 	});
 
@@ -225,7 +227,8 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 	m_main_listener.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{
-			rl::utils::ScopedVar _(is_fetching, false);
+			rl::utils::ScopedVar v(is_fetching, false);
+			rl::utils::ScopedFunc f(m_finished_fetching_cb);
 
 			const auto& resp = res->json();
 
@@ -262,7 +265,8 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 			}
 
 			// prevent is_fetching to be set to false
-			_.engage(false);
+			v.engage(false);
+			f.engage(false);
 
 			getLevelInfo(levelId, result);
 		}
@@ -271,8 +275,7 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 			result = geode::Err("Request was cancelled. (Challenge List)");
 			is_fetching = false;
 
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
+			m_finished_fetching_cb();
 		}
 	});
 
@@ -308,18 +311,19 @@ void ListFetcher::getRandomGDListLevel(int listID, geode::Result<level_pair_t>& 
 	m_main_listener.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{
-			rl::utils::ScopedVar _(is_fetching, true, false);
+			rl::utils::ScopedVar v(is_fetching, true, false);
+			rl::utils::ScopedFunc f(m_finished_fetching_cb);
 
-			const auto& resp = res->string();
+			const auto& respStr = res->string();
 
-			if (resp.isErr())
+			if (respStr.isErr())
 			{
-				result = geode::Err(fmt::format("Servers returned an invalid response ({}). Try again later. (getGJLevelLists.php)", resp.unwrapErr()));
+				result = geode::Err(fmt::format("Servers returned an invalid response ({}). Try again later. (getGJLevelLists.php)", respStr.unwrapErr()));
 
 				return;
 			}
 
-			const auto& unwrappedResp = resp.unwrap();
+			const auto& unwrappedResp = respStr.unwrap();
 			if (unwrappedResp.empty() || unwrappedResp == "-1")
 			{
 				result = geode::Err("Invalid List ID. (getGJLevelLists.php)");
@@ -329,20 +333,22 @@ void ListFetcher::getRandomGDListLevel(int listID, geode::Result<level_pair_t>& 
 
 			const auto parsedResponse = rtrp::RtResponseParser::parseListResponse(unwrappedResp);
 
-			if (parsedResponse.isError())
+			if (parsedResponse.isErr())
 			{
-				result = geode::Err("Error parsing response from servers. Try again later. (getGJLevelLists.php)");
+				result = geode::Err(fmt::format(
+					"Error parsing response from servers. Try again later. (getGJLevelLists.php)\n({})",
+					parsedResponse.unwrapErr()
+				));
 
 				return;
 			}
 
-			const auto& levelIDs = parsedResponse.unwrap().lists[0].levelIDs;
-
 			m_cached_gd_list_id = listID;
-			m_cached_gd_list_level_ids = { levelIDs };
+			m_cached_gd_list_level_ids = std::move(parsedResponse.unwrap().lists[0].levelIDs);
 
 			// prevent is_fetching to be set to false
-			_.engage(false);
+			v.engage(false);
+			f.engage(false);
 
 			getLevelInfo(
 				std::stoi(
@@ -358,8 +364,7 @@ void ListFetcher::getRandomGDListLevel(int listID, geode::Result<level_pair_t>& 
 			result = geode::Err("Request was cancelled. (getGJLevelLists.php)");
 			is_fetching = false;
 
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
+			m_finished_fetching_cb();
 		}
 	});
 
@@ -380,18 +385,19 @@ void ListFetcher::getLevelInfo(int levelID, geode::Result<level_pair_t>& result)
 	m_secondary_listener.bind([&](web::WebTask::Event* e) {
 		if (web::WebResponse* res = e->getValue())
 		{
-			rl::utils::ScopedVar _(is_fetching, true, false);
+			rl::utils::ScopedVar v(is_fetching, true, false);
+			rl::utils::ScopedFunc f(m_finished_fetching_cb);
 
-			const auto& resp = res->string();
+			const auto& respStr = res->string();
 
-			if (resp.isErr())
+			if (respStr.isErr())
 			{
-				result = geode::Err(fmt::format("Servers returned an invalid response ({}). Try again later. (getGJLevels21.php)", resp.unwrapErr()));
+				result = geode::Err(fmt::format("Servers returned an invalid response ({}). Try again later. (getGJLevels21.php)", respStr.unwrapErr()));
 
 				return;
 			}
 
-			const auto& unwrappedResp = resp.unwrap();
+			const auto& unwrappedResp = respStr.unwrap();
 
 			if (unwrappedResp.empty() || unwrappedResp == "-1")
 			{
@@ -400,34 +406,33 @@ void ListFetcher::getLevelInfo(int levelID, geode::Result<level_pair_t>& result)
 				return;
 			}
 
-			const auto parsedResponse = rtrp::RtResponseParser::parseLevelResponse(unwrappedResp);
+			auto&& parsedResponse = rtrp::RtResponseParser::parseLevelResponse(unwrappedResp);
 
-			if (parsedResponse.isError())
+			if (parsedResponse.isErr())
 			{
 				if (unwrappedResp.starts_with("error code"))
 					result = geode::Err(fmt::format("Server returned error code {}. Try again later. (getGJLevels21.php, 1)", unwrappedResp.substr(12)));
 				else
-					result = geode::Err("Error parsing response from servers. Try again later. (getGJLevels21.php, 1)");
+					result = geode::Err(fmt::format(
+						"Error parsing response from servers. Try again later. (getGJLevels21.php, 1)\n({})",
+						parsedResponse.unwrapErr()
+					));
 
 				return;
 			}
 
-			const auto response = parsedResponse.unwrap();
+			auto&& response = std::move(parsedResponse.unwrap());
 
-			result = geode::Ok(
-				level_pair_t{ response.levels[0], response.creators[0] }
-			);
-
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
+			result = geode::Ok(level_pair_t{
+				response.levels[0], response.creators[0]
+			});
 		}
 		else if (e->isCancelled())
 		{
-			result = geode::Err("Request was cancelled. (GDList)");
+			result = geode::Err("Request was cancelled. (getGJLevels21.php, 1)");
 			is_fetching = false;
 
-			if (m_finished_fetching_cb)
-				m_finished_fetching_cb();
+			m_finished_fetching_cb();
 		}
 	});
 

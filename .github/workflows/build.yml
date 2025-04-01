@@ -26,9 +26,9 @@ jobs:
           os: ubuntu-latest
           target: Android64
 
-        - name: iOS
-          os: macos-latest
-          target: iOS
+        # - name: iOS
+        #   os: macos-latest
+        #   target: iOS
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -37,11 +37,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build the mod
-        uses: geode-catgirls/build-geode-mod@test
+        uses: geode-catgirls/build-geode-mod@main
         with:
           cli: 'nightly'
-          bindings: SpaghettDev/bindings
-          bindings-ref: sapphire-sdk
+          # bindings: SpaghettDev/bindings
+          # bindings-ref: sapphire-sdk
           gh-pat: ${{ secrets.GH_PAT }}
           combine: true
           target: ${{ matrix.config.target }}
@@ -53,7 +53,7 @@ jobs:
     needs: ['build']
 
     steps:
-      - uses: geode-catgirls/build-geode-mod/combine@test
+      - uses: geode-catgirls/build-geode-mod/combine@main
         id: build
 
       - uses: actions/upload-artifact@v4

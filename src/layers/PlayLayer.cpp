@@ -88,6 +88,9 @@ class $modify(RLPlayLayer, PlayLayer)
 			rlm.gameState.levelPercentageGoal = percentage + 1;
 			rlm.gameState.numLevels++;
 
+			if (rlm.gameState.levelPercentage == 100)
+				rlm.hasFinishedARound = true;
+
 			// if the player has already reached this percentage, showNewBest will get called
 			if (percentage <= this->m_level->m_normalPercent.value())
 				showReachedGoal(percentage, 0, 0, 0);

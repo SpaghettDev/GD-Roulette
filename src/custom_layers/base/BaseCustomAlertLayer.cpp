@@ -33,7 +33,16 @@ bool BaseCustomAlertLayer::createBasics(const BaseCustomAlertData& alertData)
 	m_buttonMenu->setID("button-menu");
 	m_mainLayer->addChild(m_buttonMenu, 10);
 
-	closeBtn = createButton("GJ_closeBtn_001.png", { -((alertSize.x) / 2.f) + 9.5f, (alertSize.y / 2.f) - 10.f }, alertData.onClose, -1, alertData.closeBtnScale);
+	auto buttonSprite = CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png");
+	buttonSprite->setScale(alertData.closeBtnScale);
+	closeBtn = CCMenuItemSpriteExtra::create(
+		buttonSprite,
+		this,
+		alertData.onClose
+	);
+	closeBtn->setPosition({ -((alertSize.x) / 2.f) + 9.5f, (alertSize.y / 2.f) - 10.f });
+	closeBtn->setSizeMult(1.2f);
+	m_buttonMenu->addChild(closeBtn);
 
 	return true;
 }
@@ -52,24 +61,6 @@ void BaseCustomAlertLayer::createTitle(std::string text, float separatorScale, f
 	m_buttonMenu->addChild(separator);
 }
 
-CCMenuItemSpriteExtra* BaseCustomAlertLayer::createButton(const char* texture, CCPoint position, SEL_MenuHandler callback, int tag, float textureScale, float sizeMult)
-{
-	auto buttonSprite = CCSprite::createWithSpriteFrameName(texture);
-	buttonSprite->setScale(textureScale);
-	auto button = CCMenuItemSpriteExtra::create(
-		buttonSprite,
-		this,
-		callback
-	);
-	button->setPosition(position);
-	button->setSizeMult(sizeMult);
-	if (tag != -1)
-		button->setTag(tag);
-	m_buttonMenu->addChild(button);
-
-	return button;
-}
-
 // overriden because clicking space crashes the game
 void BaseCustomAlertLayer::keyDown(enumKeyCodes key)
 {
@@ -80,4 +71,9 @@ void BaseCustomAlertLayer::keyDown(enumKeyCodes key)
 void BaseCustomAlertLayer::keyBackClicked()
 {
 	onClose(nullptr);
+}
+
+BaseCustomAlertLayer::~BaseCustomAlertLayer()
+{
+	CCDirector::sharedDirector()->getTouchDispatcher()->unregisterForcePrio(this);
 }

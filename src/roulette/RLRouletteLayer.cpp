@@ -157,6 +157,7 @@ bool RLRouletteLayer::init()
 		main_bg->addChild(borderTitle);
 
 		{
+			// @geode-ignore(unknown-resource)
 			auto background1 = CCSpriteBatchNode::create("ListBorder.png"_spr);
 			background1->setID("background-1");
 			main_bg->addChild(background1);
@@ -197,6 +198,7 @@ bool RLRouletteLayer::init()
 		}
 
 		{
+			// @geode-ignore(unknown-resource)
 			auto background2 = CCSpriteBatchNode::create("ListBorder.png"_spr);
 			background2->setVisible(false);
 			background2->setID("background-2");
@@ -928,7 +930,7 @@ void RLRouletteLayer::finishLevelRoulette()
 	{
 		setupForNextLevel();
 
-		static_cast<TextArea*>(error_menu->getChildByID("reason-label"))->setString(m_level.unwrapErr());
+		static_cast<TextArea*>(error_menu->getChildByID("reason-label"))->setString(std::string{ m_level.unwrapErr() });
 
 		playing_menu->setVisible(false);
 		error_menu->setVisible(true);

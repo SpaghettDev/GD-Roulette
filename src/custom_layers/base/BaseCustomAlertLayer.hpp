@@ -24,11 +24,12 @@ class BaseCustomAlertLayer : public FLAlertLayer
 public:
 	bool createBasics(const BaseCustomAlertData&);
 	void createTitle(std::string, float = .75f, float = 1.f);
-	CCMenuItemSpriteExtra* createButton(const char*, cocos2d::CCPoint, cocos2d::SEL_MenuHandler, int = -1, float = 1.f, float = 1.2f);
 
 	virtual void onClose(cocos2d::CCObject*) = 0;
-	void keyDown(cocos2d::enumKeyCodes);
-	void keyBackClicked();
+	virtual void keyDown(cocos2d::enumKeyCodes) override;
+	virtual void keyBackClicked() override;
+
+	virtual ~BaseCustomAlertLayer() override;
 
 	cocos2d::CCPoint alertSize;
 	CCMenuItemSpriteExtra* closeBtn;
