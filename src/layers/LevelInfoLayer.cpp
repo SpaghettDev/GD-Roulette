@@ -9,11 +9,6 @@ using namespace geode::prelude;
 
 class $modify(LevelInfoLayer)
 {
-	struct Fields
-	{
-		char m_update_label_values_step = 0;
-	};
-
 	bool init(GJGameLevel* level, bool p1)
 	{
 		if (!LevelInfoLayer::init(level, p1)) return false;
