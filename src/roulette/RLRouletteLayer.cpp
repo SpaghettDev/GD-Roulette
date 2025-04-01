@@ -746,6 +746,7 @@ void RLRouletteLayer::onNextButton(CCObject*)
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
 		rlm.gameTimer.pause();
+		rlm.hasFinishedARound = rlm.gameState.startTime >= ROULETTE_BUILD_TIMESTAMP;
 
 		setupForNextLevel();
 

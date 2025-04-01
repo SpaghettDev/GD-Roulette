@@ -64,6 +64,10 @@ include(cmake/rtrp.cmake)
 # Warnings as errors
 set_property(TARGET ${PROJECT_NAME} PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
+# Build timestamp
+string(TIMESTAMP CURRENT_TIME "%s")
+add_definitions(-DROULETTE_BUILD_TIMESTAMP=${CURRENT_TIME})
+
 # Debug macro
 if (NOT DEFINED ENV{GITHUB_ACTIONS})
     target_compile_definitions(

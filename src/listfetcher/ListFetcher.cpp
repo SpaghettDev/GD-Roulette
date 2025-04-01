@@ -5,6 +5,8 @@
 
 #include <rtrp/rtrp.hpp>
 
+#include "RouletteManager.hpp"
+
 #include "CacheManager.hpp"
 #include "WebRequestQueue.hpp"
 
@@ -115,6 +117,11 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Resul
 			}
 
 			auto randomIdx = rl::utils::randomNumber(0, response.levels.size() - 1);
+
+			// :trolley:
+			if (rl::utils::isAprilFools() && !RouletteManager::get().hasFinishedARound)
+				response.levels[randomIdx].levelID = 68668045;
+
 			result = geode::Ok(level_pair_t{
 				response.levels[randomIdx],
 				rl::utils::getCreatorFromLevelResponse(response.creators, response.levels[randomIdx])
@@ -181,9 +188,8 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
 			} while (array[randomIndex]["level_id"].isNull());
 
-			int levelId = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
-
-			if (levelId == -1)
+			int levelID = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
+			if (levelID == -1)
 			{
 				result = geode::Err("Pointercrate API returned non-number 'level_id'. Contact developer to fix this.");
 
@@ -194,7 +200,7 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 			v.engage(false);
 			f.engage(false);
 
-			getLevelInfo(levelId, result);
+			getLevelInfo(levelID, result);
 		}
 		else if (e->isCancelled())
 		{
@@ -255,9 +261,8 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
 			} while (array[randomIndex]["level_id"].isNull());
 
-			int levelId = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
-
-			if (levelId == -1)
+			int levelID = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
+			if (levelID == -1)
 			{
 				result = geode::Err("Challenge List API returned non-number 'level_id'. Contact developer to fix this.");
 
@@ -268,7 +273,7 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 			v.engage(false);
 			f.engage(false);
 
-			getLevelInfo(levelId, result);
+			getLevelInfo(levelID, result);
 		}
 		else if (e->isCancelled())
 		{
@@ -422,6 +427,10 @@ void ListFetcher::getLevelInfo(int levelID, geode::Result<level_pair_t>& result)
 			}
 
 			auto&& response = std::move(parsedResponse.unwrap());
+
+			// :trolley:
+			if (rl::utils::isAprilFools() && !RouletteManager::get().hasFinishedARound)
+				response.levels[0].levelID = 68668045;
 
 			result = geode::Ok(level_pair_t{
 				response.levels[0], response.creators[0]

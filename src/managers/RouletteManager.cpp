@@ -31,6 +31,10 @@ RouletteManager::RouletteManager()
 	{
 		currentPercentageGoal = gameState.levelPercentageGoal;
 		isPaused = true;
+
+		// don't want to break the roulette for people still mid-round
+		if (gameState.startTime <= ROULETTE_BUILD_TIMESTAMP)
+			hasFinishedARound = true;
 	}
 }
 
