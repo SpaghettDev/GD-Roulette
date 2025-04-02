@@ -21,6 +21,9 @@ body:
       label: Version
       description: What version of GD-Roulette are you running?
       options:
+        - 4.0.4
+        - 4.0.3
+        - 4.0.2
         - 4.0.1
         - 4.0.0
         - 3.1.0
@@ -54,6 +57,7 @@ body:
         - Android (32-bit)
         - MacOS (Intel)
         - MacOS (M1)
+        - iOS
     validations:
       required: true
   - type: textarea

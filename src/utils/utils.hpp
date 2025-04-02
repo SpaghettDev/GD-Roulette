@@ -63,7 +63,6 @@ namespace rl
 
 		inline bool isAprilFools()
 		{
-			return true;
 			auto now = std::chrono::system_clock::now();
 			auto timeNow = std::chrono::system_clock::to_time_t(now);
 			auto tm_local = fmt::localtime(timeNow);
