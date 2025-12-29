@@ -85,8 +85,8 @@ namespace rl
 				{ GJDifficulty::DemonExtreme, 5 }
 			};
 	
-			inline static const std::uint16_t DEMON_LIST_MAX_PAGE = 598;
-			inline static const std::uint16_t CHALLENGE_LIST_MAX_PAGE = 355;
+			inline static const std::uint16_t DEMON_LIST_MAX_PAGE = 542;
+			inline static const std::uint16_t CHALLENGE_LIST_MAX_PAGE = 305;
 		}
 	}
 }

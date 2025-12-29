@@ -35,7 +35,7 @@ RLRouletteLayer::RLRouletteLayer()
 	m_stats_layer{ nullptr },
 	m_selected_difficulty{ GJDifficulty::Easy },
 	m_selected_demon_difficulty{ GJDifficulty::Demon },
-	m_level{ geode::Err("Unintialized level") }
+	m_level{ geode::Err("Uninitialized level") }
 {
 	ListFetcher::get().setFinishedFetchingCallback([&] {
 		finishLevelRoulette();
@@ -789,7 +789,7 @@ void RLRouletteLayer::onNextButton(CCObject*)
 			playing_menu->getChildByID("attempt-count-label")
 		)->setString(fmt::format("Attempt {}", rlm.gameState.levelAttempts).c_str());
 
-		if (m_level.isOkAnd([](auto&& level) { return level.first.levelID != 0; }))
+		if (m_level.isOkAnd([](const auto& level) { return level.first.levelID != 0; }))
 			rlm.gameState.playedLevels.emplace_back(m_level.unwrap().first.levelID);
 
 		getRandomListLevel();
@@ -931,7 +931,7 @@ void RLRouletteLayer::finishLevelRoulette()
 	{
 		setupForNextLevel();
 
-		static_cast<TextArea*>(error_menu->getChildByID("reason-label"))->setString(std::string{ m_level.unwrapErr() });
+		static_cast<TextArea*>(error_menu->getChildByID("reason-label"))->setString(m_level.unwrapErr());
 
 		playing_menu->setVisible(false);
 		error_menu->setVisible(true);
@@ -949,7 +949,8 @@ void RLRouletteLayer::finishLevelRoulette()
 	info_menu->getChildByID("stats-button")->setVisible(true);
 
 	const auto& [level, creator] = m_level.unwrap();
-	RouletteManager::get().gameState.levelID = level.levelID;
+	auto& rlm = RouletteManager::get();
+	rlm.gameState.levelID = level.levelID;
 
 	static_cast<CCLabelBMFont*>(
 		playing_menu->getChildByID("level-name-button")->getChildByID("button-label")
@@ -966,7 +967,7 @@ void RLRouletteLayer::finishLevelRoulette()
 
 	playing_menu->setVisible(true);
 
-	RouletteManager::get().saveState();
+	rlm.saveState();
 }
 
 void RLRouletteLayer::setupForNextLevel(bool levelTextVisible, bool enableLoadingCircle, float loadingCirclePosYOffset)

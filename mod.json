@@ -1,11 +1,12 @@
 {
-	"geode": "4.3.1",
+	"geode": "4.10.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
-		"mac": "2.2074"
+		"mac": "2.2074",
+		"ios": "2.2074"
 	},
-	"version": "v4.0.4",
+	"version": "v4.0.5",
 	"id": "spaghettdev.gd-roulette",
 	"name": "GD-Roulette",
 	"developer": "SpaghettDev",
@@ -29,10 +30,7 @@
 		}
 	},
 	"dependencies": {
-		"geode.node-ids": {
-			"version": ">=v1.17.0",
-			"importance": "required"
-		},
+		"geode.node-ids": ">=v1.17.0",
 		"alphalaneous.pages_api": {
 			"version": ">=v1.4.1",
 			"importance": "suggested"

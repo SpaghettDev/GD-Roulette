@@ -65,9 +65,7 @@ public:
 		else
 			setValue<key>(callCacheFunction<key>());
 
-		return std::move(
-			m_cache[getKeyString<key>()]["value"].template as<typename CMKeyTrait<key>::type>().unwrap()
-		);
+		return m_cache[getKeyString<key>()]["value"].template as<typename CMKeyTrait<key>::type>().unwrap();
 	}
 
 	template <CMKey key, typename R, typename P>

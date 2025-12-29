@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.5] - 2025-12-29
+
+### Changed
+
+- Target Geode version (v4.10.0)
+- RTRP version (v5.1.0)
+
+### Fixed
+
+- Invalid response error on random levels
+
 ## [4.0.4] - 2025-04-01
 
 ### Fixed

@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if ("${GEODE_TARGET_PLATFORM}" STREQUAL "iOS" OR IOS)
-set(CMAKE_OSX_ARCHITECTURES "arm64")
+    set(CMAKE_OSX_ARCHITECTURES "arm64")
 else()
-set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 endif()
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
@@ -35,7 +35,7 @@ target_include_directories(${PROJECT_NAME}
 
 # make Visual Studio recognize folders as "filters"
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 23)
 
 source_group(TREE ${SRC_DIR} PREFIX "src" FILES ${SRC_MAIN})
 

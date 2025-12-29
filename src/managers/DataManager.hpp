@@ -295,9 +295,9 @@ namespace DataManager
 		auto& container = geode::Mod::get()->getSaveContainer();
 
 		if (auto res = container.get(values::getKeyString<key>()); res.isOk())
-			if (auto resv = res.unwrap().asArray(); resv.isOkAnd([](auto&& vec) {
+			if (auto resv = res.unwrap().asArray(); resv.isOkAnd([](const auto& vec) {
 					return vec.size() == values::getSAI<key>().size() &&
-						std::all_of(vec.begin(), vec.end(), [](auto& v) { return v.asBool().isOk(); });
+						std::all_of(vec.begin(), vec.end(), [](const auto& v) { return v.asBool().isOk(); });
 			}))
 				return resv.unwrap();
 

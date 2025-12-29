@@ -105,6 +105,7 @@ void ListFetcher::getRandomNormalListLevel(GJDifficulty difficulty, geode::Resul
 
 			auto&& response = parsedResponse.unwrap();
 
+			// this game is stupid
 			if (difficulty == GJDifficulty::Easy)
 			{
 				response.levels.erase(
