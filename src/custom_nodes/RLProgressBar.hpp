@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <algorithm>
 
 #include <Geode/cocos/sprite_nodes/CCSprite.h>
 #include <Geode/cocos/misc_nodes/CCClippingNode.h>
