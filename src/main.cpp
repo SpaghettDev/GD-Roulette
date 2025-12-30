@@ -1,3 +1,5 @@
+#include <Geode/platform/cplatform.h>
+
 #ifdef GEODE_IS_ANDROID
 #include <Geode/modify/AppDelegate.hpp>
 #endif
