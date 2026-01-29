@@ -23,17 +23,42 @@ protected:
 public:
 	using level_pair_t = std::pair<rtrp::objects::LevelObject, rtrp::objects::CreatorObject>;
 
+	/**
+	 * @brief Fetches a random level from the normal list filtered by the given difficulty.
+	 */
 	void getRandomNormalListLevel(GJDifficulty, geode::Result<level_pair_t>&);
+
+	/**
+	 * @brief Fetches a random level from the demon list.
+	 */
 	void getRandomDemonListLevel(geode::Result<level_pair_t>&);
+
+	/**
+	 * @brief Fetches a random level from the community challenge list.
+	 */
 	void getRandomChallengeListLevel(geode::Result<level_pair_t>&);
+
+	/**
+	 * @brief Fetches a random level from a GD level list identified by ID.
+	 */
 	void getRandomGDListLevel(int, geode::Result<level_pair_t>&);
 
+	/**
+	 * @brief Retrieves detailed level information for a specific level ID.
+	 */
 	void getLevelInfo(int, geode::Result<level_pair_t>&);
 
-	void setFinishedFetchingCallback(std::function<void()>&& cb) { m_finished_fetching_cb = std::move(cb); }
+	/**
+	 * @brief Registers a callback invoked once the current fetch finishes.
+	 */
+	void setFinishedFetchingCallback(std::function<void()>&& cb);
 
+	/**
+	 * @brief Provides a cached response payload for the normal list endpoint.
+	 */
 	static matjson::Value normalListCacheFunction();
 
+	/// Indicates whether a web fetch is currently running.
 	std::atomic_bool is_fetching;
 
 private:
@@ -57,9 +82,8 @@ private:
 	std::uint64_t m_cached_gd_list_id;
 	std::vector<std::string> m_cached_gd_list_level_ids;
 
+	
 	std::function<void()> m_finished_fetching_cb;
 
 	geode::EventListener<geode::utils::web::WebTask> m_main_listener;
-	// used when fetching demonlist/challengelist/gdlist
-	geode::EventListener<geode::utils::web::WebTask> m_secondary_listener;
 };

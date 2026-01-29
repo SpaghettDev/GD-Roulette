@@ -20,6 +20,8 @@ ListFetcher::ListFetcher()
 
 matjson::Value ListFetcher::normalListCacheFunction()
 {
+	auto& wrq = WebRequestQueue::get();
+
 	// in case something fails, all difficulties have at least 100 pages
 	matjson::Value defaultObj{};
 
@@ -31,7 +33,7 @@ matjson::Value ListFetcher::normalListCacheFunction()
 	}) {
 		defaultObj[fmt::format("{}", static_cast<int>(difficulty))] = 100;
 
-		WebRequestQueue::get().enqueue(WebRequestQueue::Request{
+		wrq.enqueue(WebRequestQueue::Request{
 			web::WebRequest()
 				.userAgent("")
 				.bodyString(
@@ -63,7 +65,7 @@ matjson::Value ListFetcher::normalListCacheFunction()
 		});
 	}
 
-	WebRequestQueue::get().flush();
+	wrq.flush();
 
 	return defaultObj;
 }
@@ -185,9 +187,11 @@ void ListFetcher::getRandomDemonListLevel(geode::Result<level_pair_t>& result)
 			const auto array = jsonResp.asArray().unwrap();
 
 			std::uint16_t randomIndex;
+			std::uint8_t iter = 0;
 			do {
 				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
-			} while (array[randomIndex]["level_id"].isNull());
+				iter++;
+			} while (array[randomIndex]["level_id"].isNull() && iter < 100);
 
 			int levelID = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
 			if (levelID == -1)
@@ -258,9 +262,11 @@ void ListFetcher::getRandomChallengeListLevel(geode::Result<level_pair_t>& resul
 			const auto& array = jsonResp.asArray().unwrap();
 
 			std::uint16_t randomIndex;
+			std::uint8_t iter;
 			do {
 				randomIndex = rl::utils::randomNumber(0, array.size() - 1);
-			} while (array[randomIndex]["level_id"].isNull());
+				iter++;
+			} while (array[randomIndex]["level_id"].isNull() && iter < 100);
 
 			int levelID = array[randomIndex].template get<int>("level_id").unwrapOr(-1);
 			if (levelID == -1)
@@ -388,11 +394,21 @@ void ListFetcher::getLevelInfo(int levelID, geode::Result<level_pair_t>& result)
 {
 	is_fetching = true;
 
-	m_secondary_listener.bind([&](web::WebTask::Event* e) {
-		if (web::WebResponse* res = e->getValue())
-		{
+	web::WebRequest()
+		.userAgent("")
+		.bodyString(
+			fmt::format("secret={}&type={}&str={}", GJ_SECRET, 0, levelID)
+		)
+		.post(GJ_LEVELS_URL)
+		.listen([&](web::WebResponse* res) {
 			rl::utils::ScopedVar v(is_fetching, true, false);
 			rl::utils::ScopedFunc f(m_finished_fetching_cb);
+
+			if (!res)
+			{
+				result = geode::Err("Response object malformed. (getGJLevels21.php, 1)");
+				return;
+			}
 
 			const auto& respStr = res->string();
 
@@ -436,22 +452,20 @@ void ListFetcher::getLevelInfo(int levelID, geode::Result<level_pair_t>& result)
 			result = geode::Ok(level_pair_t{
 				response.levels[0], response.creators[0]
 			});
-		}
-		else if (e->isCancelled())
-		{
+		},
+		[&](web::WebProgress*) {},
+		[&] {
 			result = geode::Err("Request was cancelled. (getGJLevels21.php, 1)");
-			is_fetching = false;
+				is_fetching = false;
 
-			m_finished_fetching_cb();
+				m_finished_fetching_cb();
 		}
-	});
+	);
+}
 
-	auto req = web::WebRequest()
-		.userAgent("")
-		.bodyString(
-			fmt::format("secret={}&type={}&str={}", GJ_SECRET, 0, levelID)
-		)
-		.post(GJ_LEVELS_URL);
-
-	m_secondary_listener.setFilter(req);
+void ListFetcher::setFinishedFetchingCallback(std::function<void()>&& cb)
+{
+	m_finished_fetching_cb = [cb = std::move(cb)] mutable {
+		Loader::get()->queueInMainThread(std::move(cb));
+	};
 }
